@@ -3,16 +3,16 @@ import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("je")
+@ObfuscatedName("jr")
 @Implements("LinkDeque")
 public class LinkDeque {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
 		signature = "Lfq;"
 	)
 	@Export("sentinel")
 	Link sentinel;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
 		signature = "Lfq;"
 	)
@@ -25,7 +25,7 @@ public class LinkDeque {
 		this.sentinel.next = this.sentinel;
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
 		signature = "(Lfq;)V"
 	)
@@ -41,7 +41,7 @@ public class LinkDeque {
 		var1.previous.next = var1;
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
 		signature = "()Lfq;"
 	)
@@ -57,7 +57,7 @@ public class LinkDeque {
 		}
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
 		signature = "()Lfq;"
 	)

@@ -1,72 +1,50 @@
-import net.runelite.mapping.Export;
 import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
-import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("gk")
+@ObfuscatedName("gf")
 @Implements("MusicPatchNode2")
 public class MusicPatchNode2 {
-	@ObfuscatedName("fb")
+	@ObfuscatedName("c")
+	byte[] field2402;
+	@ObfuscatedName("t")
+	byte[] field2399;
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = 1668948707
+		intValue = -1514989189
 	)
-	@Export("baseX")
-	static int baseX;
-	@ObfuscatedName("q")
-	byte[] field2387;
-	@ObfuscatedName("w")
-	byte[] field2388;
+	int field2404;
 	@ObfuscatedName("e")
 	@ObfuscatedGetter(
-		intValue = -1099658343
+		intValue = -781980409
 	)
-	int field2392;
-	@ObfuscatedName("p")
+	int field2401;
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		intValue = -369193851
+		intValue = 684160431
 	)
-	int field2390;
-	@ObfuscatedName("k")
+	int field2400;
+	@ObfuscatedName("g")
 	@ObfuscatedGetter(
-		intValue = -1130103085
+		intValue = 1588792851
+	)
+	int field2403;
+	@ObfuscatedName("d")
+	@ObfuscatedGetter(
+		intValue = 768856751
 	)
 	int field2398;
 	@ObfuscatedName("l")
 	@ObfuscatedGetter(
-		intValue = 582227349
+		intValue = -758187287
 	)
-	int field2391;
-	@ObfuscatedName("b")
+	int field2405;
+	@ObfuscatedName("j")
 	@ObfuscatedGetter(
-		intValue = 371780499
+		intValue = -665826863
 	)
-	int field2393;
-	@ObfuscatedName("i")
-	@ObfuscatedGetter(
-		intValue = -273928819
-	)
-	int field2394;
-	@ObfuscatedName("c")
-	@ObfuscatedGetter(
-		intValue = 934948077
-	)
-	int field2395;
+	int field2406;
 
 	MusicPatchNode2() {
-	}
-
-	@ObfuscatedName("c")
-	@ObfuscatedSignature(
-		signature = "(IS)I",
-		garbageValue = "17338"
-	)
-	static int method3686(int var0) {
-		Message var1 = (Message)Messages.Messages_hashTable.get((long)var0);
-		if (var1 == null) {
-			return -1;
-		} else {
-			return var1.previousDual == Messages.Messages_queue.sentinel ? -1 : ((Message)var1.previousDual).count;
-		}
 	}
 }

@@ -28,60 +28,41 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import lombok.extern.slf4j.Slf4j;
-import net.runelite.client.config.RuneLitePlusConfig;
 
-@Singleton
-@Slf4j
 public class RuneLiteProperties
 {
-	private static final String RUNELITE_TITLE = "runelite.title";
+	private static final String RUNELITE_TITLE = "open.osrs.title";
 	private static final String RUNELITE_VERSION = "runelite.version";
-	private static final String RUNELIT_VERSION = "runelit.version";
+	private static final String RUNELITE_PLUS_VERSION = "open.osrs.version";
+	private static final String RUNELITE_PLUS_DATE = "open.osrs.builddate";
 	private static final String RUNESCAPE_VERSION = "runescape.version";
-	private static final String DISCORD_APP_ID = "runelite.discord.appid";
-	private static final String DISCORD_APP_ID_PLUS = "runelite.plus.discord.appid";
+	private static final String DISCORD_APP_ID = "open.osrs.discord.appid";
 	private static final String DISCORD_INVITE = "runelite.discord.invite";
 	private static final String GITHUB_LINK = "runelite.github.link";
 	private static final String WIKI_LINK = "runelite.wiki.link";
 	private static final String PATREON_LINK = "runelite.patreon.link";
-	private static final String LAUNCHER_VERSION_PROPERTY = "runelite.launcher.version";
+	private static final String LAUNCHER_VERSION_PROPERTY = "launcher.version";
+	private static final String PLUGIN_PATH = "plugin.path";
+	private static final String TROUBLESHOOTING_LINK = "runelite.wiki.troubleshooting.link";
+	private static final String BUILDING_LINK = "runelite.wiki.building.link";
+	private static final String DNS_CHANGE_LINK = "runelite.dnschange.link";
+	private static final String IMGUR_CLIENT_ID = "runelite.imgur.client.id";
 
-	private final Properties properties = new Properties();
+	private static final Properties properties = new Properties();
 
-	private final RuneLitePlusConfig runeLitePlusConfig;
-
-	@Inject
-	public RuneLiteProperties(final RuneLitePlusConfig runeLiteConfig)
+	static
 	{
-		this.runeLitePlusConfig = runeLiteConfig;
-
-		try (InputStream in = getClass().getResourceAsStream("runelite.properties"))
+		try (InputStream in = RuneLiteProperties.class.getResourceAsStream("/open.osrs.properties"))
 		{
 			properties.load(in);
 		}
 		catch (IOException ex)
 		{
-			log.warn("unable to load propertries", ex);
+			throw new RuntimeException(ex);
 		}
 	}
 
-	public RuneLiteProperties()
-	{
-		runeLitePlusConfig = null;
-		try (InputStream in = getClass().getResourceAsStream("runelite.properties"))
-		{
-			properties.load(in);
-		}
-		catch (IOException ex)
-		{
-			log.warn("unable to load propertries", ex);
-		}
-	}
-
-	public String getTitle()
+	public static String getTitle()
 	{
 		final StringBuilder sb = new StringBuilder(properties.getProperty(RUNELITE_TITLE));
 		String proxy;
@@ -92,61 +73,82 @@ public class RuneLiteProperties
 		return sb.toString();
 	}
 
-	public String getVersion()
+	public static String getVersion()
 	{
 		return properties.getProperty(RUNELITE_VERSION);
 	}
 
-	public String getRunelitVersion()
+	public static String getPlusVersion()
 	{
-		return properties.getProperty(RUNELIT_VERSION);
+		return properties.getProperty(RUNELITE_PLUS_VERSION);
 	}
 
-	public String getRunescapeVersion()
+	public static String getPlusDate()
+	{
+		return properties.getProperty(RUNELITE_PLUS_DATE);
+	}
+
+	public static String getRunescapeVersion()
 	{
 		return properties.getProperty(RUNESCAPE_VERSION);
 	}
 
-	public String getDiscordAppId()
+	public static String getDiscordAppId()
 	{
-		if (this.runeLitePlusConfig == null)
-		{
-			return properties.getProperty(DISCORD_APP_ID);
-		}
-
-		if (this.runeLitePlusConfig.customPresence())
-		{
-			return properties.getProperty(DISCORD_APP_ID_PLUS);
-		}
-		else
-		{
-			return properties.getProperty(DISCORD_APP_ID);
-		}
+		return properties.getProperty(DISCORD_APP_ID);
 	}
 
-	public String getDiscordInvite()
+	public static String getDiscordInvite()
 	{
 		return properties.getProperty(DISCORD_INVITE);
 	}
 
-	public String getGithubLink()
+	public static String getGithubLink()
 	{
 		return properties.getProperty(GITHUB_LINK);
 	}
 
-	public String getWikiLink()
+	public static String getWikiLink()
 	{
 		return properties.getProperty(WIKI_LINK);
 	}
 
-	public String getPatreonLink()
+	public static String getPatreonLink()
 	{
 		return properties.getProperty(PATREON_LINK);
+	}
+
+	public static String getTroubleshootingLink()
+	{
+		return properties.getProperty(TROUBLESHOOTING_LINK);
+	}
+
+	public static String getBuildingLink()
+	{
+		return properties.getProperty(BUILDING_LINK);
+	}
+
+	public static String getDNSChangeLink()
+	{
+		return properties.getProperty(DNS_CHANGE_LINK);
 	}
 
 	@Nullable
 	public static String getLauncherVersion()
 	{
-		return System.getProperty(LAUNCHER_VERSION_PROPERTY);
+		String launcherVersion = properties.getProperty(LAUNCHER_VERSION_PROPERTY);
+		return launcherVersion.equals("-1") ? null : launcherVersion;
+	}
+
+	@Nullable
+	public static String getPluginPath()
+	{
+		String pluginPath = properties.getProperty(PLUGIN_PATH);
+		return pluginPath.equals("") ? null : pluginPath;
+	}
+
+	public static String getImgurClientId()
+	{
+		return properties.getProperty(IMGUR_CLIENT_ID);
 	}
 }

@@ -28,12 +28,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * An enumeration of local client variables.
+ * Server controlled "content-developer" integers.
+ *
+ * @see VarPlayer
+ *
+ * These differ from a {@link VarPlayer} in that VarBits can be
+ * less than 32 bits. One or more VarBits can be assigned to a
+ * backing VarPlayer, each with a static range of bits that it is
+ * allowed to access. This allows a more compact representation
+ * of small values, like booleans
  */
 @AllArgsConstructor
 @Getter
 public enum Varbits
 {
+	/*
+	 * Kharedst's Memoirs Teleport Item
+	 */
+	KHAREDSTS_MEMOIRS_CHARGES(6035),
+
 	/*
 	 * If chatbox is transparent or not
 	 */
@@ -295,6 +308,17 @@ public enum Varbits
 	RAID_PARTY_SIZE(5424),
 
 	/**
+	 * Making Friends with My Arm fire pits
+	 *
+	 * Expected values:
+	 *  0 = Not built
+	 *  1 = Built
+	 */
+	FIRE_PIT_GIANT_MOLE(6532),
+	FIRE_PIT_LUMBRIDGE_SWAMP(6533),
+	FIRE_PIT_MOS_LE_HARMLESS(6544),
+
+	/**
 	 * Theatre of Blood 1=In Party, 2=Inside/Spectator, 3=Dead Spectating
 	 */
 	THEATRE_OF_BLOOD(6440),
@@ -344,7 +368,7 @@ public enum Varbits
 	 * Pyramid plunder
 	 */
 	PYRAMID_PLUNDER_TIMER(2375),
-	PYRAMID_PLUNDER_ROOM(2374),
+	PYRAMID_PLUNDER_ROOM(2377),
 
 	/**
 	 * Barrows
@@ -477,6 +501,7 @@ public enum Varbits
 	SUPERIOR_ENABLED(5362),
 	FOSSIL_ISLAND_WYVERN_DISABLE(6251),
 
+	BANK_REARRANGE_MODE(3959),
 	CURRENT_BANK_TAB(4150),
 
 	WORLDHOPPER_FAVROITE_1(4597),
@@ -498,13 +523,7 @@ public enum Varbits
 	 * 2 = lunars
 	 * 3 = arrceus
 	 **/
-	SPELLBOOK_ID(4070),
-
-	/**
-	 * 0 = no
-	 * 1 = yes
-	 **/
-	SPELLBOOK_HIDDEN(6718),
+	SPELLBOOK(4070),
 
 	/**
 	 * Amount of items in each bank tab
@@ -595,7 +614,7 @@ public enum Varbits
 	QUEST_LUNAR_DIPLOMACY(2448),
 	QUEST_MAKING_HISTORY(1383),
 	QUEST_MOUNTAIN_DAUGHTER(260),
-	QUEST_MOURNINGS_ENDS_PART_II(1103),
+	QUEST_MOURNINGS_END_PART_II(1103),
 	QUEST_MY_ARMS_BIG_ADVENTURE(2790),
 	QUEST_RATCATCHERS(1404),
 	QUEST_RECIPE_FOR_DISASTER(1850),
@@ -629,6 +648,8 @@ public enum Varbits
 	QUEST_MAKING_FRIENDS_WITH_MY_ARM(6528),
 	QUEST_THE_ASCENT_OF_ARCEUUS(7856),
 	QUEST_THE_FORSAKEN_TOWER(7796),
+	//TODO
+	QUEST_SONG_OF_THE_ELVES(7796),
 
 	/**
 	 * mini-quest varbits, these don't hold the completion value.
@@ -642,11 +663,8 @@ public enum Varbits
 	QUEST_LAIR_OF_TARN_RAZORLOR(3290),
 	QUEST_FAMILY_PEST(5347),
 	QUEST_THE_MAGE_ARENA_II(6067),
-
-	/**
-	 * Active spellbook (see enumID)
-	 */
-	SPELLBOOK(4070),
+	//TODO
+	QUEST_IN_SEARCH_OF_KNOWLEDGE(6067),
 
 	/**
 	 * Spellbook filtering (1 = unfiltered, 0 = filtered)
@@ -683,7 +701,42 @@ public enum Varbits
 	/**
 	 * The y coordinate of the final safespace (world coord)
 	 */
-	LMS_SAFE_Y(5320);
+	LMS_SAFE_Y(5320),
+
+	/**
+	 * 1 is true, 0 is false.
+	 */
+	GAUNTLET_FINAL_ROOM_ENTERED(9177),
+
+	/**
+	 * 1 is true, 0 is false.
+	 */
+	GAUNTLET_ENTERED(9178),
+
+	WITHDRAW_X_AMOUNT(3960),
+
+	IN_PVP_AREA(8121),
+
+	/**
+	 * Value of hotkey varbits can be 0-13
+	 * 0 corresponds to no hotkey set
+	 * 1-12 correspond to F1-F12 respectively
+	 * 13 corresponds to escape
+	 */
+	COMBAT_TAB_HOTKEY(4675),
+	STATS_TAB_HOTKEY(4676),
+	QUESTS_TAB_HOTKEY(4677),
+	INVENTORY_TAB_HOTKEY(4678),
+	EQUIPMENT_TAB_HOTKEY(4679),
+	PRAYER_TAB_HOTKEY(4680),
+	SPELLBOOK_TAB_HOTKEY(4682),
+	FRIENDS_TAB_HOTKEY(4684),
+	ACCOUNT_MANAGEMENT_TAB_HOTKEY(6517),
+	LOGOUT_TAB_HOTKEY(4689),
+	OPTIONS_TAB_HOTKEY(4686),
+	EMOTES_TAB_HOTKEY(4687),
+	CLAN_TAB_HOTKEY(4683),
+	MUSIC_TAB_HOTKEY(4688);
 
 	/**
 	 * The raw varbit ID.

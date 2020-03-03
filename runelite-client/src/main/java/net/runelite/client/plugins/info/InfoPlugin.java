@@ -27,11 +27,11 @@ package net.runelite.client.plugins.info;
 import java.awt.image.BufferedImage;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import net.runelite.client.eventbus.EventBus;
-import net.runelite.client.events.SessionClose;
-import net.runelite.client.events.SessionOpen;
+import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
@@ -39,7 +39,9 @@ import net.runelite.client.util.ImageUtil;
 @PluginDescriptor(
 	name = "Info Panel",
 	description = "Enable the Info panel",
-	loadWhenOutdated = true
+	tags = {"info", "github", "patreon", "dir", "discord"},
+	loadWhenOutdated = true,
+	type = PluginType.MISCELLANEOUS
 )
 @Singleton
 public class InfoPlugin extends Plugin
@@ -47,19 +49,21 @@ public class InfoPlugin extends Plugin
 	@Inject
 	private ClientToolbar clientToolbar;
 
-	@Inject
-	private EventBus eventbus;
-
 	private NavigationButton navButton;
 
-
-	private InfoPanel panel;
+	@Subscribe
+	private void onConfigChanged(ConfigChanged event)
+	{
+		if (!event.getGroup().equals("info"))
+		{
+			return;
+		}
+	}
 
 	@Override
-	protected void startUp() throws Exception
+	protected void startUp()
 	{
-		panel = injector.getInstance(InfoPanel.class);
-		panel.init();
+		InfoPanel panel = injector.getInstance(InfoPanel.class);
 
 		final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "info_icon.png");
 
@@ -71,21 +75,11 @@ public class InfoPlugin extends Plugin
 			.build();
 
 		clientToolbar.addNavigation(navButton);
-
-		addSubscriptions();
 	}
 
 	@Override
-	protected void shutDown() throws Exception
+	protected void shutDown()
 	{
-		eventbus.unregister(this);
-
 		clientToolbar.removeNavigation(navButton);
-	}
-
-	private void addSubscriptions()
-	{
-		eventbus.subscribe(SessionOpen.class, this, event -> panel.onSessionOpen(event));
-		eventbus.subscribe(SessionClose.class, this, event -> panel.onSessionClose(event));
 	}
 }

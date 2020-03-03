@@ -4,233 +4,274 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("bw")
+@ObfuscatedName("bg")
 @Implements("World")
 public class World {
-	@ObfuscatedName("k")
-	@ObfuscatedSignature(
-		signature = "[Lbw;"
+	@ObfuscatedName("g")
+	@ObfuscatedGetter(
+		intValue = -1866587551
 	)
-	@Export("worlds")
-	static World[] worlds;
+	@Export("World_count")
+	static int World_count;
+	@ObfuscatedName("d")
+	@ObfuscatedGetter(
+		intValue = 1158665881
+	)
+	@Export("World_listCount")
+	static int World_listCount;
 	@ObfuscatedName("l")
-	@ObfuscatedGetter(
-		intValue = 774267173
-	)
-	@Export("worldsCount")
-	static int worldsCount;
-	@ObfuscatedName("b")
-	@ObfuscatedGetter(
-		intValue = -2084454035
-	)
-	@Export("worldListWorldCount")
-	static int worldListWorldCount;
-	@ObfuscatedName("i")
-	@Export("sortOption2")
-	static int[] sortOption2;
-	@ObfuscatedName("c")
-	@Export("sortOption1")
-	static int[] sortOption1;
-	@ObfuscatedName("f")
-	@ObfuscatedSignature(
-		signature = "Lex;"
-	)
-	static UrlRequest field1027;
+	@Export("World_sortOption2")
+	static int[] World_sortOption2;
+	@ObfuscatedName("j")
+	@Export("World_sortOption1")
+	static int[] World_sortOption1;
 	@ObfuscatedName("m")
+	@ObfuscatedSignature(
+		signature = "Leg;"
+	)
+	@Export("World_request")
+	static UrlRequest World_request;
+	@ObfuscatedName("p")
 	@ObfuscatedGetter(
-		intValue = 790181133
+		intValue = 1411281577
 	)
 	@Export("id")
 	int id;
-	@ObfuscatedName("u")
+	@ObfuscatedName("h")
 	@ObfuscatedGetter(
-		intValue = 630491985
+		intValue = 2119129825
 	)
 	@Export("properties")
 	int properties;
-	@ObfuscatedName("x")
+	@ObfuscatedName("v")
 	@ObfuscatedGetter(
-		intValue = -432731733
+		intValue = 2120621835
 	)
 	@Export("population")
 	int population;
-	@ObfuscatedName("r")
+	@ObfuscatedName("n")
 	@Export("host")
 	String host;
-	@ObfuscatedName("v")
+	@ObfuscatedName("x")
 	@Export("activity")
 	String activity;
-	@ObfuscatedName("y")
+	@ObfuscatedName("w")
 	@ObfuscatedGetter(
-		intValue = 657222747
+		intValue = 1248235399
 	)
 	@Export("location")
 	int location;
-	@ObfuscatedName("g")
+	@ObfuscatedName("k")
 	@ObfuscatedGetter(
-		intValue = -1014616139
+		intValue = 1361119187
 	)
 	@Export("index")
 	int index;
 
 	static {
-		worldsCount = 0;
-		worldListWorldCount = 0;
-		sortOption2 = new int[]{1, 1, 1, 1};
-		sortOption1 = new int[]{0, 1, 2, 3};
+		World_count = 0;
+		World_listCount = 0;
+		World_sortOption2 = new int[]{1, 1, 1, 1};
+		World_sortOption1 = new int[]{0, 1, 2, 3};
 	}
 
 	World() {
 	}
 
-	@ObfuscatedName("c")
+	@ObfuscatedName("m")
 	@ObfuscatedSignature(
 		signature = "(B)Z",
-		garbageValue = "0"
+		garbageValue = "1"
 	)
 	@Export("isMembersOnly")
 	boolean isMembersOnly() {
 		return (1 & this.properties) != 0;
 	}
 
-	@ObfuscatedName("u")
+	@ObfuscatedName("p")
 	@ObfuscatedSignature(
-		signature = "(I)Z",
-		garbageValue = "2029214211"
+		signature = "(B)Z",
+		garbageValue = "36"
 	)
-	boolean method1682() {
+	boolean method1760() {
 		return (2 & this.properties) != 0;
 	}
 
-	@ObfuscatedName("x")
+	@ObfuscatedName("h")
 	@ObfuscatedSignature(
 		signature = "(I)Z",
-		garbageValue = "-1353649797"
+		garbageValue = "-764508558"
 	)
 	@Export("isPvp")
 	boolean isPvp() {
 		return (4 & this.properties) != 0;
 	}
 
-	@ObfuscatedName("r")
-	@ObfuscatedSignature(
-		signature = "(I)Z",
-		garbageValue = "1749102436"
-	)
-	boolean method1698() {
-		return (8 & this.properties) != 0;
-	}
-
 	@ObfuscatedName("v")
 	@ObfuscatedSignature(
 		signature = "(I)Z",
-		garbageValue = "-2068007512"
+		garbageValue = "1545787389"
+	)
+	boolean method1787() {
+		return (8 & this.properties) != 0;
+	}
+
+	@ObfuscatedName("n")
+	@ObfuscatedSignature(
+		signature = "(B)Z",
+		garbageValue = "1"
 	)
 	@Export("isDeadman")
 	boolean isDeadman() {
 		return (536870912 & this.properties) != 0;
 	}
 
-	@ObfuscatedName("y")
+	@ObfuscatedName("x")
 	@ObfuscatedSignature(
 		signature = "(I)Z",
-		garbageValue = "1648546006"
+		garbageValue = "1183174451"
 	)
 	@Export("isBeta")
 	boolean isBeta() {
 		return (33554432 & this.properties) != 0;
 	}
 
-	@ObfuscatedName("p")
+	@ObfuscatedName("w")
 	@ObfuscatedSignature(
-		signature = "(Lkx;B)I",
-		garbageValue = "80"
+		signature = "(I)Z",
+		garbageValue = "1307940370"
 	)
-	static int method1686(PacketBuffer var0) {
-		int var1 = var0.readBits(2);
-		int var2;
-		if (var1 == 0) {
-			var2 = 0;
-		} else if (var1 == 1) {
-			var2 = var0.readBits(5);
-		} else if (var1 == 2) {
-			var2 = var0.readBits(8);
-		} else {
-			var2 = var0.readBits(11);
-		}
-
-		return var2;
+	boolean method1767() {
+		return (1073741824 & this.properties) != 0;
 	}
 
-	@ObfuscatedName("p")
+	@ObfuscatedName("t")
+	static final void method1801(long var0) {
+		try {
+			Thread.sleep(var0);
+		} catch (InterruptedException var3) {
+		}
+
+	}
+
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "([BI)Lcx;",
-		garbageValue = "-75241458"
+		signature = "(IILfk;Lfv;I)Z",
+		garbageValue = "-186074271"
 	)
-	@Export("newScript")
-	static Script newScript(byte[] var0) {
-		Script var1 = new Script();
-		Buffer var2 = new Buffer(var0);
-		var2.offset = var2.array.length - 2;
-		int var3 = var2.readUnsignedShort();
-		int var4 = var2.array.length - 2 - var3 - 12;
-		var2.offset = var4;
-		int var5 = var2.readInt();
-		var1.localIntCount = var2.readUnsignedShort();
-		var1.localStringCount = var2.readUnsignedShort();
-		var1.intArgumentCount = var2.readUnsignedShort();
-		var1.stringArgumentCount = var2.readUnsignedShort();
-		int var6 = var2.readUnsignedByte();
-		int var7;
-		int var8;
-		if (var6 > 0) {
-			var1.switches = var1.method2182(var6);
+	public static final boolean method1770(int var0, int var1, RouteStrategy var2, CollisionMap var3) {
+		int var4 = var0;
+		int var5 = var1;
+		byte var6 = 64;
+		byte var7 = 64;
+		int var8 = var0 - var6;
+		int var9 = var1 - var7;
+		class173.directions[var6][var7] = 99;
+		class173.distances[var6][var7] = 0;
+		byte var10 = 0;
+		int var11 = 0;
+		class173.bufferX[var10] = var0;
+		byte var10001 = var10;
+		int var18 = var10 + 1;
+		class173.bufferY[var10001] = var1;
+		int[][] var12 = var3.flags;
 
-			for (var7 = 0; var7 < var6; ++var7) {
-				var8 = var2.readUnsignedShort();
-				int var9;
-				int var11;
-				if (var8 > 0) {
-					var11 = var8 - 1;
-					var11 |= var11 >>> 1;
-					var11 |= var11 >>> 2;
-					var11 |= var11 >>> 4;
-					var11 |= var11 >>> 8;
-					var11 |= var11 >>> 16;
-					int var10 = var11 + 1;
-					var9 = var10;
-				} else {
-					var9 = 1;
-				}
+		while (var18 != var11) {
+			var4 = class173.bufferX[var11];
+			var5 = class173.bufferY[var11];
+			var11 = var11 + 1 & 4095;
+			int var16 = var4 - var8;
+			int var17 = var5 - var9;
+			int var13 = var4 - var3.xInset;
+			int var14 = var5 - var3.yInset;
+			if (var2.hasArrived(2, var4, var5, var3)) {
+				ChatChannel.field1289 = var4;
+				class173.field2093 = var5;
+				return true;
+			}
 
-				IterableNodeHashTable var13 = new IterableNodeHashTable(var9);
-				var1.switches[var7] = var13;
+			int var15 = class173.distances[var16][var17] + 1;
+			if (var16 > 0 && class173.directions[var16 - 1][var17] == 0 && (var12[var13 - 1][var14] & 19136782) == 0 && (var12[var13 - 1][var14 + 1] & 19136824) == 0) {
+				class173.bufferX[var18] = var4 - 1;
+				class173.bufferY[var18] = var5;
+				var18 = var18 + 1 & 4095;
+				class173.directions[var16 - 1][var17] = 2;
+				class173.distances[var16 - 1][var17] = var15;
+			}
 
-				while (var8-- > 0) {
-					var11 = var2.readInt();
-					int var12 = var2.readInt();
-					var13.put(new IntegerNode(var12), (long)var11);
-				}
+			if (var16 < 126 && class173.directions[var16 + 1][var17] == 0 && (var12[var13 + 2][var14] & 19136899) == 0 && (var12[var13 + 2][var14 + 1] & 19136992) == 0) {
+				class173.bufferX[var18] = var4 + 1;
+				class173.bufferY[var18] = var5;
+				var18 = var18 + 1 & 4095;
+				class173.directions[var16 + 1][var17] = 8;
+				class173.distances[var16 + 1][var17] = var15;
+			}
+
+			if (var17 > 0 && class173.directions[var16][var17 - 1] == 0 && (var12[var13][var14 - 1] & 19136782) == 0 && (var12[var13 + 1][var14 - 1] & 19136899) == 0) {
+				class173.bufferX[var18] = var4;
+				class173.bufferY[var18] = var5 - 1;
+				var18 = var18 + 1 & 4095;
+				class173.directions[var16][var17 - 1] = 1;
+				class173.distances[var16][var17 - 1] = var15;
+			}
+
+			if (var17 < 126 && class173.directions[var16][var17 + 1] == 0 && (var12[var13][var14 + 2] & 19136824) == 0 && (var12[var13 + 1][var14 + 2] & 19136992) == 0) {
+				class173.bufferX[var18] = var4;
+				class173.bufferY[var18] = var5 + 1;
+				var18 = var18 + 1 & 4095;
+				class173.directions[var16][var17 + 1] = 4;
+				class173.distances[var16][var17 + 1] = var15;
+			}
+
+			if (var16 > 0 && var17 > 0 && class173.directions[var16 - 1][var17 - 1] == 0 && (var12[var13 - 1][var14] & 19136830) == 0 && (var12[var13 - 1][var14 - 1] & 19136782) == 0 && (var12[var13][var14 - 1] & 19136911) == 0) {
+				class173.bufferX[var18] = var4 - 1;
+				class173.bufferY[var18] = var5 - 1;
+				var18 = var18 + 1 & 4095;
+				class173.directions[var16 - 1][var17 - 1] = 3;
+				class173.distances[var16 - 1][var17 - 1] = var15;
+			}
+
+			if (var16 < 126 && var17 > 0 && class173.directions[var16 + 1][var17 - 1] == 0 && (var12[var13 + 1][var14 - 1] & 19136911) == 0 && (var12[var13 + 2][var14 - 1] & 19136899) == 0 && (var12[var13 + 2][var14] & 19136995) == 0) {
+				class173.bufferX[var18] = var4 + 1;
+				class173.bufferY[var18] = var5 - 1;
+				var18 = var18 + 1 & 4095;
+				class173.directions[var16 + 1][var17 - 1] = 9;
+				class173.distances[var16 + 1][var17 - 1] = var15;
+			}
+
+			if (var16 > 0 && var17 < 126 && class173.directions[var16 - 1][var17 + 1] == 0 && (var12[var13 - 1][var14 + 1] & 19136830) == 0 && (var12[var13 - 1][var14 + 2] & 19136824) == 0 && (var12[var13][var14 + 2] & 19137016) == 0) {
+				class173.bufferX[var18] = var4 - 1;
+				class173.bufferY[var18] = var5 + 1;
+				var18 = var18 + 1 & 4095;
+				class173.directions[var16 - 1][var17 + 1] = 6;
+				class173.distances[var16 - 1][var17 + 1] = var15;
+			}
+
+			if (var16 < 126 && var17 < 126 && class173.directions[var16 + 1][var17 + 1] == 0 && (var12[var13 + 1][var14 + 2] & 19137016) == 0 && (var12[var13 + 2][var14 + 2] & 19136992) == 0 && (var12[var13 + 2][var14 + 1] & 19136995) == 0) {
+				class173.bufferX[var18] = var4 + 1;
+				class173.bufferY[var18] = var5 + 1;
+				var18 = var18 + 1 & 4095;
+				class173.directions[var16 + 1][var17 + 1] = 12;
+				class173.distances[var16 + 1][var17 + 1] = var15;
 			}
 		}
 
-		var2.offset = 0;
-		var2.readStringCp1252NullTerminatedOrNull();
-		var1.opcodes = new int[var5];
-		var1.intOperands = new int[var5];
-		var1.stringOperands = new String[var5];
+		ChatChannel.field1289 = var4;
+		class173.field2093 = var5;
+		return false;
+	}
 
-		for (var7 = 0; var2.offset < var4; var1.opcodes[var7++] = var8) {
-			var8 = var2.readUnsignedShort();
-			if (var8 == 3) {
-				var1.stringOperands[var7] = var2.readStringCp1252NullTerminated();
-			} else if (var8 < 100 && var8 != 21 && var8 != 38 && var8 != 39) {
-				var1.intOperands[var7] = var2.readInt();
-			} else {
-				var1.intOperands[var7] = var2.readUnsignedByte();
-			}
+	@ObfuscatedName("n")
+	@ObfuscatedSignature(
+		signature = "(I)V",
+		garbageValue = "1273195728"
+	)
+	static void method1762() {
+		if (UserComparator8.loadWorlds()) {
+			Login.worldSelectOpen = true;
+			Login.worldSelectPage = 0;
+			Login.worldSelectPagesCount = 0;
 		}
 
-		return var1;
 	}
 }

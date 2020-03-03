@@ -1,9 +1,8 @@
 package net.runelite.mixins;
 
-
-import net.runelite.api.Constants;
 import java.awt.Container;
 import java.awt.Dimension;
+import net.runelite.api.Constants;
 import net.runelite.api.mixins.Inject;
 import net.runelite.api.mixins.Mixin;
 import net.runelite.rs.api.RSClient;
@@ -79,6 +78,13 @@ public abstract class StretchedModeMixin implements RSClient
 	public void setScalingFactor(int factor)
 	{
 		scalingFactor = 1 + (factor / 100D);
+	}
+
+	@Inject
+	@Override
+	public double getScalingFactor()
+	{
+		return scalingFactor;
 	}
 
 	@Inject

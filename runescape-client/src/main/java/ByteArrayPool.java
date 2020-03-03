@@ -4,39 +4,42 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("kr")
+@ObfuscatedName("ka")
 @Implements("ByteArrayPool")
 public class ByteArrayPool {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedGetter(
-		intValue = -2074547709
+		intValue = 1009050051
 	)
 	@Export("ByteArrayPool_smallCount")
 	static int ByteArrayPool_smallCount;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedGetter(
-		intValue = 371626607
+		intValue = 2126667647
 	)
 	@Export("ByteArrayPool_mediumCount")
 	static int ByteArrayPool_mediumCount;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = -1320623185
+		intValue = -82871939
 	)
 	@Export("ByteArrayPool_largeCount")
 	static int ByteArrayPool_largeCount;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@Export("ByteArrayPool_small")
 	static byte[][] ByteArrayPool_small;
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@Export("ByteArrayPool_medium")
 	static byte[][] ByteArrayPool_medium;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@Export("ByteArrayPool_large")
 	static byte[][] ByteArrayPool_large;
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@Export("ByteArrayPool_alternativeSizes")
-	public static int[] ByteArrayPool_alternativeSizes;
+	static int[] ByteArrayPool_alternativeSizes;
+	@ObfuscatedName("j")
+	@Export("ByteArrayPool_arrays")
+	static byte[][][] ByteArrayPool_arrays;
 
 	static {
 		ByteArrayPool_smallCount = 0;
@@ -47,13 +50,13 @@ public class ByteArrayPool {
 		ByteArrayPool_large = new byte[50][];
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(IZB)[B",
-		garbageValue = "58"
+		signature = "(IZI)[B",
+		garbageValue = "103093333"
 	)
-	@Export("ByteArrayPool_get")
-	static synchronized byte[] ByteArrayPool_get(int var0, boolean var1) {
+	@Export("ByteArrayPool_getArrayBool")
+	static synchronized byte[] ByteArrayPool_getArrayBool(int var0, boolean var1) {
 		byte[] var2;
 		if (var0 != 100) {
 			if (var0 < 100) {
@@ -82,14 +85,14 @@ public class ByteArrayPool {
 			return var2;
 		}
 
-		if (class189.ByteArrayPool_arrays != null) {
+		if (ByteArrayPool_arrays != null) {
 			for (int var4 = 0; var4 < ByteArrayPool_alternativeSizes.length; ++var4) {
 				if (ByteArrayPool_alternativeSizes[var4] != var0) {
 					if (var0 < ByteArrayPool_alternativeSizes[var4]) {
 					}
-				} else if (class43.ByteArrayPool_altSizeArrayCounts[var4] > 0) {
-					byte[] var3 = class189.ByteArrayPool_arrays[var4][--class43.ByteArrayPool_altSizeArrayCounts[var4]];
-					class189.ByteArrayPool_arrays[var4][class43.ByteArrayPool_altSizeArrayCounts[var4]] = null;
+				} else if (VerticalAlignment.ByteArrayPool_altSizeArrayCounts[var4] > 0) {
+					byte[] var3 = ByteArrayPool_arrays[var4][--VerticalAlignment.ByteArrayPool_altSizeArrayCounts[var4]];
+					ByteArrayPool_arrays[var4][VerticalAlignment.ByteArrayPool_altSizeArrayCounts[var4]] = null;
 					return var3;
 				}
 			}

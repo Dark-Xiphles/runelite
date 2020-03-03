@@ -3,48 +3,53 @@ import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
-import net.runelite.rs.ScriptOpcodes;
 
-@ObfuscatedName("hl")
+@ObfuscatedName("hx")
 @Implements("StudioGame")
 public enum StudioGame implements Enumerated {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "Lhl;"
+		signature = "Lhx;"
 	)
-	field3107("runescape", "RuneScape", 0),
-	@ObfuscatedName("w")
+	@Export("runescape")
+	runescape("runescape", "RuneScape", 0),
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "Lhl;"
+		signature = "Lhx;"
 	)
-	field3106("stellardawn", "Stellar Dawn", 1),
+	@Export("stellardawn")
+	stellardawn("stellardawn", "Stellar Dawn", 1),
+	@ObfuscatedName("o")
+	@ObfuscatedSignature(
+		signature = "Lhx;"
+	)
+	@Export("game3")
+	game3("game3", "Game 3", 2),
 	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "Lhl;"
+		signature = "Lhx;"
 	)
-	field3112("game3", "Game 3", 2),
-	@ObfuscatedName("p")
+	@Export("game4")
+	game4("game4", "Game 4", 3),
+	@ObfuscatedName("i")
 	@ObfuscatedSignature(
-		signature = "Lhl;"
+		signature = "Lhx;"
 	)
-	field3108("game4", "Game 4", 3),
-	@ObfuscatedName("k")
+	@Export("game5")
+	game5("game5", "Game 5", 4),
+	@ObfuscatedName("g")
 	@ObfuscatedSignature(
-		signature = "Lhl;"
+		signature = "Lhx;"
 	)
-	field3109("game5", "Game 5", 4),
-	@ObfuscatedName("l")
-	@ObfuscatedSignature(
-		signature = "Lhl;"
-	)
-	field3110("oldscape", "RuneScape 2007", 5);
+	@Export("oldscape")
+	oldscape("oldscape", "RuneScape 2007", 5);
 
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@Export("name")
 	public final String name;
-	@ObfuscatedName("i")
+	@ObfuscatedName("l")
 	@ObfuscatedGetter(
-		intValue = 1180818879
+		intValue = 905607023
 	)
 	@Export("id")
 	final int id;
@@ -56,46 +61,11 @@ public enum StudioGame implements Enumerated {
 
 	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "(I)I",
-		garbageValue = "320353268"
+		signature = "(B)I",
+		garbageValue = "1"
 	)
 	@Export("rsOrdinal")
 	public int rsOrdinal() {
 		return this.id;
-	}
-
-	@ObfuscatedName("a")
-	@ObfuscatedSignature(
-		signature = "(ILcx;ZI)I",
-		garbageValue = "-1636258729"
-	)
-	static int method4137(int var0, Script var1, boolean var2) {
-		Widget var3 = var2 ? Interpreter.field1111 : Calendar.field2507;
-		if (var0 == ScriptOpcodes.CC_GETTARGETMASK) {
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = HealthBar.method1957(class268.getWidgetClickMask(var3));
-			return 1;
-		} else if (var0 != ScriptOpcodes.CC_GETOP) {
-			if (var0 == ScriptOpcodes.CC_GETOPBASE) {
-				if (var3.dataText == null) {
-					Interpreter.Interpreter_stringStack[++Skills.Interpreter_stringStackSize - 1] = "";
-				} else {
-					Interpreter.Interpreter_stringStack[++Skills.Interpreter_stringStackSize - 1] = var3.dataText;
-				}
-
-				return 1;
-			} else {
-				return 2;
-			}
-		} else {
-			int var4 = Interpreter.Interpreter_intStack[--HealthBarUpdate.Interpreter_intStackSize];
-			--var4;
-			if (var3.actions != null && var4 < var3.actions.length && var3.actions[var4] != null) {
-				Interpreter.Interpreter_stringStack[++Skills.Interpreter_stringStackSize - 1] = var3.actions[var4];
-			} else {
-				Interpreter.Interpreter_stringStack[++Skills.Interpreter_stringStackSize - 1] = "";
-			}
-
-			return 1;
-		}
 	}
 }

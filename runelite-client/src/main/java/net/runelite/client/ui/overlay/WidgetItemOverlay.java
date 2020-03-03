@@ -26,6 +26,7 @@ package net.runelite.client.ui.overlay;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -33,16 +34,7 @@ import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Setter;
 import net.runelite.api.widgets.Widget;
-import static net.runelite.api.widgets.WidgetID.BANK_GROUP_ID;
-import static net.runelite.api.widgets.WidgetID.BANK_INVENTORY_GROUP_ID;
-import static net.runelite.api.widgets.WidgetID.DEPOSIT_BOX_GROUP_ID;
-import static net.runelite.api.widgets.WidgetID.EQUIPMENT_GROUP_ID;
-import static net.runelite.api.widgets.WidgetID.EQUIPMENT_INVENTORY_GROUP_ID;
-import static net.runelite.api.widgets.WidgetID.GRAND_EXCHANGE_INVENTORY_GROUP_ID;
-import static net.runelite.api.widgets.WidgetID.GUIDE_PRICES_INVENTORY_GROUP_ID;
-import static net.runelite.api.widgets.WidgetID.INVENTORY_GROUP_ID;
-import static net.runelite.api.widgets.WidgetID.SEED_VAULT_INVENTORY_GROUP_ID;
-import static net.runelite.api.widgets.WidgetID.SHOP_INVENTORY_GROUP_ID;
+import static net.runelite.api.widgets.WidgetID.*;
 import static net.runelite.api.widgets.WidgetInfo.BANK_CONTENT_CONTAINER;
 import static net.runelite.api.widgets.WidgetInfo.BANK_TAB_CONTAINER;
 import static net.runelite.api.widgets.WidgetInfo.TO_GROUP;
@@ -64,12 +56,14 @@ public abstract class WidgetItemOverlay extends Overlay
 		super.setLayer(OverlayLayer.ABOVE_WIDGETS);
 	}
 
-	public abstract void renderItemOverlay(Graphics2D graphics, int itemId, WidgetItem itemWidget);
+	protected abstract void renderItemOverlay(Graphics2D graphics, int itemId, WidgetItem itemWidget);
 
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
 		final List<WidgetItem> itemWidgets = overlayManager.getItemWidgets();
+		final Rectangle originalClipBounds = graphics.getClipBounds();
+		Widget curClipParent = null;
 		for (WidgetItem widgetItem : itemWidgets)
 		{
 			Widget widget = widgetItem.getWidget();
@@ -81,6 +75,43 @@ public abstract class WidgetItemOverlay extends Overlay
 					&& (widget.getParentId() == BANK_CONTENT_CONTAINER.getId() || widget.getParentId() == BANK_TAB_CONTAINER.getId())))
 			{
 				continue;
+			}
+
+			Widget parent = widget.getParent();
+			Rectangle parentBounds = parent.getBounds();
+			Rectangle itemCanvasBounds = widgetItem.getCanvasBounds();
+			boolean dragging = widgetItem.getDraggingCanvasBounds() != null;
+
+			boolean shouldClip;
+			if (dragging)
+			{
+				// If dragging, clip if the dragged item is outside of the parent bounds
+				shouldClip = itemCanvasBounds.x < parentBounds.x;
+				shouldClip |= itemCanvasBounds.x + itemCanvasBounds.width >= parentBounds.x + parentBounds.width;
+				shouldClip |= itemCanvasBounds.y < parentBounds.y;
+				shouldClip |= itemCanvasBounds.y + itemCanvasBounds.height >= parentBounds.y + parentBounds.height;
+			}
+			else
+			{
+				// Otherwise, we only need to clip the overlay if it intersects the parent bounds,
+				// since items completely outside of the parent bounds are not drawn
+				shouldClip = itemCanvasBounds.y < parentBounds.y && itemCanvasBounds.y + itemCanvasBounds.height >= parentBounds.y;
+				shouldClip |= itemCanvasBounds.y < parentBounds.y + parentBounds.height && itemCanvasBounds.y + itemCanvasBounds.height >= parentBounds.y + parentBounds.height;
+				shouldClip |= itemCanvasBounds.x < parentBounds.x && itemCanvasBounds.x + itemCanvasBounds.width >= parentBounds.x;
+				shouldClip |= itemCanvasBounds.x < parentBounds.x + parentBounds.width && itemCanvasBounds.x + itemCanvasBounds.width >= parentBounds.x + parentBounds.width;
+			}
+			if (shouldClip)
+			{
+				if (curClipParent != parent)
+				{
+					graphics.setClip(parentBounds);
+					curClipParent = parent;
+				}
+			}
+			else if (curClipParent != null && curClipParent != parent)
+			{
+				graphics.setClip(originalClipBounds);
+				curClipParent = null;
 			}
 
 			renderItemOverlay(graphics, widgetItem.getId(), widgetItem);

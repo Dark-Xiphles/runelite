@@ -4,66 +4,60 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("em")
+@ObfuscatedName("eu")
 @Implements("BoundaryObject")
 public final class BoundaryObject {
-	@ObfuscatedName("sx")
-	@ObfuscatedSignature(
-		signature = "Llw;"
-	)
-	@Export("worldMap")
-	static WorldMap worldMap;
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedGetter(
-		intValue = 2097561189
+		intValue = -432640287
 	)
 	@Export("tileHeight")
 	int tileHeight;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedGetter(
-		intValue = -1949359765
+		intValue = -970419585
 	)
 	@Export("x")
 	int x;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = -1661311189
+		intValue = -1222089633
 	)
 	@Export("y")
 	int y;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedGetter(
-		intValue = 258723163
+		intValue = 778552875
 	)
 	@Export("orientationA")
 	int orientationA;
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		intValue = -321030007
+		intValue = -829648765
 	)
 	@Export("orientationB")
 	int orientationB;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@ObfuscatedSignature(
-		signature = "Leo;"
+		signature = "Leq;"
 	)
 	@Export("entity1")
 	public Entity entity1;
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@ObfuscatedSignature(
-		signature = "Leo;"
+		signature = "Leq;"
 	)
 	@Export("entity2")
 	public Entity entity2;
-	@ObfuscatedName("i")
+	@ObfuscatedName("l")
 	@ObfuscatedGetter(
-		longValue = 7136672908246986663L
+		longValue = 515248560912133581L
 	)
 	@Export("tag")
 	public long tag;
-	@ObfuscatedName("c")
+	@ObfuscatedName("j")
 	@ObfuscatedGetter(
-		intValue = -77784117
+		intValue = -1262947559
 	)
 	@Export("flags")
 	int flags;
@@ -73,64 +67,44 @@ public final class BoundaryObject {
 		this.flags = 0;
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(Lhp;Lhp;IZB)Lek;",
-		garbageValue = "103"
+		signature = "(I)V",
+		garbageValue = "2085601803"
 	)
-	public static Frames method3262(AbstractArchive var0, AbstractArchive var1, int var2, boolean var3) {
-		boolean var4 = true;
-		int[] var5 = var0.getGroupFileIds(var2);
+	public static void method3333() {
+		synchronized(KeyHandler.KeyHandler_instance) {
+			++KeyHandler.KeyHandler_idleCycles;
+			KeyHandler.field406 = KeyHandler.field408;
+			KeyHandler.field405 = 0;
+			int var1;
+			if (KeyHandler.field387 < 0) {
+				for (var1 = 0; var1 < 112; ++var1) {
+					KeyHandler.KeyHandler_pressedKeys[var1] = false;
+				}
 
-		for (int var6 = 0; var6 < var5.length; ++var6) {
-			byte[] var7 = var0.getFile(var2, var5[var6]);
-			if (var7 == null) {
-				var4 = false;
+				KeyHandler.field387 = KeyHandler.field400;
 			} else {
-				int var8 = (var7[0] & 255) << 8 | var7[1] & 255;
-				byte[] var9;
-				if (var3) {
-					var9 = var1.getFile(0, var8);
-				} else {
-					var9 = var1.getFile(var8, 0);
+				while (KeyHandler.field387 != KeyHandler.field400) {
+					var1 = KeyHandler.field399[KeyHandler.field400];
+					KeyHandler.field400 = KeyHandler.field400 + 1 & 127;
+					if (var1 < 0) {
+						KeyHandler.KeyHandler_pressedKeys[~var1] = false;
+					} else {
+						if (!KeyHandler.KeyHandler_pressedKeys[var1] && KeyHandler.field405 < KeyHandler.field404.length - 1) {
+							KeyHandler.field404[++KeyHandler.field405 - 1] = var1;
+						}
+
+						KeyHandler.KeyHandler_pressedKeys[var1] = true;
+					}
 				}
-
-				if (var9 == null) {
-					var4 = false;
-				}
-			}
-		}
-
-		if (!var4) {
-			return null;
-		} else {
-			try {
-				return new Frames(var0, var1, var2, var3);
-			} catch (Exception var11) {
-				return null;
-			}
-		}
-	}
-
-	@ObfuscatedName("q")
-	@ObfuscatedSignature(
-		signature = "(II)Liv;",
-		garbageValue = "-497669049"
-	)
-	@Export("getEnum")
-	public static EnumDefinition getEnum(int var0) {
-		EnumDefinition var1 = (EnumDefinition)EnumDefinition.EnumDefinition_cached.get((long)var0);
-		if (var1 != null) {
-			return var1;
-		} else {
-			byte[] var2 = EnumDefinition.EnumDefinition_archive.takeFile(8, var0);
-			var1 = new EnumDefinition();
-			if (var2 != null) {
-				var1.decode(new Buffer(var2));
 			}
 
-			EnumDefinition.EnumDefinition_cached.put(var1, (long)var0);
-			return var1;
+			if (KeyHandler.field405 > 0) {
+				KeyHandler.KeyHandler_idleCycles = 0;
+			}
+
+			KeyHandler.field408 = KeyHandler.field407;
 		}
 	}
 }

@@ -3,16 +3,19 @@ import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("hk")
+@ObfuscatedName("hc")
 @Implements("Huffman")
 public class Huffman {
-	@ObfuscatedName("q")
+	@ObfuscatedName("e")
+	@Export("SpriteBuffer_xOffsets")
+	public static int[] SpriteBuffer_xOffsets;
+	@ObfuscatedName("c")
 	@Export("masks")
 	int[] masks;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@Export("bits")
 	byte[] bits;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@Export("keys")
 	int[] keys;
 
@@ -99,10 +102,10 @@ public class Huffman {
 
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "([BII[BII)I",
-		garbageValue = "-1706453276"
+		signature = "([BII[BIS)I",
+		garbageValue = "4203"
 	)
 	@Export("compress")
 	int compress(byte[] var1, int var2, int var3, byte[] var4, int var5) {
@@ -120,7 +123,7 @@ public class Huffman {
 			int var11 = var7 >> 3;
 			int var12 = var7 & 7;
 			var6 &= -var12 >> 31;
-			int var13 = (var12 + var10 - 1 >> 3) + var11;
+			int var13 = (var10 + var12 - 1 >> 3) + var11;
 			var12 += 24;
 			var4[var11] = (byte)(var6 |= var9 >>> var12);
 			if (var11 < var13) {
@@ -150,10 +153,10 @@ public class Huffman {
 		return (var7 + 7 >> 3) - var5;
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
 		signature = "([BI[BIII)I",
-		garbageValue = "2122202814"
+		garbageValue = "275908175"
 	)
 	@Export("decompress")
 	int decompress(byte[] var1, int var2, byte[] var3, int var4, int var5) {
@@ -292,83 +295,5 @@ public class Huffman {
 
 			return var7 + 1 - var2;
 		}
-	}
-
-	@ObfuscatedName("k")
-	@ObfuscatedSignature(
-		signature = "(IIB)I",
-		garbageValue = "5"
-	)
-	static int method3948(int var0, int var1) {
-		long var2 = (long)((var0 << 16) + var1);
-		return class226.NetCache_currentResponse != null && class226.NetCache_currentResponse.key == var2 ? VarpDefinition.NetCache_responseArchiveBuffer.offset * 99 / (VarpDefinition.NetCache_responseArchiveBuffer.array.length - class226.NetCache_currentResponse.padding) + 1 : 0;
-	}
-
-	@ObfuscatedName("k")
-	@ObfuscatedSignature(
-		signature = "([BIII)Z",
-		garbageValue = "-1212406127"
-	)
-	static final boolean method3947(byte[] var0, int var1, int var2) {
-		boolean var3 = true;
-		Buffer var4 = new Buffer(var0);
-		int var5 = -1;
-
-		label71:
-		while (true) {
-			int var6 = var4.method5509();
-			if (var6 == 0) {
-				return var3;
-			}
-
-			var5 += var6;
-			int var7 = 0;
-			boolean var8 = false;
-
-			while (true) {
-				int var9;
-				while (!var8) {
-					var9 = var4.readUShortSmart();
-					if (var9 == 0) {
-						continue label71;
-					}
-
-					var7 += var9 - 1;
-					int var10 = var7 & 63;
-					int var11 = var7 >> 6 & 63;
-					int var12 = var4.readUnsignedByte() >> 2;
-					int var13 = var11 + var1;
-					int var14 = var10 + var2;
-					if (var13 > 0 && var14 > 0 && var13 < 103 && var14 < 103) {
-						ObjectDefinition var15 = ViewportMouse.getObjectDefinition(var5);
-						if (var12 != 22 || !Client.isLowDetail || var15.int1 != 0 || var15.interactType == 1 || var15.boolean2) {
-							if (!var15.method4608()) {
-								++Client.field707;
-								var3 = false;
-							}
-
-							var8 = true;
-						}
-					}
-				}
-
-				var9 = var4.readUShortSmart();
-				if (var9 == 0) {
-					break;
-				}
-
-				var4.readUnsignedByte();
-			}
-		}
-	}
-
-	@ObfuscatedName("bp")
-	@ObfuscatedSignature(
-		signature = "(Ljava/lang/String;I)I",
-		garbageValue = "350180445"
-	)
-	@Export("stringCp1252NullTerminatedByteSize")
-	public static int stringCp1252NullTerminatedByteSize(String var0) {
-		return var0.length() + 1;
 	}
 }

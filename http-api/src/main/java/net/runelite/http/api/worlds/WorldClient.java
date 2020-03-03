@@ -26,11 +26,14 @@
 package net.runelite.http.api.worlds;
 
 import com.google.gson.JsonParseException;
-import io.reactivex.Observable;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import javax.inject.Inject;
 import net.runelite.http.api.RuneLiteAPI;
+import okhttp3.CacheControl;
 import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
@@ -40,7 +43,15 @@ public class WorldClient
 {
 	private static final Logger logger = LoggerFactory.getLogger(WorldClient.class);
 
-	public Observable<WorldResult> lookupWorlds()
+	private final OkHttpClient client;
+
+	@Inject
+	public WorldClient(OkHttpClient client)
+	{
+		this.client = client;
+	}
+
+	public WorldResult lookupWorlds() throws IOException
 	{
 		HttpUrl url = RuneLiteAPI.getApiBase().newBuilder()
 			.addPathSegment("worlds.js")
@@ -48,27 +59,25 @@ public class WorldClient
 
 		logger.debug("Built URI: {}", url);
 
-		return Observable.defer(() ->
+		Request request = new Request.Builder()
+			.url(url)
+			.cacheControl(CacheControl.FORCE_NETWORK)
+			.build();
+
+		try (Response response = client.newCall(request).execute())
 		{
-			Request request = new Request.Builder()
-				.url(url)
-				.build();
-
-			try (Response response = RuneLiteAPI.CLIENT.newCall(request).execute())
+			if (!response.isSuccessful())
 			{
-				if (!response.isSuccessful())
-				{
-					logger.debug("Error looking up worlds: {}", response);
-					return Observable.just(null);
-				}
+				logger.debug("Error looking up worlds: {}", response);
+				throw new IOException("unsuccessful response looking up worlds");
+			}
 
-				InputStream in = response.body().byteStream();
-				return Observable.just(RuneLiteAPI.GSON.fromJson(new InputStreamReader(in), WorldResult.class));
-			}
-			catch (JsonParseException ex)
-			{
-				return Observable.error(ex);
-			}
-		});
+			InputStream in = response.body().byteStream();
+			return RuneLiteAPI.GSON.fromJson(new InputStreamReader(in), WorldResult.class);
+		}
+		catch (JsonParseException ex)
+		{
+			throw new IOException(ex);
+		}
 	}
 }

@@ -25,28 +25,21 @@
 package net.runelite.client.plugins.config;
 
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Method;
-import java.util.concurrent.ScheduledExecutorService;
 import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.inject.Provider;
 import javax.swing.SwingUtilities;
-import net.runelite.api.MenuAction;
-import net.runelite.client.RuneLite;
-import net.runelite.client.callback.ClientThread;
+import net.runelite.api.MenuOpcode;
 import net.runelite.client.config.ChatColorConfig;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.config.OpenOSRSConfig;
 import net.runelite.client.config.RuneLiteConfig;
-import net.runelite.client.config.RuneLitePlusConfig;
-import net.runelite.client.eventbus.EventBus;
+import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.OverlayMenuClicked;
-import net.runelite.client.events.PluginChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginManager;
+import net.runelite.client.plugins.PluginType;
 import net.runelite.client.ui.ClientToolbar;
-import net.runelite.client.ui.ClientUI;
 import net.runelite.client.ui.NavigationButton;
-import net.runelite.client.ui.components.colorpicker.ColorPickerManager;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayMenuEntry;
 import net.runelite.client.util.ImageUtil;
@@ -56,46 +49,50 @@ import net.runelite.client.util.ImageUtil;
 	loadWhenOutdated = true,
 	hidden = true // prevent users from disabling
 )
-@Singleton
 public class ConfigPlugin extends Plugin
 {
-
 	@Inject
 	private ClientToolbar clientToolbar;
+
+	@Inject
+	private Provider<PluginListPanel> pluginListPanelProvider;
 
 	@Inject
 	private ConfigManager configManager;
 
 	@Inject
-	private PluginManager pluginManager;
-
-	@Inject
-	private ScheduledExecutorService executorService;
-
-	@Inject
 	private RuneLiteConfig runeLiteConfig;
 
 	@Inject
-	private RuneLitePlusConfig runeLitePlusConfig;
+	private OpenOSRSConfig openOSRSConfig;
 
 	@Inject
 	private ChatColorConfig chatColorConfig;
 
-	@Inject
-	private ColorPickerManager colorPickerManager;
+	private PluginListPanel pluginListPanel;
 
-	@Inject
-	private EventBus eventBus;
-
-	private ConfigPanel configPanel;
 	private NavigationButton navButton;
 
 	@Override
 	protected void startUp() throws Exception
 	{
-		addSubscriptions();
-
-		configPanel = new ConfigPanel(pluginManager, configManager, executorService, runeLiteConfig, runeLitePlusConfig, chatColorConfig, colorPickerManager);
+		pluginListPanel = pluginListPanelProvider.get();
+		pluginListPanel.addFakePlugin(
+			new PluginConfigurationDescriptor(
+				"OpenOSRS", "OpenOSRS client settings", PluginType.IMPORTANT,
+				new String[]{"sorting", "external", "logs", "categories", "colors", "opacity", "pin"},
+				null, openOSRSConfig, configManager.getConfigDescriptor(openOSRSConfig)
+			),
+			new PluginConfigurationDescriptor(
+				"RuneLite", "RuneLite client settings", PluginType.IMPORTANT,
+				new String[]{"client", "notification", "size", "position", "window", "chrome", "focus", "font", "overlay", "tooltip", "infobox"},
+				null, runeLiteConfig, configManager.getConfigDescriptor(runeLiteConfig)
+			),
+			new PluginConfigurationDescriptor(
+				"Chat Color", "Recolor chat text", PluginType.MISCELLANEOUS, new String[]{"colour", "messages"},
+				null, chatColorConfig, configManager.getConfigDescriptor(chatColorConfig)
+			));
+		pluginListPanel.rebuildPluginList();
 
 		final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "config_icon.png");
 
@@ -103,51 +100,23 @@ public class ConfigPlugin extends Plugin
 			.tooltip("Configuration")
 			.icon(icon)
 			.priority(0)
-			.panel(configPanel)
+			.panel(pluginListPanel.getMuxer())
 			.build();
 
 		clientToolbar.addNavigation(navButton);
 	}
 
 	@Override
-	public void shutDown() throws Exception
+	protected void shutDown() throws Exception
 	{
-		eventBus.unregister(this);
-
 		clientToolbar.removeNavigation(navButton);
-		RuneLite.getInjector().getInstance(ClientThread.class).invokeLater(() ->
-		{
-			try
-			{
-				ConfigPanel.pluginList.clear();
-				pluginManager.setPluginEnabled(this, true);
-				pluginManager.startPlugin(this);
-				Method expand = ClientUI.class.getDeclaredMethod("expand", NavigationButton.class);
-				expand.setAccessible(true);
-				expand.invoke(RuneLite.getInjector().getInstance(ClientUI.class), navButton);
-			}
-			catch (Exception e)
-			{
-				System.out.println(e.getMessage());
-			}
-		});
 	}
 
-	private void addSubscriptions()
-	{
-		eventBus.subscribe(PluginChanged.class, this, this::onPluginChanged);
-		eventBus.subscribe(OverlayMenuClicked.class, this, this::onOverlayMenuClicked);
-	}
-
-	private void onPluginChanged(PluginChanged event)
-	{
-		SwingUtilities.invokeLater(configPanel::refreshPluginList);
-	}
-
-	private void onOverlayMenuClicked(OverlayMenuClicked overlayMenuClicked)
+	@Subscribe
+	public void onOverlayMenuClicked(OverlayMenuClicked overlayMenuClicked)
 	{
 		OverlayMenuEntry overlayMenuEntry = overlayMenuClicked.getEntry();
-		if (overlayMenuEntry.getMenuAction() == MenuAction.RUNELITE_OVERLAY_CONFIG)
+		if (overlayMenuEntry.getMenuOpcode() == MenuOpcode.RUNELITE_OVERLAY_CONFIG)
 		{
 			Overlay overlay = overlayMenuClicked.getOverlay();
 			Plugin plugin = overlay.getPlugin();
@@ -164,7 +133,7 @@ public class ConfigPlugin extends Plugin
 				{
 					navButton.getOnSelect().run();
 				}
-				configPanel.openConfigurationPanel(descriptor.name());
+				pluginListPanel.openConfigurationPanel(descriptor.name());
 			});
 		}
 	}

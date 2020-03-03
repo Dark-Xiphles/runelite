@@ -27,14 +27,16 @@ package net.runelite.cache;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import net.runelite.cache.definitions.loaders.sound.SoundEffectTrackLoader;
 import net.runelite.cache.definitions.sound.SoundEffectTrackDefinition;
 import net.runelite.cache.fs.Archive;
@@ -46,11 +48,6 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 
 public class SoundEffectsDumperTest
 {
@@ -81,7 +78,7 @@ public class SoundEffectsDumperTest
 				SoundEffectTrackLoader setLoader = new SoundEffectTrackLoader();
 				SoundEffectTrackDefinition soundEffect = setLoader.load(contents);
 
-				Files.write(gson.toJson(soundEffect), new File(dumpDir, archive.getArchiveId() + ".json"), Charset.defaultCharset());
+				Files.asCharSink(new File(dumpDir, archive.getArchiveId() + ".json"), Charset.defaultCharset()).write(gson.toJson(soundEffect));
 				++count;
 			}
 		}

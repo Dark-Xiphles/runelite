@@ -4,54 +4,68 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("fe")
+@ObfuscatedName("fj")
 @Implements("MilliClock")
 public class MilliClock extends Clock {
-	@ObfuscatedName("q")
-	long[] field2011;
-	@ObfuscatedName("w")
-	@ObfuscatedGetter(
-		intValue = 406251697
+	@ObfuscatedName("x")
+	@ObfuscatedSignature(
+		signature = "[Lme;"
 	)
-	int field2014;
+	@Export("JagexCache_idxFiles")
+	public static BufferedFile[] JagexCache_idxFiles;
+	@ObfuscatedName("b")
+	public static String field2015;
+	@ObfuscatedName("db")
+	@ObfuscatedSignature(
+		signature = "Lia;"
+	)
+	@Export("archive12")
+	static Archive archive12;
+	@ObfuscatedName("c")
+	long[] field2011;
+	@ObfuscatedName("t")
+	@ObfuscatedGetter(
+		intValue = 1924438695
+	)
+	int field2009;
+	@ObfuscatedName("o")
+	@ObfuscatedGetter(
+		intValue = 990081357
+	)
+	int field2008;
 	@ObfuscatedName("e")
 	@ObfuscatedGetter(
-		intValue = -1542069259
+		longValue = 1282621302724329393L
 	)
-	int field2013;
-	@ObfuscatedName("p")
+	long field2013;
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		longValue = -5256643665710280471L
+		intValue = -552407369
 	)
-	long field2012;
-	@ObfuscatedName("k")
+	int field2012;
+	@ObfuscatedName("g")
 	@ObfuscatedGetter(
-		intValue = 729258425
+		intValue = 1470332853
 	)
-	int field2015;
-	@ObfuscatedName("l")
-	@ObfuscatedGetter(
-		intValue = -1018209541
-	)
-	int field2016;
+	int field2014;
 
 	MilliClock() {
 		this.field2011 = new long[10];
-		this.field2014 = 256;
-		this.field2013 = 1;
-		this.field2015 = 0;
-		this.field2012 = DirectByteArrayCopier.currentTimeMs();
+		this.field2009 = 256;
+		this.field2008 = 1;
+		this.field2012 = 0;
+		this.field2013 = WorldMapIcon_0.currentTimeMillis();
 
 		for (int var1 = 0; var1 < 10; ++var1) {
-			this.field2011[var1] = this.field2012;
+			this.field2011[var1] = this.field2013;
 		}
 
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(I)V",
-		garbageValue = "-1402657312"
+		signature = "(B)V",
+		garbageValue = "29"
 	)
 	@Export("mark")
 	public void mark() {
@@ -61,73 +75,105 @@ public class MilliClock extends Clock {
 
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
 		signature = "(III)I",
-		garbageValue = "-333181863"
+		garbageValue = "-561232674"
 	)
 	@Export("wait")
 	public int wait(int var1, int var2) {
-		int var3 = this.field2014;
-		int var4 = this.field2013;
-		this.field2014 = 300;
-		this.field2013 = 1;
-		this.field2012 = DirectByteArrayCopier.currentTimeMs();
-		if (this.field2011[this.field2016] == 0L) {
-			this.field2014 = var3;
-			this.field2013 = var4;
-		} else if (this.field2012 > this.field2011[this.field2016]) {
-			this.field2014 = (int)((long)(var1 * 2560) / (this.field2012 - this.field2011[this.field2016]));
+		int var3 = this.field2009;
+		int var4 = this.field2008;
+		this.field2009 = 300;
+		this.field2008 = 1;
+		this.field2013 = WorldMapIcon_0.currentTimeMillis();
+		if (this.field2011[this.field2014] == 0L) {
+			this.field2009 = var3;
+			this.field2008 = var4;
+		} else if (this.field2013 > this.field2011[this.field2014]) {
+			this.field2009 = (int)((long)(var1 * 2560) / (this.field2013 - this.field2011[this.field2014]));
 		}
 
-		if (this.field2014 < 25) {
-			this.field2014 = 25;
+		if (this.field2009 < 25) {
+			this.field2009 = 25;
 		}
 
-		if (this.field2014 > 256) {
-			this.field2014 = 256;
-			this.field2013 = (int)((long)var1 - (this.field2012 - this.field2011[this.field2016]) / 10L);
+		if (this.field2009 > 256) {
+			this.field2009 = 256;
+			this.field2008 = (int)((long)var1 - (this.field2013 - this.field2011[this.field2014]) / 10L);
 		}
 
-		if (this.field2013 > var1) {
-			this.field2013 = var1;
+		if (this.field2008 > var1) {
+			this.field2008 = var1;
 		}
 
-		this.field2011[this.field2016] = this.field2012;
-		this.field2016 = (this.field2016 + 1) % 10;
+		this.field2011[this.field2014] = this.field2013;
+		this.field2014 = (this.field2014 + 1) % 10;
 		int var5;
-		if (this.field2013 > 1) {
+		if (this.field2008 > 1) {
 			for (var5 = 0; var5 < 10; ++var5) {
 				if (0L != this.field2011[var5]) {
-					this.field2011[var5] += (long)this.field2013;
+					this.field2011[var5] += (long)this.field2008;
 				}
 			}
 		}
 
-		if (this.field2013 < var2) {
-			this.field2013 = var2;
+		if (this.field2008 < var2) {
+			this.field2008 = var2;
 		}
 
-		EnumDefinition.method4550((long)this.field2013);
+		FriendLoginUpdate.method5325((long)this.field2008);
 
-		for (var5 = 0; this.field2015 < 256; this.field2015 += this.field2014) {
+		for (var5 = 0; this.field2012 < 256; this.field2012 += this.field2009) {
 			++var5;
 		}
 
-		this.field2015 &= 255;
+		this.field2012 &= 255;
 		return var5;
 	}
 
-	@ObfuscatedName("c")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(IIIB)I",
-		garbageValue = "-93"
+		signature = "(III)Lce;",
+		garbageValue = "-230494464"
 	)
-	static int method3468(int var0, int var1, int var2) {
-		if ((Tiles.Tiles_renderFlags[var0][var1][var2] & 8) != 0) {
-			return 0;
+	static Script method3529(int var0, int var1) {
+		Script var2 = (Script)Script.Script_cached.get((long)(var0 << 16));
+		if (var2 != null) {
+			return var2;
 		} else {
-			return var0 > 0 && (Tiles.Tiles_renderFlags[1][var1][var2] & 2) != 0 ? var0 - 1 : var0;
+			String var3 = String.valueOf(var0);
+			int var4 = archive12.getGroupId(var3);
+			if (var4 == -1) {
+				return null;
+			} else {
+				byte[] var5 = archive12.takeFileFlat(var4);
+				if (var5 != null) {
+					if (var5.length <= 1) {
+						return null;
+					}
+
+					var2 = Clock.newScript(var5);
+					if (var2 != null) {
+						Script.Script_cached.put(var2, (long)(var0 << 16));
+						return var2;
+					}
+				}
+
+				return null;
+			}
 		}
+	}
+
+	@ObfuscatedName("w")
+	@ObfuscatedSignature(
+		signature = "(I)V",
+		garbageValue = "-1997111110"
+	)
+	public static void method3535() {
+		Widget.Widget_cachedSprites.clear();
+		Widget.Widget_cachedModels.clear();
+		Widget.Widget_cachedFonts.clear();
+		Widget.Widget_cachedSpriteMasks.clear();
 	}
 }

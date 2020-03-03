@@ -1,66 +1,103 @@
-import java.util.Iterator;
+import net.runelite.mapping.Export;
 import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("dd")
+@ObfuscatedName("dp")
 @Implements("VertexNormal")
 public class VertexNormal {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedGetter(
-		intValue = 741962059
+		longValue = 1130865268298434617L
 	)
-	int field1759;
+	static long field1752;
+	@ObfuscatedName("n")
+	@ObfuscatedSignature(
+		signature = "Lli;"
+	)
+	static IndexedSprite field1753;
 	@ObfuscatedName("w")
-	@ObfuscatedGetter(
-		intValue = -1828551341
+	@ObfuscatedSignature(
+		signature = "Lkp;"
 	)
-	int field1760;
+	@Export("NetCache_responseArchiveBuffer")
+	public static Buffer NetCache_responseArchiveBuffer;
+	@ObfuscatedName("gu")
+	@ObfuscatedSignature(
+		signature = "[Lli;"
+	)
+	@Export("mapSceneSprites")
+	static IndexedSprite[] mapSceneSprites;
+	@ObfuscatedName("t")
+	@ObfuscatedGetter(
+		intValue = 707257177
+	)
+	@Export("x")
+	int x;
+	@ObfuscatedName("o")
+	@ObfuscatedGetter(
+		intValue = 1141720523
+	)
+	@Export("y")
+	int y;
 	@ObfuscatedName("e")
 	@ObfuscatedGetter(
-		intValue = 1911535461
+		intValue = 1695799799
 	)
-	int field1758;
-	@ObfuscatedName("p")
+	@Export("z")
+	int z;
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		intValue = -171249661
+		intValue = 1198697941
 	)
-	int field1761;
+	@Export("magnitude")
+	int magnitude;
 
 	VertexNormal() {
 	}
 
 	@ObfuscatedSignature(
-		signature = "(Ldd;)V"
+		signature = "(Ldp;)V"
 	)
 	VertexNormal(VertexNormal var1) {
-		this.field1759 = var1.field1759;
-		this.field1760 = var1.field1760;
-		this.field1758 = var1.field1758;
-		this.field1761 = var1.field1761;
+		this.x = var1.x;
+		this.y = var1.y;
+		this.z = var1.z;
+		this.magnitude = var1.magnitude;
 	}
 
-	@ObfuscatedName("jz")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(B)V",
-		garbageValue = "6"
+		signature = "(II)J",
+		garbageValue = "2082657015"
 	)
-	static final void method2972() {
-		for (int var0 = 0; var0 < Players.Players_count; ++var0) {
-			Player var1 = Client.players[Players.Players_indices[var0]];
-			var1.clearIsFriend();
+	public static long method3063(int var0) {
+		return ViewportMouse.ViewportMouse_entityTags[var0];
+	}
+
+	@ObfuscatedName("gn")
+	@ObfuscatedSignature(
+		signature = "(II)V",
+		garbageValue = "1221286239"
+	)
+	@Export("setWindowedMode")
+	static void setWindowedMode(int var0) {
+		Client.field859 = 0L;
+		if (var0 >= 2) {
+			Client.isResizable = true;
+		} else {
+			Client.isResizable = false;
 		}
 
-		Iterator var2 = Messages.Messages_hashTable.iterator();
-
-		while (var2.hasNext()) {
-			Message var3 = (Message)var2.next();
-			var3.clearIsFromFriend();
+		if (Friend.getWindowedMode() == 1) {
+			Username.client.setMaxCanvasSize(765, 503);
+		} else {
+			Username.client.setMaxCanvasSize(7680, 2160);
 		}
 
-		if (DevicePcmPlayerProvider.clanChat != null) {
-			DevicePcmPlayerProvider.clanChat.clearFriends();
+		if (Client.gameState >= 25) {
+			class238.method4415();
 		}
 
 	}

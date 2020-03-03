@@ -7,44 +7,41 @@ import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("fs")
+@ObfuscatedName("ff")
 @Implements("TaskHandler")
 public class TaskHandler implements Runnable {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@Export("javaVendor")
 	public static String javaVendor;
-	@ObfuscatedName("w")
-	@Export("javaVersion")
-	public static String javaVersion;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "Lfa;"
+		signature = "Lfw;"
 	)
 	@Export("current")
 	Task current;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "Lfa;"
+		signature = "Lfw;"
 	)
-	@Export("task0")
-	Task task0;
-	@ObfuscatedName("k")
+	@Export("task")
+	Task task;
+	@ObfuscatedName("i")
 	@Export("thread")
 	Thread thread;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@Export("isClosed")
 	boolean isClosed;
 
 	public TaskHandler() {
 		this.current = null;
-		this.task0 = null;
+		this.task = null;
 		this.isClosed = false;
 		javaVendor = "Unknown";
-		javaVersion = "1.6";
+		class216.javaVersion = "1.6";
 
 		try {
 			javaVendor = System.getProperty("java.vendor");
-			javaVersion = System.getProperty("java.version");
+			class216.javaVersion = System.getProperty("java.version");
 		} catch (Exception var2) {
 		}
 
@@ -55,10 +52,10 @@ public class TaskHandler implements Runnable {
 		this.thread.start();
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(I)V",
-		garbageValue = "876535177"
+		signature = "(B)V",
+		garbageValue = "-77"
 	)
 	@Export("close")
 	public final void close() {
@@ -74,10 +71,10 @@ public class TaskHandler implements Runnable {
 
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(IIILjava/lang/Object;B)Lfa;",
-		garbageValue = "115"
+		signature = "(IIILjava/lang/Object;S)Lfw;",
+		garbageValue = "-10894"
 	)
 	@Export("newTask")
 	final Task newTask(int var1, int var2, int var3, Object var4) {
@@ -86,11 +83,11 @@ public class TaskHandler implements Runnable {
 		var5.intArgument = var2;
 		var5.objectArgument = var4;
 		synchronized(this) {
-			if (this.task0 != null) {
-				this.task0.next = var5;
-				this.task0 = var5;
+			if (this.task != null) {
+				this.task.next = var5;
+				this.task = var5;
 			} else {
-				this.task0 = this.current = var5;
+				this.task = this.current = var5;
 			}
 
 			this.notify();
@@ -98,20 +95,20 @@ public class TaskHandler implements Runnable {
 		}
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(Ljava/lang/String;II)Lfa;",
-		garbageValue = "313449224"
+		signature = "(Ljava/lang/String;II)Lfw;",
+		garbageValue = "-260343907"
 	)
 	@Export("newSocketTask")
 	public final Task newSocketTask(String var1, int var2) {
 		return this.newTask(1, var2, 0, var1);
 	}
 
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "(Ljava/lang/Runnable;II)Lfa;",
-		garbageValue = "193419386"
+		signature = "(Ljava/lang/Runnable;II)Lfw;",
+		garbageValue = "70274663"
 	)
 	@Export("newThreadTask")
 	public final Task newThreadTask(Runnable var1, int var2) {
@@ -131,7 +128,7 @@ public class TaskHandler implements Runnable {
 						var1 = this.current;
 						this.current = this.current.next;
 						if (this.current == null) {
-							this.task0 = null;
+							this.task = null;
 						}
 						break;
 					}
@@ -164,5 +161,39 @@ public class TaskHandler implements Runnable {
 				var1.status = 2;
 			}
 		}
+	}
+
+	@ObfuscatedName("c")
+	@ObfuscatedSignature(
+		signature = "(Lmv;I)I",
+		garbageValue = "1649958240"
+	)
+	public static final int method3540(LoginType var0) {
+		if (var0 == null) {
+			return 12;
+		} else {
+			switch(var0.field4037) {
+			case 6:
+				return 20;
+			default:
+				return 12;
+			}
+		}
+	}
+
+	@ObfuscatedName("e")
+	@ObfuscatedSignature(
+		signature = "(ILii;IIIZI)V",
+		garbageValue = "869410445"
+	)
+	@Export("playMusicTrack")
+	public static void playMusicTrack(int var0, AbstractArchive var1, int var2, int var3, int var4, boolean var5) {
+		class197.field2414 = 1;
+		UserComparator5.musicTrackArchive = var1;
+		class197.musicTrackGroupId = var2;
+		class83.musicTrackFileId = var3;
+		AttackOption.musicTrackVolume = var4;
+		KeyHandler.musicTrackBoolean = var5;
+		class197.field2412 = var0;
 	}
 }

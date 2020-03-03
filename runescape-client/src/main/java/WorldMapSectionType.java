@@ -5,41 +5,52 @@ import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 import net.runelite.rs.ScriptOpcodes;
 
-@ObfuscatedName("h")
+@ObfuscatedName("f")
 @Implements("WorldMapSectionType")
 public enum WorldMapSectionType implements Enumerated {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "Lh;"
+		signature = "Lf;"
 	)
 	@Export("WORLDMAPSECTIONTYPE0")
-	WORLDMAPSECTIONTYPE0(1, (byte)0),
-	@ObfuscatedName("w")
+	WORLDMAPSECTIONTYPE0(0, (byte)0),
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "Lh;"
+		signature = "Lf;"
 	)
 	@Export("WORLDMAPSECTIONTYPE1")
 	WORLDMAPSECTIONTYPE1(2, (byte)1),
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "Lh;"
+		signature = "Lf;"
 	)
 	@Export("WORLDMAPSECTIONTYPE2")
-	WORLDMAPSECTIONTYPE2(0, (byte)2),
-	@ObfuscatedName("p")
+	WORLDMAPSECTIONTYPE2(3, (byte)2),
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "Lh;"
+		signature = "Lf;"
 	)
 	@Export("WORLDMAPSECTIONTYPE3")
-	WORLDMAPSECTIONTYPE3(3, (byte)3);
+	WORLDMAPSECTIONTYPE3(1, (byte)3);
 
-	@ObfuscatedName("k")
+	@ObfuscatedName("pv")
+	@ObfuscatedSignature(
+		signature = "Lkx;"
+	)
+	@Export("privateChatMode")
+	static PrivateChatMode privateChatMode;
+	@ObfuscatedName("hq")
 	@ObfuscatedGetter(
-		intValue = 1941114483
+		intValue = 1689470585
+	)
+	static int field166;
+	@ObfuscatedName("i")
+	@ObfuscatedGetter(
+		intValue = 262125779
 	)
 	@Export("type")
 	final int type;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@Export("id")
 	final byte id;
 
@@ -50,179 +61,71 @@ public enum WorldMapSectionType implements Enumerated {
 
 	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "(I)I",
-		garbageValue = "320353268"
+		signature = "(B)I",
+		garbageValue = "1"
 	)
 	@Export("rsOrdinal")
 	public int rsOrdinal() {
 		return this.id;
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(Lkx;B)V",
-		garbageValue = "-61"
+		signature = "(S)[Lf;",
+		garbageValue = "-3096"
 	)
-	@Export("updatePlayer")
-	static final void updatePlayer(PacketBuffer var0) {
-		var0.importIndex();
-		int var1 = Client.localPlayerIndex;
-		Player var2 = Client.localPlayer = Client.players[var1] = new Player();
-		var2.index = var1;
-		int var3 = var0.readBits(30);
-		byte var4 = (byte)(var3 >> 28);
-		int var5 = var3 >> 14 & 16383;
-		int var6 = var3 & 16383;
-		var2.pathX[0] = var5 - MusicPatchNode2.baseX * 64;
-		var2.x = (var2.pathX[0] << 7) + (var2.transformedSize() << 6);
-		var2.pathY[0] = var6 - class1.baseY * 64;
-		var2.y = (var2.pathY[0] << 7) + (var2.transformedSize() << 6);
-		class42.plane = var2.plane = var4;
-		if (Players.field1254[var1] != null) {
-			var2.read(Players.field1254[var1]);
-		}
-
-		Players.Players_count = 0;
-		Players.Players_indices[++Players.Players_count - 1] = var1;
-		Players.field1252[var1] = 0;
-		Players.Players_emptyIdxCount = 0;
-
-		for (int var7 = 1; var7 < 2048; ++var7) {
-			if (var7 != var1) {
-				int var8 = var0.readBits(18);
-				int var9 = var8 >> 16;
-				int var10 = var8 >> 8 & 597;
-				int var11 = var8 & 597;
-				Players.Players_regions[var7] = (var10 << 14) + var11 + (var9 << 28);
-				Players.Players_orientations[var7] = 0;
-				Players.Players_targetIndices[var7] = -1;
-				Players.Players_emptyIndices[++Players.Players_emptyIdxCount - 1] = var7;
-				Players.field1252[var7] = 0;
-			}
-		}
-
-		var0.exportIndex();
+	static WorldMapSectionType[] method249() {
+		return new WorldMapSectionType[]{WORLDMAPSECTIONTYPE3, WORLDMAPSECTIONTYPE0, WORLDMAPSECTIONTYPE2, WORLDMAPSECTIONTYPE1};
 	}
 
-	@ObfuscatedName("aj")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(ILcx;ZB)I",
+		signature = "([BI)[B",
+		garbageValue = "84077862"
+	)
+	public static byte[] method250(byte[] var0) {
+		int var1 = var0.length;
+		byte[] var2 = new byte[var1];
+		System.arraycopy(var0, 0, var2, 0, var1);
+		return var2;
+	}
+
+	@ObfuscatedName("ac")
+	@ObfuscatedSignature(
+		signature = "(ILce;ZI)I",
+		garbageValue = "637615278"
+	)
+	static int method245(int var0, Script var1, boolean var2) {
+		if (var0 == ScriptOpcodes.LOGOUT) {
+			Client.logoutTimer = 250;
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+
+	@ObfuscatedName("hi")
+	@ObfuscatedSignature(
+		signature = "(IIIB)I",
 		garbageValue = "1"
 	)
-	static int method239(int var0, Script var1, boolean var2) {
-		int var3;
-		if (var0 == ScriptOpcodes.CAM_FORCEANGLE) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			int var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			if (!Client.isCameraLocked) {
-				Client.camAngleX = var3;
-				Client.camAngleY = var4;
+	@Export("getTileHeight")
+	static final int getTileHeight(int var0, int var1, int var2) {
+		int var3 = var0 >> 7;
+		int var4 = var1 >> 7;
+		if (var3 >= 0 && var4 >= 0 && var3 <= 103 && var4 <= 103) {
+			int var5 = var2;
+			if (var2 < 3 && (Tiles.Tiles_renderFlags[1][var3][var4] & 2) == 2) {
+				var5 = var2 + 1;
 			}
 
-			return 1;
-		} else if (var0 == ScriptOpcodes.CAM_GETANGLE_XA) {
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = Client.camAngleX;
-			return 1;
-		} else if (var0 == ScriptOpcodes.CAM_GETANGLE_YA) {
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = Client.camAngleY;
-			return 1;
-		} else if (var0 == ScriptOpcodes.CAM_SETFOLLOWHEIGHT) {
-			var3 = Interpreter.Interpreter_intStack[--HealthBarUpdate.Interpreter_intStackSize];
-			if (var3 < 0) {
-				var3 = 0;
-			}
-
-			Client.camFollowHeight = var3;
-			return 1;
-		} else if (var0 == ScriptOpcodes.CAM_GETFOLLOWHEIGHT) {
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = Client.camFollowHeight;
-			return 1;
+			int var6 = var0 & 127;
+			int var7 = var1 & 127;
+			int var8 = Tiles.Tiles_heights[var5][var3 + 1][var4] * var6 + (128 - var6) * Tiles.Tiles_heights[var5][var3][var4] >> 7;
+			int var9 = Tiles.Tiles_heights[var5][var3 + 1][var4 + 1] * var6 + Tiles.Tiles_heights[var5][var3][var4 + 1] * (128 - var6) >> 7;
+			return var9 * var7 + var8 * (128 - var7) >> 7;
 		} else {
-			return 2;
-		}
-	}
-
-	@ObfuscatedName("aq")
-	@ObfuscatedSignature(
-		signature = "(ILcx;ZI)I",
-		garbageValue = "-292172071"
-	)
-	static int method242(int var0, Script var1, boolean var2) {
-		if (var0 == ScriptOpcodes.VIEWPORT_SETFOV) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			Client.field782 = (short)ItemContainer.method1116(Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize]);
-			if (Client.field782 <= 0) {
-				Client.field782 = 256;
-			}
-
-			Client.field651 = (short)ItemContainer.method1116(Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1]);
-			if (Client.field651 <= 0) {
-				Client.field651 = 256;
-			}
-
-			return 1;
-		} else if (var0 == ScriptOpcodes.VIEWPORT_SETZOOM) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			Client.field906 = (short)Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			if (Client.field906 <= 0) {
-				Client.field906 = 256;
-			}
-
-			Client.field908 = (short)Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			if (Client.field908 <= 0) {
-				Client.field908 = 320;
-			}
-
-			return 1;
-		} else if (var0 == ScriptOpcodes.VIEWPORT_CLAMPFOV) {
-			HealthBarUpdate.Interpreter_intStackSize -= 4;
-			Client.field820 = (short)Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			if (Client.field820 <= 0) {
-				Client.field820 = 1;
-			}
-
-			Client.field790 = (short)Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			if (Client.field790 <= 0) {
-				Client.field790 = 32767;
-			} else if (Client.field790 < Client.field820) {
-				Client.field790 = Client.field820;
-			}
-
-			Client.field732 = (short)Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 2];
-			if (Client.field732 <= 0) {
-				Client.field732 = 1;
-			}
-
-			Client.field659 = (short)Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 3];
-			if (Client.field659 <= 0) {
-				Client.field659 = 32767;
-			} else if (Client.field659 < Client.field732) {
-				Client.field659 = Client.field732;
-			}
-
-			return 1;
-		} else if (var0 == ScriptOpcodes.VIEWPORT_GETEFFECTIVESIZE) {
-			if (Client.viewportWidget != null) {
-				UrlRequest.setViewportShape(0, 0, Client.viewportWidget.width, Client.viewportWidget.height, false);
-				Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = Client.viewportWidth;
-				Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = Client.viewportHeight;
-			} else {
-				Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = -1;
-				Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = -1;
-			}
-
-			return 1;
-		} else if (var0 == ScriptOpcodes.VIEWPORT_GETZOOM) {
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = Client.field906;
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = Client.field908;
-			return 1;
-		} else if (var0 == ScriptOpcodes.VIEWPORT_GETFOV) {
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = NetFileRequest.method4140(Client.field782);
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = NetFileRequest.method4140(Client.field651);
-			return 1;
-		} else {
-			return 2;
+			return 0;
 		}
 	}
 }

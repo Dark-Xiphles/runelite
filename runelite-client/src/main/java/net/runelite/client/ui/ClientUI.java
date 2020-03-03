@@ -43,8 +43,6 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.Window;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
@@ -60,7 +58,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
@@ -72,7 +69,6 @@ import net.runelite.api.Constants;
 import net.runelite.api.GameState;
 import net.runelite.api.Player;
 import net.runelite.api.Point;
-import net.runelite.api.events.ConfigChanged;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
@@ -81,10 +77,10 @@ import net.runelite.client.RuneLiteProperties;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.config.ExpandResizeType;
-import net.runelite.client.config.Keybind;
 import net.runelite.client.config.RuneLiteConfig;
 import net.runelite.client.config.WarningOnExit;
 import net.runelite.client.eventbus.EventBus;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.events.NavigationButtonAdded;
 import net.runelite.client.events.NavigationButtonRemoved;
 import net.runelite.client.input.KeyManager;
@@ -108,21 +104,27 @@ import org.pushingpixels.substance.internal.utils.SubstanceTitlePaneUtilities;
 public class ClientUI
 {
 	private static final String CONFIG_GROUP = "runelite";
-	private static final String PLUS_CONFIG_GROUP = "runeliteplus";
+	private static final String PLUS_CONFIG_GROUP = "openosrs";
 	private static final String CONFIG_CLIENT_BOUNDS = "clientBounds";
 	private static final String CONFIG_CLIENT_MAXIMIZED = "clientMaximized";
 	private static final String CONFIG_OPACITY = "enableOpacity";
 	private static final String CONFIG_OPACITY_AMOUNT = "opacityPercentage";
 	private static final int CLIENT_WELL_HIDDEN_MARGIN = 160;
 	private static final int CLIENT_WELL_HIDDEN_MARGIN_TOP = 10;
+	public static final BufferedImage ICON = ImageUtil.getResourceStreamFromClass(ClientUI.class, "/openosrs.png");
 	public static boolean allowInput = false;
-	public static String currentPresenceName = "RuneLite";
-	public static final BufferedImage ICON = ImageUtil.getResourceStreamFromClass(ClientUI.class, "/runelite.png");
 
 	@Getter
 	private TrayIcon trayIcon;
+	@Getter
+	public static ContainableFrame frame;
+	@Getter
+	public static ClientPluginToolbar pluginToolbar;
+	@Getter
+	private boolean sidebarOpen;
+	@Getter
+	public static PluginPanel pluginPanel;
 
-	private final RuneLiteProperties properties;
 	private final RuneLiteConfig config;
 	private final KeyManager keyManager;
 	private final MouseManager mouseManager;
@@ -134,14 +136,10 @@ public class ClientUI
 	private boolean withTitleBar;
 	private BufferedImage sidebarOpenIcon;
 	private BufferedImage sidebarClosedIcon;
-	public static ContainableFrame frame;
 	private JPanel navContainer;
-	public static PluginPanel pluginPanel;
-	public static ClientPluginToolbar pluginToolbar;
 	private ClientTitleToolbar titleToolbar;
 	private JButton currentButton;
 	private NavigationButton currentNavButton;
-	private boolean sidebarOpen;
 	private JPanel container;
 	private NavigationButton sidebarNavigationButton;
 	private JButton sidebarNavigationJButton;
@@ -152,7 +150,6 @@ public class ClientUI
 
 	@Inject
 	private ClientUI(
-		RuneLiteProperties properties,
 		RuneLiteConfig config,
 		KeyManager keyManager,
 		MouseManager mouseManager,
@@ -161,7 +158,6 @@ public class ClientUI
 		Provider<ClientThread> clientThreadProvider,
 		EventBus eventbus)
 	{
-		this.properties = properties;
 		this.config = config;
 		this.keyManager = keyManager;
 		this.mouseManager = mouseManager;
@@ -253,6 +249,11 @@ public class ClientUI
 				pluginToolbar.addComponent(event.getButton(), button);
 				pluginToolbar.revalidate();
 			}
+
+			if (navigationButton.getOnReady() != null)
+			{
+				navigationButton.getOnReady().run();
+			}
 		});
 	}
 
@@ -305,7 +306,7 @@ public class ClientUI
 				return false;
 			}
 
-			frame.setTitle(currentPresenceName + " - " + name);
+			frame.setTitle(RuneLiteProperties.getTitle() + " - " + name);
 			return true;
 		});
 	}
@@ -316,7 +317,7 @@ public class ClientUI
 	 * @param runelite runelite instance that will be shut down on exit
 	 * @throws Exception exception that can occur during creation of the UI
 	 */
-	public void open(final RuneLite runelite) throws Exception
+	public void init(final RuneLite runelite) throws Exception
 	{
 		SwingUtilities.invokeAndWait(() ->
 		{
@@ -328,7 +329,7 @@ public class ClientUI
 			// Try to enable fullscreen on OSX
 			OSXUtil.tryEnableFullscreen(frame);
 
-			frame.setTitle(ClientUI.currentPresenceName);
+			frame.setTitle(RuneLiteProperties.getTitle());
 			frame.setIconImage(ICON);
 			frame.getLayeredPane().setCursor(Cursor.getDefaultCursor()); // Prevent substance from using a resize cursor for pointing
 			frame.setLocationRelativeTo(frame.getOwner());
@@ -362,8 +363,7 @@ public class ClientUI
 			frame.add(container);
 
 			// Add key listener
-			final HotkeyListener sidebarListener = new HotkeyListener(() ->
-				new Keybind(KeyEvent.VK_F11, InputEvent.CTRL_DOWN_MASK))
+			final HotkeyListener sidebarListener = new HotkeyListener(config::sidebarToggleKey)
 			{
 				@Override
 				public void hotkeyPressed()
@@ -373,6 +373,17 @@ public class ClientUI
 			};
 
 			keyManager.registerKeyListener(sidebarListener);
+
+			final HotkeyListener pluginPanelListener = new HotkeyListener(config::panelToggleKey)
+			{
+				@Override
+				public void hotkeyPressed()
+				{
+					togglePluginPanel();
+				}
+			};
+
+			keyManager.registerKeyListener(pluginPanelListener);
 
 			// Add mouse listener
 			final MouseListener mouseListener = new MouseAdapter()
@@ -465,13 +476,19 @@ public class ClientUI
 
 			titleToolbar.addComponent(sidebarNavigationButton, sidebarNavigationJButton);
 			toggleSidebar();
+		});
+	}
 
+	public void show()
+	{
+		SwingUtilities.invokeLater(() ->
+		{
 			// Layout frame
 			frame.pack();
 			frame.revalidateMinimumSize();
 
 			// Create tray icon (needs to be created after frame is packed)
-			trayIcon = SwingUtil.createTrayIcon(ICON, properties.getTitle(), frame);
+			trayIcon = SwingUtil.createTrayIcon(ICON, RuneLiteProperties.getTitle(), frame);
 
 			// Move frame around (needs to be done after frame is packed)
 			if (config.rememberScreenBounds())
@@ -528,17 +545,10 @@ public class ClientUI
 		});
 
 		// Show out of date dialog if needed
-		if (client == null)
+		if (client != null && !(client instanceof Client))
 		{
 			SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame,
-				"Error loading client! Check your logs for more details.",
-				"Unable to load client",
-				ERROR_MESSAGE));
-		}
-		else if (!(client instanceof Client))
-		{
-			SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame,
-				"RuneLite has not yet been updated to work with the latest\n"
+				"OpenOSRS has not yet been updated to work with the latest\n"
 					+ "game update, it will work with reduced functionality until then.",
 				"RuneLite is outdated", INFORMATION_MESSAGE));
 		}
@@ -610,12 +620,41 @@ public class ClientUI
 			OSXUtil.requestFocus();
 		}
 
+		// The workaround for Windows is to minimise and then un-minimise the client to bring
+		// it to the front because java.awt.Window#toFront doesn't work reliably.
+		// See https://stackoverflow.com/questions/309023/how-to-bring-a-window-to-the-front/7435722#7435722
+		else if (OSType.getOSType() == OSType.Windows && !frame.isFocused())
+		{
+			SwingUtilities.invokeLater(() ->
+			{
+				if ((frame.getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH)
+				{
+					frame.setExtendedState(JFrame.ICONIFIED);
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				}
+				else
+				{
+					// If the client is snapped to the top and bottom edges of the screen, setExtendedState will
+					// will reset it so setSize and setLocation ensure that the client doesn't move or resize.
+					// It is done this way because Windows does not support JFrame.MAXIMIZED_VERT
+					int x = frame.getLocation().x;
+					int y = frame.getLocation().y;
+					int width = frame.getWidth();
+					int height = frame.getHeight();
+					frame.setExtendedState(JFrame.ICONIFIED);
+					frame.setExtendedState(JFrame.NORMAL);
+					frame.setLocation(x, y);
+					frame.setSize(width, height);
+				}
+			});
+		}
+
 		frame.requestFocus();
 		giveClientFocus();
 	}
 
 	/**
-	 * Changes cursor for client window. Requires ${@link ClientUI#open(RuneLite)} to be called first.
+	 * Changes cursor for client window. Requires ${@link ClientUI#init(RuneLite)} to be called first.
 	 * FIXME: This is working properly only on Windows, Linux and Mac are displaying cursor incorrectly
 	 *
 	 * @param image cursor image
@@ -763,6 +802,30 @@ public class ClientUI
 		}
 	}
 
+	private void togglePluginPanel()
+	{
+		// Toggle sidebar open
+		boolean isPanelOpen = sidebarOpen;
+		sidebarOpen = !sidebarOpen;
+
+		if (isPanelOpen)
+		{
+			contract();
+		}
+		else
+		{
+			// Try to restore last panel
+			expand(currentNavButton);
+
+			//Checks if the toolbar was previously closed by toggleSidebar
+			if (!container.isAncestorOf(pluginToolbar))
+			{
+				container.add(pluginToolbar);
+				frame.expandBy(pluginToolbar.getWidth());
+			}
+		}
+	}
+
 	private void expand(@Nullable NavigationButton button)
 	{
 		if (button == null)
@@ -854,12 +917,12 @@ public class ClientUI
 
 			if (player != null && player.getName() != null)
 			{
-				frame.setTitle(currentPresenceName + " - " + player.getName());
+				frame.setTitle(RuneLiteProperties.getTitle() + " - " + player.getName());
 			}
 		}
 		else
 		{
-			frame.setTitle(currentPresenceName);
+			frame.setTitle(RuneLiteProperties.getTitle());
 		}
 
 		if (frame.isAlwaysOnTopSupported())
@@ -889,7 +952,9 @@ public class ClientUI
 			configManager.unsetConfiguration(CONFIG_GROUP, CONFIG_CLIENT_BOUNDS);
 		}
 
-		if (configManager.getConfiguration(PLUS_CONFIG_GROUP, CONFIG_OPACITY, boolean.class))
+		Boolean opacity = configManager.getConfiguration(PLUS_CONFIG_GROUP, CONFIG_OPACITY, boolean.class);
+
+		if (opacity != null && opacity)
 		{
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			GraphicsDevice gd = ge.getDefaultScreenDevice();
@@ -995,9 +1060,9 @@ public class ClientUI
 				setOpacityMethod.invoke(peerField.get(frame), opacity);
 
 			}
-			catch (NoSuchFieldException | NoSuchMethodException | ClassNotFoundException | IllegalAccessException | InvocationTargetException e)
+			catch (NoSuchFieldException | NoSuchMethodException | ClassNotFoundException | IllegalAccessException | InvocationTargetException | NullPointerException e)
 			{
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		});
 	}

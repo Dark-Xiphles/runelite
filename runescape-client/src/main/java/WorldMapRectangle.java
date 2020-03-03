@@ -1,113 +1,150 @@
+import java.io.File;
+import java.io.IOException;
 import net.runelite.mapping.Export;
 import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("n")
+@ObfuscatedName("r")
 @Implements("WorldMapRectangle")
 public final class WorldMapRectangle {
-	@ObfuscatedName("sd")
+	@ObfuscatedName("pb")
 	@ObfuscatedSignature(
-		signature = "Llo;"
+		signature = "Llt;"
 	)
-	@Export("platformInfo")
-	static PlatformInfo platformInfo;
-	@ObfuscatedName("gs")
-	@Export("regionLandArchiveIds")
-	static int[] regionLandArchiveIds;
-	@ObfuscatedName("q")
+	@Export("sceneMinimapSprite")
+	static Sprite sceneMinimapSprite;
+	@ObfuscatedName("c")
 	@ObfuscatedGetter(
-		intValue = 1996817297
+		intValue = 1400048681
 	)
 	@Export("width")
 	int width;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedGetter(
-		intValue = 625891879
+		intValue = -1470820319
 	)
 	@Export("height")
 	int height;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = 1380746691
+		intValue = -86733365
 	)
 	@Export("x")
 	int x;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedGetter(
-		intValue = -1337066781
+		intValue = 204657909
 	)
 	@Export("y")
 	int y;
 	// $FF: synthetic field
 	@ObfuscatedSignature(
-		signature = "Lao;"
+		signature = "Lak;"
 	)
 	final WorldMapManager this$0;
 
 	@ObfuscatedSignature(
-		signature = "(Lao;)V"
+		signature = "(Lak;)V"
 	)
 	WorldMapRectangle(WorldMapManager var1) {
 		this.this$0 = var1;
 	}
 
-	@ObfuscatedName("gb")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(I)V",
-		garbageValue = "205706610"
+		signature = "(Ljava/lang/String;Ljava/lang/String;ZI)Lmx;",
+		garbageValue = "636335371"
 	)
-	static final void method275() {
-		for (GraphicsObject var0 = (GraphicsObject)Client.graphicsObjects.last(); var0 != null; var0 = (GraphicsObject)Client.graphicsObjects.previous()) {
-			if (var0.plane == class42.plane && !var0.isFinished) {
-				if (Client.cycle >= var0.cycleStart) {
-					var0.advance(Client.field718);
-					if (var0.isFinished) {
-						var0.remove();
-					} else {
-						GrandExchangeOfferWorldComparator.scene.drawEntity(var0.plane, var0.x, var0.y, var0.height, 60, var0, 0, -1L, false);
-					}
-				}
-			} else {
-				var0.remove();
+	@Export("getPreferencesFile")
+	public static AccessFile getPreferencesFile(String var0, String var1, boolean var2) {
+		File var3 = new File(JagexCache.cacheDir, "preferences" + var0 + ".dat");
+		if (var3.exists()) {
+			try {
+				AccessFile var10 = new AccessFile(var3, "rw", 10000L);
+				return var10;
+			} catch (IOException var9) {
 			}
 		}
 
+		String var4 = "";
+		if (GrandExchangeOfferOwnWorldComparator.cacheGamebuild == 33) {
+			var4 = "_rc";
+		} else if (GrandExchangeOfferOwnWorldComparator.cacheGamebuild == 34) {
+			var4 = "_wip";
+		}
+
+		File var5 = new File(UserComparator4.userHomeDirectory, "jagex_" + var1 + "_preferences" + var0 + var4 + ".dat");
+		AccessFile var6;
+		if (!var2 && var5.exists()) {
+			try {
+				var6 = new AccessFile(var5, "rw", 10000L);
+				return var6;
+			} catch (IOException var8) {
+			}
+		}
+
+		try {
+			var6 = new AccessFile(var3, "rw", 10000L);
+			return var6;
+		} catch (IOException var7) {
+			throw new RuntimeException();
+		}
 	}
 
-	@ObfuscatedName("iv")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "(Lhj;Liq;IIZI)V",
-		garbageValue = "106659698"
+		signature = "(IIS)Lbn;",
+		garbageValue = "-2264"
 	)
-	@Export("addWidgetItemMenuItem")
-	static final void addWidgetItemMenuItem(Widget var0, ItemDefinition var1, int var2, int var3, boolean var4) {
-		String[] var5 = var1.inventoryActions;
-		byte var6 = -1;
-		String var7 = null;
-		if (var5 != null && var5[var3] != null) {
-			if (var3 == 0) {
-				var6 = 33;
-			} else if (var3 == 1) {
-				var6 = 34;
-			} else if (var3 == 2) {
-				var6 = 35;
-			} else if (var3 == 3) {
-				var6 = 36;
-			} else {
-				var6 = 37;
+	@Export("Messages_getByChannelAndID")
+	static Message Messages_getByChannelAndID(int var0, int var1) {
+		ChatChannel var2 = (ChatChannel)Messages.Messages_channels.get(var0);
+		return var2.getMessage(var1);
+	}
+
+	@ObfuscatedName("i")
+	@ObfuscatedSignature(
+		signature = "(II)V",
+		garbageValue = "1219570731"
+	)
+	@Export("clearItemContainer")
+	static void clearItemContainer(int var0) {
+		ItemContainer var1 = (ItemContainer)ItemContainer.itemContainers.get((long)var0);
+		if (var1 != null) {
+			for (int var2 = 0; var2 < var1.ids.length; ++var2) {
+				var1.ids[var2] = -1;
+				var1.quantities[var2] = 0;
 			}
 
-			var7 = var5[var3];
-		} else if (var3 == 4) {
-			var6 = 37;
-			var7 = "Drop";
+		}
+	}
+
+	@ObfuscatedName("ip")
+	@ObfuscatedSignature(
+		signature = "(IIIIII)V",
+		garbageValue = "2037508438"
+	)
+	@Export("drawScrollBar")
+	static final void drawScrollBar(int var0, int var1, int var2, int var3, int var4) {
+		class192.scrollBarSprites[0].drawAt(var0, var1);
+		class192.scrollBarSprites[1].drawAt(var0, var3 + var1 - 16);
+		Rasterizer2D.Rasterizer2D_fillRectangle(var0, var1 + 16, 16, var3 - 32, Client.field870);
+		int var5 = var3 * (var3 - 32) / var4;
+		if (var5 < 8) {
+			var5 = 8;
 		}
 
-		if (var6 != -1 && var7 != null) {
-			Entity.insertMenuItem(var7, ClientPreferences.colorStartTag(16748608) + var1.name, var6, var1.id, var2, var0.id, var4);
-		}
-
+		int var6 = (var3 - 32 - var5) * var2 / (var4 - var3);
+		Rasterizer2D.Rasterizer2D_fillRectangle(var0, var6 + var1 + 16, 16, var5, Client.field709);
+		Rasterizer2D.Rasterizer2D_drawVerticalLine(var0, var6 + var1 + 16, var5, Client.field711);
+		Rasterizer2D.Rasterizer2D_drawVerticalLine(var0 + 1, var6 + var1 + 16, var5, Client.field711);
+		Rasterizer2D.Rasterizer2D_drawHorizontalLine(var0, var6 + var1 + 16, 16, Client.field711);
+		Rasterizer2D.Rasterizer2D_drawHorizontalLine(var0, var6 + var1 + 17, 16, Client.field711);
+		Rasterizer2D.Rasterizer2D_drawVerticalLine(var0 + 15, var6 + var1 + 16, var5, Client.field710);
+		Rasterizer2D.Rasterizer2D_drawVerticalLine(var0 + 14, var6 + var1 + 17, var5 - 1, Client.field710);
+		Rasterizer2D.Rasterizer2D_drawHorizontalLine(var0, var6 + var5 + var1 + 15, 16, Client.field710);
+		Rasterizer2D.Rasterizer2D_drawHorizontalLine(var0 + 1, var5 + var6 + var1 + 14, 15, Client.field710);
 	}
 }

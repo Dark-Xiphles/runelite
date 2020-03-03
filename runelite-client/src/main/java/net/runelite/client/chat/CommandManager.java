@@ -25,9 +25,7 @@
  */
 package net.runelite.client.chat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
@@ -47,14 +45,12 @@ public class CommandManager
 {
 	private static final String RUNELITE_COMMAND = "runeliteCommand";
 	private static final String CHATBOX_INPUT = "chatboxInput";
-	private static final String PRIVMATE_MESSAGE = "privateMessage";
+	private static final String PRIVATE_MESSAGE = "privateMessage";
 
 	private final Client client;
 	private final EventBus eventBus;
 	private final ClientThread clientThread;
 	private boolean sending;
-
-	private final List<ChatboxInputListener> chatboxInputListenerList = new ArrayList<>();
 
 	@Inject
 	private CommandManager(
@@ -68,16 +64,6 @@ public class CommandManager
 		this.clientThread = clientThread;
 
 		eventBus.subscribe(ScriptCallbackEvent.class, this, this::onScriptCallbackEvent);
-	}
-
-	public void register(ChatboxInputListener chatboxInputListener)
-	{
-		chatboxInputListenerList.add(chatboxInputListener);
-	}
-
-	public void unregister(ChatboxInputListener chatboxInputListener)
-	{
-		chatboxInputListenerList.remove(chatboxInputListener);
 	}
 
 	private void onScriptCallbackEvent(ScriptCallbackEvent event)
@@ -95,7 +81,7 @@ public class CommandManager
 			case CHATBOX_INPUT:
 				handleInput(event);
 				break;
-			case PRIVMATE_MESSAGE:
+			case PRIVATE_MESSAGE:
 				handlePrivateMessage(event);
 				break;
 		}
@@ -148,13 +134,10 @@ public class CommandManager
 				clientThread.invoke(() -> sendChatboxInput(chatType, typedText));
 			}
 		};
-		boolean stop = false;
-		for (ChatboxInputListener chatboxInputListener : chatboxInputListenerList)
-		{
-			stop |= chatboxInputListener.onChatboxInput(chatboxInput);
-		}
 
-		if (stop)
+		eventBus.post(ChatboxInput.class, chatboxInput);
+
+		if (chatboxInput.isStop())
 		{
 			// input was blocked.
 			stringStack[stringStackCount - 1] = ""; // prevent script from sending
@@ -188,13 +171,9 @@ public class CommandManager
 			}
 		};
 
-		boolean stop = false;
-		for (ChatboxInputListener chatboxInputListener : chatboxInputListenerList)
-		{
-			stop |= chatboxInputListener.onPrivateMessageInput(privateMessageInput);
-		}
+		eventBus.post(PrivateMessageInput.class, privateMessageInput);
 
-		if (stop)
+		if (privateMessageInput.isStop())
 		{
 			intStack[intStackCount - 1] = 1;
 			client.setStringStackSize(stringStackCount - 2); // remove both target and message

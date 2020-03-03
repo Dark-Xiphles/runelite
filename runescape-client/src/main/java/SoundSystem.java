@@ -1,17 +1,14 @@
-import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.ManagementFactory;
-import java.util.Iterator;
 import net.runelite.mapping.Export;
 import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("dg")
+@ObfuscatedName("dl")
 @Implements("SoundSystem")
 public class SoundSystem implements Runnable {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "[Ldn;"
+		signature = "[Ldw;"
 	)
 	@Export("players")
 	volatile PcmPlayer[] players;
@@ -29,93 +26,76 @@ public class SoundSystem implements Runnable {
 				}
 			}
 		} catch (Exception var4) {
-			HitSplatDefinition.sendStackTrace((String)null, var4);
+			class225.RunException_sendStackTrace((String)null, var4);
 		}
 
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "([Lgo;IB)Lgo;",
-		garbageValue = "0"
+		signature = "(Lii;Lii;Lii;Lii;I)V",
+		garbageValue = "-1591363880"
 	)
-	@Export("findEnumerated")
-	public static Enumerated findEnumerated(Enumerated[] var0, int var1) {
-		Enumerated[] var2 = var0;
-
-		for (int var3 = 0; var3 < var2.length; ++var3) {
-			Enumerated var4 = var2[var3];
-			if (var1 == var4.rsOrdinal()) {
-				return var4;
-			}
-		}
-
-		return null;
+	public static void method2562(AbstractArchive var0, AbstractArchive var1, AbstractArchive var2, AbstractArchive var3) {
+		class197.Widget_archive = var0;
+		Calendar.Widget_modelsArchive = var1;
+		Username.Widget_spritesArchive = var2;
+		class162.Widget_fontsArchive = var3;
+		WorldMapLabel.Widget_interfaceComponents = new Widget[class197.Widget_archive.getGroupCount()][];
+		class197.Widget_loadedInterfaces = new boolean[class197.Widget_archive.getGroupCount()];
 	}
 
 	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "([BB)V",
-		garbageValue = "103"
+		signature = "(I)Z",
+		garbageValue = "-660130030"
 	)
-	public static synchronized void method2478(byte[] var0) {
-		if (var0.length == 100 && ByteArrayPool.ByteArrayPool_smallCount < 1000) {
-			ByteArrayPool.ByteArrayPool_small[++ByteArrayPool.ByteArrayPool_smallCount - 1] = var0;
-		} else if (var0.length == 5000 && ByteArrayPool.ByteArrayPool_mediumCount < 250) {
-			ByteArrayPool.ByteArrayPool_medium[++ByteArrayPool.ByteArrayPool_mediumCount - 1] = var0;
-		} else if (var0.length == 30000 && ByteArrayPool.ByteArrayPool_largeCount < 50) {
-			ByteArrayPool.ByteArrayPool_large[++ByteArrayPool.ByteArrayPool_largeCount - 1] = var0;
-		} else {
-			if (class189.ByteArrayPool_arrays != null) {
-				for (int var1 = 0; var1 < ByteArrayPool.ByteArrayPool_alternativeSizes.length; ++var1) {
-					if (var0.length == ByteArrayPool.ByteArrayPool_alternativeSizes[var1] && class43.ByteArrayPool_altSizeArrayCounts[var1] < class189.ByteArrayPool_arrays[var1].length) {
-						class189.ByteArrayPool_arrays[var1][class43.ByteArrayPool_altSizeArrayCounts[var1]++] = var0;
-						return;
-					}
-				}
+	@Export("isKeyDown")
+	public static final boolean isKeyDown() {
+		synchronized(KeyHandler.KeyHandler_instance) {
+			if (KeyHandler.field408 == KeyHandler.field406) {
+				return false;
+			} else {
+				RouteStrategy.field2102 = KeyHandler.field403[KeyHandler.field406];
+				class51.field432 = KeyHandler.field410[KeyHandler.field406];
+				KeyHandler.field406 = KeyHandler.field406 + 1 & 127;
+				return true;
 			}
-
 		}
 	}
 
-	@ObfuscatedName("ac")
+	@ObfuscatedName("d")
 	@ObfuscatedSignature(
-		signature = "(I)I",
-		garbageValue = "-925078025"
+		signature = "(I)V",
+		garbageValue = "1995069725"
 	)
-	protected static int method2479() {
-		int var0 = 0;
-		if (class43.garbageCollector == null || !class43.garbageCollector.isValid()) {
-			try {
-				Iterator var1 = ManagementFactory.getGarbageCollectorMXBeans().iterator();
+	static void method2563() {
+		Messages.Messages_channels.clear();
+		Messages.Messages_hashTable.clear();
+		Messages.Messages_queue.clear();
+		Messages.Messages_count = 0;
+	}
 
-				while (var1.hasNext()) {
-					GarbageCollectorMXBean var2 = (GarbageCollectorMXBean)var1.next();
-					if (var2.isValid()) {
-						class43.garbageCollector = var2;
-						GameShell.garbageCollectorLastCheckTimeMs = -1L;
-						GameShell.garbageCollectorLastCollectionTime = -1L;
-					}
-				}
-			} catch (Throwable var11) {
-			}
-		}
+	@ObfuscatedName("aq")
+	@ObfuscatedSignature(
+		signature = "(Lir;I)Z",
+		garbageValue = "-676934548"
+	)
+	static boolean method2565(ObjectDefinition var0) {
+		if (var0.transforms != null) {
+			int[] var1 = var0.transforms;
 
-		if (class43.garbageCollector != null) {
-			long var9 = DirectByteArrayCopier.currentTimeMs();
-			long var3 = class43.garbageCollector.getCollectionTime();
-			if (-1L != GameShell.garbageCollectorLastCollectionTime) {
-				long var5 = var3 - GameShell.garbageCollectorLastCollectionTime;
-				long var7 = var9 - GameShell.garbageCollectorLastCheckTimeMs;
-				if (0L != var7) {
-					var0 = (int)(100L * var5 / var7);
+			for (int var2 = 0; var2 < var1.length; ++var2) {
+				int var3 = var1[var2];
+				ObjectDefinition var4 = Occluder.getObjectDefinition(var3);
+				if (var4.mapIconId != -1) {
+					return true;
 				}
 			}
-
-			GameShell.garbageCollectorLastCollectionTime = var3;
-			GameShell.garbageCollectorLastCheckTimeMs = var9;
+		} else if (var0.mapIconId != -1) {
+			return true;
 		}
 
-		return var0;
+		return false;
 	}
 }

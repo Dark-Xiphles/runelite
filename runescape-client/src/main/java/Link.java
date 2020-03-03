@@ -6,20 +6,20 @@ import net.runelite.mapping.ObfuscatedSignature;
 @ObfuscatedName("fq")
 @Implements("Link")
 public class Link {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
 		signature = "Lfq;"
 	)
 	@Export("previous")
 	public Link previous;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
 		signature = "Lfq;"
 	)
 	@Export("next")
 	public Link next;
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@Export("remove")
 	public void remove() {
 		if (this.next != null) {

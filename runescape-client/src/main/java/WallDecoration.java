@@ -3,73 +3,74 @@ import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
+import net.runelite.rs.ScriptOpcodes;
 
-@ObfuscatedName("ei")
+@ObfuscatedName("en")
 @Implements("WallDecoration")
 public final class WallDecoration {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedGetter(
-		intValue = 1872492475
+		intValue = 1358140077
 	)
 	@Export("tileHeight")
 	int tileHeight;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedGetter(
-		intValue = -185034131
+		intValue = 915149021
 	)
 	@Export("x")
 	int x;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = -1951564087
+		intValue = 1541741189
 	)
 	@Export("y")
 	int y;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedGetter(
-		intValue = 1472564709
+		intValue = -696517801
 	)
 	@Export("orientation")
 	int orientation;
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		intValue = 909597607
+		intValue = 748186775
 	)
 	@Export("orientation2")
 	int orientation2;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@ObfuscatedGetter(
-		intValue = 1726678055
+		intValue = 1886905411
 	)
 	@Export("xOffset")
 	int xOffset;
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@ObfuscatedGetter(
-		intValue = -1895972445
+		intValue = -275876635
 	)
 	@Export("yOffset")
 	int yOffset;
-	@ObfuscatedName("i")
+	@ObfuscatedName("l")
 	@ObfuscatedSignature(
-		signature = "Leo;"
+		signature = "Leq;"
 	)
 	@Export("entity1")
 	public Entity entity1;
-	@ObfuscatedName("c")
+	@ObfuscatedName("j")
 	@ObfuscatedSignature(
-		signature = "Leo;"
+		signature = "Leq;"
 	)
 	@Export("entity2")
 	public Entity entity2;
-	@ObfuscatedName("f")
+	@ObfuscatedName("m")
 	@ObfuscatedGetter(
-		longValue = -3118431343692928767L
+		longValue = 1621741553403153851L
 	)
 	@Export("tag")
 	public long tag;
-	@ObfuscatedName("m")
+	@ObfuscatedName("p")
 	@ObfuscatedGetter(
-		intValue = -359663539
+		intValue = -183294239
 	)
 	@Export("flags")
 	int flags;
@@ -79,52 +80,64 @@ public final class WallDecoration {
 		this.flags = 0;
 	}
 
-	@ObfuscatedName("i")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "([BI)Lke;",
-		garbageValue = "107452813"
+		signature = "(Lkp;I)Ljava/lang/String;",
+		garbageValue = "267409657"
 	)
-	@Export("getWorldMapSprite")
-	public static Font getWorldMapSprite(byte[] var0) {
-		if (var0 == null) {
-			return null;
-		} else {
-			Font var1 = new Font(var0, Varps.SpriteBuffer_xOffsets, class326.SpriteBuffer_yOffsets, class326.SpriteBuffer_spriteWidths, class216.SpriteBuffer_spriteHeights, Frames.SpriteBuffer_spritePalette, class326.SpriteBuffer_pixels);
-			class16.method174();
-			return var1;
+	public static String method3356(Buffer var0) {
+		return method3358(var0, 32767);
+	}
+
+	@ObfuscatedName("e")
+	@ObfuscatedSignature(
+		signature = "(Lkp;II)Ljava/lang/String;",
+		garbageValue = "149938652"
+	)
+	static String method3358(Buffer var0, int var1) {
+		try {
+			int var2 = var0.readUShortSmart();
+			if (var2 > var1) {
+				var2 = var1;
+			}
+
+			byte[] var3 = new byte[var2];
+			var0.offset += class210.huffman.decompress(var0.array, var0.offset, var3, 0, var2);
+			String var4 = ScriptFrame.decodeStringCp1252(var3, 0, var2);
+			return var4;
+		} catch (Exception var6) {
+			return "Cabbage";
 		}
 	}
 
-	@ObfuscatedName("g")
-	@ObfuscatedSignature(
-		signature = "(II)I",
-		garbageValue = "-2066331179"
-	)
-	public static int method3292(int var0) {
-		if (var0 > 0) {
-			return 1;
-		} else {
-			return var0 < 0 ? -1 : 0;
-		}
-	}
-
-	@ObfuscatedName("as")
+	@ObfuscatedName("j")
 	@ObfuscatedSignature(
 		signature = "(I)V",
-		garbageValue = "2093071208"
+		garbageValue = "777331787"
 	)
-	protected static final void method3291() {
-		GameShell.clock.mark();
+	public static void method3359() {
+		WorldMapElement.WorldMapElement_cachedSprites.clear();
+	}
 
-		int var0;
-		for (var0 = 0; var0 < 32; ++var0) {
-			GameShell.field452[var0] = 0L;
+	@ObfuscatedName("ae")
+	@ObfuscatedSignature(
+		signature = "(ILce;ZI)I",
+		garbageValue = "2015482933"
+	)
+	static int method3357(int var0, Script var1, boolean var2) {
+		if (var0 == ScriptOpcodes.SOUND_SYNTH) {
+			class320.Interpreter_intStackSize -= 3;
+			AbstractWorldMapIcon.queueSoundEffect(Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize], Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize + 1], Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize + 2]);
+			return 1;
+		} else if (var0 == ScriptOpcodes.SOUND_SONG) {
+			BufferedSink.playSong(Interpreter.Interpreter_intStack[--class320.Interpreter_intStackSize]);
+			return 1;
+		} else if (var0 == ScriptOpcodes.SOUND_JINGLE) {
+			class320.Interpreter_intStackSize -= 2;
+			class49.playSoundJingle(Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize], Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize + 1]);
+			return 1;
+		} else {
+			return 2;
 		}
-
-		for (var0 = 0; var0 < 32; ++var0) {
-			GameShell.field453[var0] = 0L;
-		}
-
-		GameShell.field449 = 0;
 	}
 }

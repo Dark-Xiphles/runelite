@@ -5,116 +5,117 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("ii")
+@ObfuscatedName("ib")
 @Implements("NetCache")
 public class NetCache {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "Lky;"
+		signature = "Lkr;"
 	)
 	@Export("NetCache_socket")
 	public static AbstractSocket NetCache_socket;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedGetter(
-		intValue = 351053657
+		intValue = 840388525
 	)
-	static int field3163;
+	@Export("NetCache_loadTime")
+	public static int NetCache_loadTime;
+	@ObfuscatedName("o")
+	@ObfuscatedGetter(
+		longValue = -4475695681289819083L
+	)
+	public static long field3170;
 	@ObfuscatedName("e")
-	@ObfuscatedGetter(
-		longValue = 906577835555410159L
-	)
-	static long field3169;
-	@ObfuscatedName("p")
 	@ObfuscatedSignature(
-		signature = "Llc;"
+		signature = "Lln;"
 	)
 	@Export("NetCache_pendingPriorityWrites")
-	static NodeHashTable NetCache_pendingPriorityWrites;
-	@ObfuscatedName("k")
+	public static NodeHashTable NetCache_pendingPriorityWrites;
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		intValue = -975999093
+		intValue = 1544867723
 	)
 	@Export("NetCache_pendingPriorityWritesCount")
 	public static int NetCache_pendingPriorityWritesCount;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@ObfuscatedSignature(
-		signature = "Llc;"
+		signature = "Lln;"
 	)
 	@Export("NetCache_pendingPriorityResponses")
-	static NodeHashTable NetCache_pendingPriorityResponses;
-	@ObfuscatedName("b")
+	public static NodeHashTable NetCache_pendingPriorityResponses;
+	@ObfuscatedName("d")
 	@ObfuscatedGetter(
-		intValue = -2100347839
+		intValue = 562199049
 	)
 	@Export("NetCache_pendingPriorityResponsesCount")
 	public static int NetCache_pendingPriorityResponsesCount;
-	@ObfuscatedName("i")
+	@ObfuscatedName("l")
 	@ObfuscatedSignature(
-		signature = "Lix;"
+		signature = "Ljq;"
 	)
 	@Export("NetCache_pendingWritesQueue")
-	static DualNodeDeque NetCache_pendingWritesQueue;
-	@ObfuscatedName("c")
+	public static DualNodeDeque NetCache_pendingWritesQueue;
+	@ObfuscatedName("j")
 	@ObfuscatedSignature(
-		signature = "Llc;"
+		signature = "Lln;"
 	)
 	@Export("NetCache_pendingWrites")
-	static NodeHashTable NetCache_pendingWrites;
-	@ObfuscatedName("f")
+	public static NodeHashTable NetCache_pendingWrites;
+	@ObfuscatedName("m")
 	@ObfuscatedGetter(
-		intValue = -478006427
+		intValue = 1327913125
 	)
 	@Export("NetCache_pendingWritesCount")
 	public static int NetCache_pendingWritesCount;
-	@ObfuscatedName("m")
+	@ObfuscatedName("p")
 	@ObfuscatedSignature(
-		signature = "Llc;"
+		signature = "Lln;"
 	)
 	@Export("NetCache_pendingResponses")
-	static NodeHashTable NetCache_pendingResponses;
-	@ObfuscatedName("u")
+	public static NodeHashTable NetCache_pendingResponses;
+	@ObfuscatedName("h")
 	@ObfuscatedGetter(
-		intValue = 302917267
+		intValue = 818633537
 	)
 	@Export("NetCache_pendingResponsesCount")
 	public static int NetCache_pendingResponsesCount;
-	@ObfuscatedName("v")
+	@ObfuscatedName("x")
 	@ObfuscatedSignature(
-		signature = "Lkf;"
+		signature = "Lkp;"
 	)
 	@Export("NetCache_responseHeaderBuffer")
-	static Buffer NetCache_responseHeaderBuffer;
-	@ObfuscatedName("g")
+	public static Buffer NetCache_responseHeaderBuffer;
+	@ObfuscatedName("k")
 	@ObfuscatedGetter(
-		intValue = 266827
+		intValue = -1652930621
 	)
-	static int field3175;
-	@ObfuscatedName("j")
+	public static int field3181;
+	@ObfuscatedName("z")
 	@Export("NetCache_crc")
 	static CRC32 NetCache_crc;
-	@ObfuscatedName("h")
+	@ObfuscatedName("f")
 	@ObfuscatedSignature(
-		signature = "[Liu;"
+		signature = "[Lia;"
 	)
 	@Export("NetCache_archives")
 	static Archive[] NetCache_archives;
-	@ObfuscatedName("o")
-	static byte field3181;
-	@ObfuscatedName("n")
+	@ObfuscatedName("b")
+	public static byte field3184;
+	@ObfuscatedName("r")
 	@ObfuscatedGetter(
-		intValue = 779627437
+		intValue = -287174121
 	)
 	@Export("NetCache_crcMismatches")
 	public static int NetCache_crcMismatches;
-	@ObfuscatedName("d")
+	@ObfuscatedName("s")
 	@ObfuscatedGetter(
-		intValue = -1542260379
+		intValue = -1375722445
 	)
 	@Export("NetCache_ioExceptions")
 	public static int NetCache_ioExceptions;
 
 	static {
-		field3163 = 0;
+		NetCache_loadTime = 0;
 		NetCache_pendingPriorityWrites = new NodeHashTable(4096);
 		NetCache_pendingPriorityWritesCount = 0;
 		NetCache_pendingPriorityResponses = new NodeHashTable(32);
@@ -125,54 +126,96 @@ public class NetCache {
 		NetCache_pendingResponses = new NodeHashTable(4096);
 		NetCache_pendingResponsesCount = 0;
 		NetCache_responseHeaderBuffer = new Buffer(8);
-		field3175 = 0;
+		field3181 = 0;
 		NetCache_crc = new CRC32();
 		NetCache_archives = new Archive[256];
-		field3181 = 0;
+		field3184 = 0;
 		NetCache_crcMismatches = 0;
 		NetCache_ioExceptions = 0;
 	}
 
-	@ObfuscatedName("hm")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(III)V",
-		garbageValue = "-1775821653"
+		signature = "(II)Liz;",
+		garbageValue = "79077079"
 	)
-	static void method4312(int var0, int var1) {
-		int var2 = WorldMapIcon_1.fontBold12.stringWidth("Choose Option");
+	@Export("getNpcDefinition")
+	public static NPCDefinition getNpcDefinition(int var0) {
+		NPCDefinition var1 = (NPCDefinition)NPCDefinition.NpcDefinition_cached.get((long)var0);
+		if (var1 != null) {
+			return var1;
+		} else {
+			byte[] var2 = NPCDefinition.NpcDefinition_archive.takeFile(9, var0);
+			var1 = new NPCDefinition();
+			var1.id = var0;
+			if (var2 != null) {
+				var1.decode(new Buffer(var2));
+			}
 
-		int var3;
-		int var4;
-		for (var3 = 0; var3 < Client.menuOptionsCount; ++var3) {
-			var4 = WorldMapIcon_1.fontBold12.stringWidth(WorldMapLabel.method417(var3));
-			if (var4 > var2) {
-				var2 = var4;
+			var1.postDecode();
+			NPCDefinition.NpcDefinition_cached.put(var1, (long)var0);
+			return var1;
+		}
+	}
+
+	@ObfuscatedName("ft")
+	@ObfuscatedSignature(
+		signature = "(Ljava/lang/String;I)V",
+		garbageValue = "-824025022"
+	)
+	@Export("doCheat")
+	static final void doCheat(String var0) {
+		if (var0.equalsIgnoreCase("toggleroof")) {
+			WorldMapSection2.clientPreferences.roofsHidden = !WorldMapSection2.clientPreferences.roofsHidden;
+			WorldMapData_1.savePreferences();
+			if (WorldMapSection2.clientPreferences.roofsHidden) {
+				ClientPreferences.addGameMessage(99, "", "Roofs are now all hidden");
+			} else {
+				ClientPreferences.addGameMessage(99, "", "Roofs will only be removed selectively");
 			}
 		}
 
-		var2 += 8;
-		var3 = Client.menuOptionsCount * 15 + 22;
-		var4 = var0 - var2 / 2;
-		if (var2 + var4 > GrandExchangeEvent.canvasWidth) {
-			var4 = GrandExchangeEvent.canvasWidth - var2;
+		if (var0.equalsIgnoreCase("displayfps")) {
+			Client.displayFps = !Client.displayFps;
 		}
 
-		if (var4 < 0) {
-			var4 = 0;
+		if (var0.equalsIgnoreCase("renderself")) {
+			Client.renderSelf = !Client.renderSelf;
 		}
 
-		int var5 = var1;
-		if (var3 + var1 > ParamDefinition.canvasHeight) {
-			var5 = ParamDefinition.canvasHeight - var3;
+		if (var0.equalsIgnoreCase("mouseovertext")) {
+			Client.showMouseOverText = !Client.showMouseOverText;
 		}
 
-		if (var5 < 0) {
-			var5 = 0;
+		if (Client.staffModLevel >= 2) {
+			if (var0.equalsIgnoreCase("errortest")) {
+				throw new RuntimeException();
+			}
+
+			if (var0.equalsIgnoreCase("showcoord")) {
+				WorldMapIcon_0.worldMap.showCoord = !WorldMapIcon_0.worldMap.showCoord;
+			}
+
+			if (var0.equalsIgnoreCase("fpson")) {
+				Client.displayFps = true;
+			}
+
+			if (var0.equalsIgnoreCase("fpsoff")) {
+				Client.displayFps = false;
+			}
+
+			if (var0.equalsIgnoreCase("gc")) {
+				System.gc();
+			}
+
+			if (var0.equalsIgnoreCase("clientdrop")) {
+				WorldMapIcon_1.method308();
+			}
 		}
 
-		class247.menuX = var4;
-		class30.menuY = var5;
-		class42.menuWidth = var2;
-		ObjectSound.menuHeight = Client.menuOptionsCount * 15 + 22;
+		PacketBufferNode var1 = TilePaint.getPacketBufferNode(ClientPacket.field2270, Client.packetWriter.isaacCipher);
+		var1.packetBuffer.writeByte(var0.length() + 1);
+		var1.packetBuffer.writeStringCp1252NullTerminated(var0);
+		Client.packetWriter.addNode(var1);
 	}
 }

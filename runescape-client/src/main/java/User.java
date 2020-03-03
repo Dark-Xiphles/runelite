@@ -2,20 +2,21 @@ import net.runelite.mapping.Export;
 import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
-import net.runelite.rs.Reflection;
 
-@ObfuscatedName("jd")
+@ObfuscatedName("jk")
 @Implements("User")
 public class User implements Comparable {
-	@ObfuscatedName("e")
+	@ObfuscatedName("v")
+	static boolean field3583;
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "Ljv;"
+		signature = "Ljz;"
 	)
 	@Export("username")
 	Username username;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "Ljv;"
+		signature = "Ljz;"
 	)
 	@Export("previousUsername")
 	Username previousUsername;
@@ -23,40 +24,40 @@ public class User implements Comparable {
 	User() {
 	}
 
-	@ObfuscatedName("aw")
+	@ObfuscatedName("a")
 	@ObfuscatedSignature(
-		signature = "(I)Ljv;",
-		garbageValue = "-156755920"
+		signature = "(B)Ljz;",
+		garbageValue = "-7"
 	)
 	@Export("getUsername")
 	public Username getUsername() {
 		return this.username;
 	}
 
-	@ObfuscatedName("ad")
+	@ObfuscatedName("u")
 	@ObfuscatedSignature(
 		signature = "(I)Ljava/lang/String;",
-		garbageValue = "92130807"
+		garbageValue = "1147653243"
 	)
 	@Export("getName")
 	public String getName() {
 		return this.username == null ? "" : this.username.getName();
 	}
 
-	@ObfuscatedName("ag")
+	@ObfuscatedName("ae")
 	@ObfuscatedSignature(
 		signature = "(I)Ljava/lang/String;",
-		garbageValue = "1677107583"
+		garbageValue = "403246047"
 	)
 	@Export("getPreviousName")
 	public String getPreviousName() {
 		return this.previousUsername == null ? "" : this.previousUsername.getName();
 	}
 
-	@ObfuscatedName("ar")
+	@ObfuscatedName("af")
 	@ObfuscatedSignature(
-		signature = "(Ljv;Ljv;B)V",
-		garbageValue = "46"
+		signature = "(Ljz;Ljz;I)V",
+		garbageValue = "1456948401"
 	)
 	@Export("set")
 	void set(Username var1, Username var2) {
@@ -68,10 +69,10 @@ public class User implements Comparable {
 		}
 	}
 
-	@ObfuscatedName("ax")
+	@ObfuscatedName("az")
 	@ObfuscatedSignature(
-		signature = "(Ljd;I)I",
-		garbageValue = "-1938562722"
+		signature = "(Ljk;I)I",
+		garbageValue = "-746331144"
 	)
 	@Export("compareTo_user")
 	public int compareTo_user(User var1) {
@@ -80,33 +81,5 @@ public class User implements Comparable {
 
 	public int compareTo(Object var1) {
 		return this.compareTo_user((User)var1);
-	}
-
-	@ObfuscatedName("k")
-	@ObfuscatedSignature(
-		signature = "(Ljava/lang/String;I)Ljava/lang/Class;",
-		garbageValue = "-811282980"
-	)
-	@Export("loadClassFromDescriptor")
-	static Class loadClassFromDescriptor(String var0) throws ClassNotFoundException {
-		if (var0.equals("B")) {
-			return Byte.TYPE;
-		} else if (var0.equals("I")) {
-			return Integer.TYPE;
-		} else if (var0.equals("S")) {
-			return Short.TYPE;
-		} else if (var0.equals("J")) {
-			return Long.TYPE;
-		} else if (var0.equals("Z")) {
-			return Boolean.TYPE;
-		} else if (var0.equals("F")) {
-			return Float.TYPE;
-		} else if (var0.equals("D")) {
-			return Double.TYPE;
-		} else if (var0.equals("C")) {
-			return Character.TYPE;
-		} else {
-			return var0.equals("void") ? Void.TYPE : Reflection.findClass(var0);
-		}
 	}
 }

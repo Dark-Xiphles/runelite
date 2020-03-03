@@ -1,18 +1,15 @@
 /*
- * BSD 2-Clause License
- *
- * Copyright (c) 2019, ThatGamerBlue <thatgamerblue@gmail.com>
+ * Copyright (c) 2016-2017, Adam <Adam@sigterm.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *  Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- *
- *  Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -25,15 +22,14 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package net.runelite.rs.api;
 
 import java.math.BigInteger;
+import java.util.Map;
 import net.runelite.api.Client;
 import net.runelite.api.Sprite;
 import net.runelite.api.World;
 import net.runelite.api.widgets.Widget;
-import java.util.Map;
 import net.runelite.mapping.Construct;
 import net.runelite.mapping.Import;
 
@@ -63,7 +59,7 @@ public interface RSClient extends RSGameShell, Client
 	@Override
 	int getCameraZ2();
 
-	@Import("plane")
+	@Import("Client_plane")
 	@Override
 	int getPlane();
 
@@ -208,6 +204,10 @@ public interface RSClient extends RSGameShell, Client
 	@Override
 	RSPlayer getLocalPlayer();
 
+	@Import("localPlayerIndex")
+	@Override
+	int getLocalPlayerIndex();
+
 	@Import("npcCount")
 	int getNpcIndexesCount();
 
@@ -279,10 +279,10 @@ public interface RSClient extends RSGameShell, Client
 	@Override
 	int[] getPlayerMenuTypes();
 
-	@Import("MouseHandler_x0")
+	@Import("MouseHandler_xVolatile")
 	int getMouseX();
 
-	@Import("MouseHandler_y0")
+	@Import("MouseHandler_yVolatile")
 	int getMouseY();
 
 	@Import("Scene_selectedScreenX")
@@ -302,30 +302,31 @@ public interface RSClient extends RSGameShell, Client
 	int getMenuOptionCount();
 
 	@Import("menuOptionsCount")
+	@Override
 	void setMenuOptionCount(int menuOptionCount);
 
 	@Import("menuActions")
 	String[] getMenuOptions();
 
-	@Import("menuTargetNames")
+	@Import("menuTargets")
 	String[] getMenuTargets();
 
-	@Import("menuArguments0")
+	@Import("menuIdentifiers")
 	int[] getMenuIdentifiers();
 
 	@Import("menuOpcodes")
-	int[] getMenuTypes();
+	int[] getMenuOpcodes();
 
 	@Import("menuArguments1")
-	int[] getMenuActionParams0();
+	int[] getMenuArguments1();
 
 	@Import("menuArguments2")
-	int[] getMenuActionParams1();
+	int[] getMenuArguments2();
 
 	@Import("menuShiftClick")
 	boolean[] getMenuForceLeftClick();
 
-	@Import("worlds")
+	@Import("World_worlds")
 	@Override
 	RSWorld[] getWorldList();
 
@@ -383,7 +384,7 @@ public interface RSClient extends RSGameShell, Client
 	@Import("itemContainers")
 	RSNodeHashTable getItemContainers();
 
-	@Import("getItemDefinition")
+	@Import("ItemDefinition_get")
 	@Override
 	RSItemDefinition getItemDefinition(int itemId);
 
@@ -392,9 +393,6 @@ public interface RSClient extends RSGameShell, Client
 
 	@Import("menuAction")
 	void sendMenuAction(int n2, int n3, int n4, int n5, String string, String string2, int n6, int n7);
-
-	@Import("tempMenuAction")
-	RSMenuAction getTempMenuAction();
 
 	@Import("SpriteBuffer_decode")
 	void decodeSprite(byte[] data);
@@ -444,13 +442,16 @@ public interface RSClient extends RSGameShell, Client
 	@Import("SpriteBuffer_spritePalette")
 	void setIndexedSpritePalette(int[] indexedSpritePalette);
 
+	@Import("archive6")
+	RSArchive getMusicTracks();
+
 	@Import("archive8")
 	@Override
-	RSAbstractArchive getIndexSprites();
+	RSArchive getIndexSprites();
 
 	@Import("archive12")
 	@Override
-	RSAbstractArchive getIndexScripts();
+	RSArchive getIndexScripts();
 
 	@Import("widgetClickMasks")
 	@Override
@@ -463,6 +464,18 @@ public interface RSClient extends RSGameShell, Client
 	@Import("grandExchangeOffers")
 	RSGrandExchangeOffer[] getGrandExchangeOffers();
 
+	@Import("foundItemIdCount")
+	@Override
+	void setGeSearchResultCount(int count);
+
+	@Import("foundItemIds")
+	@Override
+	void setGeSearchResultIds(short[] ids);
+
+	@Import("foundItemIndex")
+	@Override
+	void setGeSearchResultIndex(int index);
+
 	@Import("isMenuOpen")
 	@Override
 	boolean isMenuOpen();
@@ -470,10 +483,6 @@ public interface RSClient extends RSGameShell, Client
 	@Import("cycle")
 	@Override
 	int getGameCycle();
-
-	// unused
-	//@Import("packetHandler")
-	//void packetHandler();
 
 	@Import("Messages_channels")
 	@Override
@@ -483,7 +492,7 @@ public interface RSClient extends RSGameShell, Client
 	@Override
 	RSIterableNodeHashTable getMessages();
 
-	@Import("revision")
+	@Import("RunException_revision")
 	@Override
 	int getRevision();
 
@@ -588,13 +597,25 @@ public interface RSClient extends RSGameShell, Client
 	@Override
 	int getMouseIdleTicks();
 
+	@Import("MouseHandler_idleCycles")
+	@Override
+	void setMouseIdleTicks(int cycles);
+
 	@Import("MouseHandler_lastPressedTimeMillis")
 	@Override
 	long getMouseLastPressedMillis();
 
 	@Import("KeyHandler_idleCycles")
 	@Override
+	void setKeyboardIdleTicks(int cycles);
+
+	@Import("KeyHandler_idleCycles")
+	@Override
 	int getKeyboardIdleTicks();
+
+	@Import("KeyHandler_pressedKeys")
+	@Override
+	boolean[] getPressedKeys();
 
 	@Import("isLowDetail")
 	void setLowMemory(boolean lowMemory);
@@ -602,14 +623,11 @@ public interface RSClient extends RSGameShell, Client
 	@Import("Scene_isLowDetail")
 	void setSceneLowMemory(boolean lowMemory);
 
-	@Import("isStereo")
+	@Import("PcmPlayer_stereo")
 	void setAudioHighMemory(boolean highMemory);
 
 	@Import("ObjectDefinition_isLowDetail")
 	void setObjectDefinitionLowDetail(boolean lowDetail);
-
-	@Construct
-	RSGroundItem createItem();
 
 	@Import("Interpreter_intStackSize")
 	@Override
@@ -662,7 +680,7 @@ public interface RSClient extends RSGameShell, Client
 	 * It should be between 128 and (pitchUnlimiter?512:383) JAUs(1).
 	 * The difference between this and cameraPitch is that cameraPitch has a lower limit, imposed by the surrounding
 	 * terrain.
-	 *
+	 * <p>
 	 * (1) JAU - Jagex Angle Unit; 1/1024 of a revolution
 	 */
 	@Import("camAngleX")
@@ -833,9 +851,9 @@ public interface RSClient extends RSGameShell, Client
 	@Override
 	int getOculusOrbFocalPointY();
 
-	RSGroundItem getLastItemDespawn();
+	RSTileItem getLastItemDespawn();
 
-	void setLastItemDespawn(RSGroundItem lastItemDespawn);
+	void setLastItemDespawn(RSTileItem lastItemDespawn);
 
 	@Construct
 	RSWidget createWidget();
@@ -1014,6 +1032,10 @@ public interface RSClient extends RSGameShell, Client
 	@Import("selectedSpellName")
 	String getSelectedSpellName();
 
+	@Import("selectedSpellName")
+	@Override
+	void setSelectedSpellName(String name);
+
 	@Import("isSpellSelected")
 	boolean isSpellSelected();
 
@@ -1027,22 +1049,119 @@ public interface RSClient extends RSGameShell, Client
 	RSPcmStreamMixer getSoundEffectAudioQueue();
 
 	@Import("archive4")
-	RSAbstractArchive getIndexCache4();
+	RSArchive getIndexCache4();
 
 	@Import("decimator")
 	RSDecimator getSoundEffectResampler();
 
+	@Import("musicVolume")
+	@Override
+	int getMusicVolume();
+
+	@Import("musicVolume")
+	void setClientMusicVolume(int volume);
+
+	@Import("areaSoundEffectVolume")
+	@Override
+	int getAreaSoundEffectVolume();
+
+	@Import("areaSoundEffectVolume")
+	@Override
+	void setAreaSoundEffectVolume(int volume);
+
 	@Import("soundEffectVolume")
+	@Override
 	int getSoundEffectVolume();
+
+	@Import("soundEffectVolume")
+	@Override
+	void setSoundEffectVolume(int volume);
+
+	@Import("musicTrackVolume")
+	void setMusicTrackVolume(int volume);
 
 	@Import("viewportWalking")
 	void setViewportWalking(boolean viewportWalking);
+
+	@Import("playMusicTrack")
+	void playMusicTrack(int var0, RSAbstractArchive var1, int var2, int var3, int var4, boolean var5);
+
+	@Import("midiPcmStream")
+	RSMidiPcmStream getMidiPcmStream();
+
+	@Import("currentTrackGroupId")
+	int getCurrentTrackGroupId();
 
 	@Import("crossSprites")
 	@Override
 	RSSprite[] getCrossSprites();
 
-	BigInteger getModulus();
-
 	void setModulus(BigInteger modulus);
+
+	@Import("ItemDefinition_fileCount")
+	int getItemCount();
+
+	@Import("insertMenuItem")
+	@Override
+	void insertMenuItem(String action, String target, int opcode, int identifier, int argument1, int argument2, boolean forceLeftClick);
+
+	@Import("selectedItemId")
+	@Override
+	void setSelectedItemID(int id);
+
+	@Import("selectedItemSlot")
+	@Override
+	void setSelectedItemSlot(int index);
+
+	@Import("selectedItemWidget")
+	@Override
+	void setSelectedItemWidget(int widgetID);
+
+	@Import("selectedSpellWidget")
+	@Override
+	int getSelectedSpellWidget();
+
+	@Import("selectedSpellChildIndex")
+	@Override
+	int getSelectedSpellChildIndex();
+
+	@Import("selectedSpellWidget")
+	@Override
+	void setSelectedSpellWidget(int widgetID);
+
+	@Import("selectedSpellChildIndex")
+	@Override
+	void setSelectedSpellChildIndex(int index);
+
+	@Import("Sprite_drawScaled")
+	@Override
+	void scaleSprite(int[] canvas, int[] pixels, int color, int pixelX, int pixelY, int canvasIdx, int canvasOffset, int newWidth, int newHeight, int pixelWidth, int pixelHeight, int oldWidth);
+
+	/**
+	 * This sets the login screen to where it asks for username/pass
+	 */
+	@Import("Login_promptCredentials")
+	void promptCredentials(boolean clearPass);
+
+	@Import("VarpDefinition_get")
+	RSVarpDefinition getVarpDefinition(int id);
+
+	@Construct
+	RSTileItem newTileItem();
+
+	@Construct
+	RSNodeDeque newNodeDeque();
+
+	@Import("updateItemPile")
+	void updateItemPile(int localX, int localY);
+
+	@Import("showMouseCross")
+	@Override
+	void setShowMouseCross(boolean show);
+
+	@Import("draggedWidgetX")
+	int getDraggedWidgetX(); // these should probably have if1 in their names somewhere
+
+	@Import("draggedWidgetY")
+	int getDraggedWidgetY();
 }

@@ -4,39 +4,36 @@ import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("gn")
+@ObfuscatedName("gc")
 @Implements("DirectByteArrayCopier")
 public class DirectByteArrayCopier extends AbstractByteArrayCopier {
-	@ObfuscatedName("u")
+	@ObfuscatedName("v")
 	@ObfuscatedSignature(
-		signature = "Lhp;"
+		signature = "Lli;"
 	)
-	@Export("Widget_fontsArchive")
-	static AbstractArchive Widget_fontsArchive;
-	@ObfuscatedName("gh")
-	@Export("regions")
-	static int[] regions;
-	@ObfuscatedName("q")
+	@Export("options_buttons_2Sprite")
+	static IndexedSprite options_buttons_2Sprite;
+	@ObfuscatedName("c")
 	@Export("directBuffer")
 	ByteBuffer directBuffer;
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
 		signature = "(I)[B",
-		garbageValue = "1071129091"
+		garbageValue = "-571467457"
 	)
 	@Export("get")
-	byte[] get() {
+	public byte[] get() {
 		byte[] var1 = new byte[this.directBuffer.capacity()];
 		this.directBuffer.position(0);
 		this.directBuffer.get(var1);
 		return var1;
 	}
 
-	@ObfuscatedName("p")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
 		signature = "([BI)V",
-		garbageValue = "594076777"
+		garbageValue = "1471312739"
 	)
 	@Export("set")
 	public void set(byte[] var1) {
@@ -45,103 +42,60 @@ public class DirectByteArrayCopier extends AbstractByteArrayCopier {
 		this.directBuffer.put(var1);
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(I)J",
-		garbageValue = "-960689616"
+		signature = "(IIB)V",
+		garbageValue = "19"
 	)
-	@Export("currentTimeMs")
-	public static final synchronized long currentTimeMs() {
-		long var0 = System.currentTimeMillis();
-		if (var0 < DevicePcmPlayerProvider.field416) {
-			class2.field4 += DevicePcmPlayerProvider.field416 - var0;
+	public static void method4006(int var0, int var1) {
+		VarbitDefinition var3 = (VarbitDefinition)VarbitDefinition.VarbitDefinition_cached.get((long)var0);
+		VarbitDefinition var2;
+		if (var3 != null) {
+			var2 = var3;
+		} else {
+			byte[] var8 = class287.VarbitDefinition_archive.takeFile(14, var0);
+			var3 = new VarbitDefinition();
+			if (var8 != null) {
+				var3.decode(new Buffer(var8));
+			}
+
+			VarbitDefinition.VarbitDefinition_cached.put(var3, (long)var0);
+			var2 = var3;
 		}
 
-		DevicePcmPlayerProvider.field416 = var0;
-		return class2.field4 + var0;
+		int var4 = var2.baseVar;
+		int var5 = var2.startBit;
+		int var6 = var2.endBit;
+		int var7 = Varps.Varps_masks[var6 - var5];
+		if (var1 < 0 || var1 > var7) {
+			var1 = 0;
+		}
+
+		var7 <<= var5;
+		Varps.Varps_main[var4] = Varps.Varps_main[var4] & ~var7 | var1 << var5 & var7;
 	}
 
-	@ObfuscatedName("gz")
+	@ObfuscatedName("g")
 	@ObfuscatedSignature(
-		signature = "(IIIIIIII)V",
-		garbageValue = "1456819139"
+		signature = "(CI)Z",
+		garbageValue = "-186978734"
 	)
-	@Export("addPendingSpawnToScene")
-	static final void addPendingSpawnToScene(int var0, int var1, int var2, int var3, int var4, int var5, int var6) {
-		if (var2 >= 1 && var3 >= 1 && var2 <= 102 && var3 <= 102) {
-			if (Client.isLowDetail && var0 != class42.plane) {
-				return;
-			}
-
-			long var7 = 0L;
-			boolean var9 = true;
-			boolean var10 = false;
-			boolean var11 = false;
-			if (var1 == 0) {
-				var7 = GrandExchangeOfferWorldComparator.scene.getBoundaryObjectTag(var0, var2, var3);
-			}
-
-			if (var1 == 1) {
-				var7 = GrandExchangeOfferWorldComparator.scene.getWallDecorationTag(var0, var2, var3);
-			}
-
-			if (var1 == 2) {
-				var7 = GrandExchangeOfferWorldComparator.scene.getGameObjectTag(var0, var2, var3);
-			}
-
-			if (var1 == 3) {
-				var7 = GrandExchangeOfferWorldComparator.scene.getFloorDecorationTag(var0, var2, var3);
-			}
-
-			int var12;
-			if (0L != var7) {
-				var12 = GrandExchangeOfferWorldComparator.scene.getObjectFlags(var0, var2, var3, var7);
-				int var14 = class43.method770(var7);
-				int var15 = var12 & 31;
-				int var16 = var12 >> 6 & 3;
-				ObjectDefinition var13;
-				if (var1 == 0) {
-					GrandExchangeOfferWorldComparator.scene.removeBoundaryObject(var0, var2, var3);
-					var13 = ViewportMouse.getObjectDefinition(var14);
-					if (var13.interactType != 0) {
-						Client.collisionMaps[var0].method3564(var2, var3, var15, var16, var13.boolean1);
-					}
-				}
-
-				if (var1 == 1) {
-					GrandExchangeOfferWorldComparator.scene.removeWallDecoration(var0, var2, var3);
-				}
-
-				if (var1 == 2) {
-					GrandExchangeOfferWorldComparator.scene.method3154(var0, var2, var3);
-					var13 = ViewportMouse.getObjectDefinition(var14);
-					if (var2 + var13.sizeX > 103 || var3 + var13.sizeX > 103 || var2 + var13.sizeY > 103 || var3 + var13.sizeY > 103) {
-						return;
-					}
-
-					if (var13.interactType != 0) {
-						Client.collisionMaps[var0].method3565(var2, var3, var13.sizeX, var13.sizeY, var16, var13.boolean1);
-					}
-				}
-
-				if (var1 == 3) {
-					GrandExchangeOfferWorldComparator.scene.removeFloorDecoration(var0, var2, var3);
-					var13 = ViewportMouse.getObjectDefinition(var14);
-					if (var13.interactType == 1) {
-						Client.collisionMaps[var0].method3567(var2, var3);
-					}
-				}
-			}
-
-			if (var4 >= 0) {
-				var12 = var0;
-				if (var0 < 3 && (Tiles.Tiles_renderFlags[1][var2][var3] & 2) == 2) {
-					var12 = var0 + 1;
-				}
-
-				ClientPacket.method3611(var0, var12, var2, var3, var4, var5, var6, GrandExchangeOfferWorldComparator.scene, Client.collisionMaps[var0]);
+	static boolean method4004(char var0) {
+		for (int var1 = 0; var1 < "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"£$%^&*()-_=+[{]};:'@#~,<.>/?\\| ".length(); ++var1) {
+			if (var0 == "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"£$%^&*()-_=+[{]};:'@#~,<.>/?\\| ".charAt(var1)) {
+				return true;
 			}
 		}
 
+		return false;
+	}
+
+	@ObfuscatedName("bf")
+	@ObfuscatedSignature(
+		signature = "(Ljava/lang/String;I)I",
+		garbageValue = "-470893406"
+	)
+	public static int method4012(String var0) {
+		return var0.length() + 2;
 	}
 }

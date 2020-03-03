@@ -5,32 +5,28 @@ import net.runelite.mapping.Export;
 import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
+import net.runelite.rs.ScriptOpcodes;
 
-@ObfuscatedName("at")
+@ObfuscatedName("aw")
 @Implements("WorldMapAreaData")
 public class WorldMapAreaData extends WorldMapArea {
-	@ObfuscatedName("ae")
-	@ObfuscatedSignature(
-		signature = "Lls;"
-	)
-	static Bounds field332;
-	@ObfuscatedName("x")
+	@ObfuscatedName("v")
 	@Export("worldMapData0Set")
 	HashSet worldMapData0Set;
-	@ObfuscatedName("r")
+	@ObfuscatedName("n")
 	@Export("worldMapData1Set")
 	HashSet worldMapData1Set;
-	@ObfuscatedName("v")
+	@ObfuscatedName("x")
 	@Export("iconList")
 	List iconList;
 
 	WorldMapAreaData() {
 	}
 
-	@ObfuscatedName("cy")
+	@ObfuscatedName("cg")
 	@ObfuscatedSignature(
-		signature = "(Lkf;Lkf;IZB)V",
-		garbageValue = "-52"
+		signature = "(Lkp;Lkp;IZS)V",
+		garbageValue = "-14333"
 	)
 	@Export("init")
 	void init(Buffer var1, Buffer var2, int var3, boolean var4) {
@@ -69,10 +65,10 @@ public class WorldMapAreaData extends WorldMapArea {
 		this.initIconsList(var2, var4);
 	}
 
-	@ObfuscatedName("ct")
+	@ObfuscatedName("cr")
 	@ObfuscatedSignature(
-		signature = "(Lkf;ZI)V",
-		garbageValue = "2146657354"
+		signature = "(Lkp;ZI)V",
+		garbageValue = "-1209977249"
 	)
 	@Export("initIconsList")
 	void initIconsList(Buffer var1, boolean var2) {
@@ -80,7 +76,7 @@ public class WorldMapAreaData extends WorldMapArea {
 		int var3 = var1.readUnsignedShort();
 
 		for (int var4 = 0; var4 < var3; ++var4) {
-			int var5 = var1.method5511();
+			int var5 = var1.method5593();
 			Coord var6 = new Coord(var1.readInt());
 			boolean var7 = var1.readUnsignedByte() == 1;
 			if (var2 || !var7) {
@@ -90,16 +86,118 @@ public class WorldMapAreaData extends WorldMapArea {
 
 	}
 
-	@ObfuscatedName("hu")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "(III)Lfl;",
-		garbageValue = "2134464513"
+		signature = "(ILce;ZI)I",
+		garbageValue = "599780957"
 	)
-	static RouteStrategy method667(int var0, int var1) {
-		Client.field735.approxDestinationX = var0;
-		Client.field735.approxDestinationY = var1;
-		Client.field735.approxDestinationSizeX = 1;
-		Client.field735.approxDestinationSizeY = 1;
-		return Client.field735;
+	static int method706(int var0, Script var1, boolean var2) {
+		int var3;
+		int var4;
+		if (var0 == ScriptOpcodes.CC_CREATE) {
+			class320.Interpreter_intStackSize -= 3;
+			var3 = Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize];
+			var4 = Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize + 1];
+			int var5 = Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize + 2];
+			if (var4 == 0) {
+				throw new RuntimeException();
+			} else {
+				Widget var6 = Varps.getWidget(var3);
+				if (var6.children == null) {
+					var6.children = new Widget[var5 + 1];
+				}
+
+				if (var6.children.length <= var5) {
+					Widget[] var7 = new Widget[var5 + 1];
+
+					for (int var8 = 0; var8 < var6.children.length; ++var8) {
+						var7[var8] = var6.children[var8];
+					}
+
+					var6.children = var7;
+				}
+
+				if (var5 > 0 && var6.children[var5 - 1] == null) {
+					throw new RuntimeException("" + (var5 - 1));
+				} else {
+					Widget var12 = new Widget();
+					var12.type = var4;
+					var12.parentId = var12.id = var6.id;
+					var12.childIndex = var5;
+					var12.isIf3 = true;
+					var6.children[var5] = var12;
+					if (var2) {
+						class186.field2331 = var12;
+					} else {
+						MidiPcmStream.field2444 = var12;
+					}
+
+					NPCDefinition.invalidateWidget(var6);
+					return 1;
+				}
+			}
+		} else {
+			Widget var9;
+			if (var0 == ScriptOpcodes.CC_DELETE) {
+				var9 = var2 ? class186.field2331 : MidiPcmStream.field2444;
+				Widget var10 = Varps.getWidget(var9.id);
+				var10.children[var9.childIndex] = null;
+				NPCDefinition.invalidateWidget(var10);
+				return 1;
+			} else if (var0 == ScriptOpcodes.CC_DELETEALL) {
+				var9 = Varps.getWidget(Interpreter.Interpreter_intStack[--class320.Interpreter_intStackSize]);
+				var9.children = null;
+				NPCDefinition.invalidateWidget(var9);
+				return 1;
+			} else if (var0 != ScriptOpcodes.CC_FIND) {
+				if (var0 == ScriptOpcodes.IF_FIND) {
+					var9 = Varps.getWidget(Interpreter.Interpreter_intStack[--class320.Interpreter_intStackSize]);
+					if (var9 != null) {
+						Interpreter.Interpreter_intStack[++class320.Interpreter_intStackSize - 1] = 1;
+						if (var2) {
+							class186.field2331 = var9;
+						} else {
+							MidiPcmStream.field2444 = var9;
+						}
+					} else {
+						Interpreter.Interpreter_intStack[++class320.Interpreter_intStackSize - 1] = 0;
+					}
+
+					return 1;
+				} else {
+					return 2;
+				}
+			} else {
+				class320.Interpreter_intStackSize -= 2;
+				var3 = Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize];
+				var4 = Interpreter.Interpreter_intStack[class320.Interpreter_intStackSize + 1];
+				Widget var11 = SpriteMask.getWidgetChild(var3, var4);
+				if (var11 != null && var4 != -1) {
+					Interpreter.Interpreter_intStack[++class320.Interpreter_intStackSize - 1] = 1;
+					if (var2) {
+						class186.field2331 = var11;
+					} else {
+						MidiPcmStream.field2444 = var11;
+					}
+				} else {
+					Interpreter.Interpreter_intStack[++class320.Interpreter_intStackSize - 1] = 0;
+				}
+
+				return 1;
+			}
+		}
+	}
+
+	@ObfuscatedName("ia")
+	@ObfuscatedSignature(
+		signature = "(III)V",
+		garbageValue = "-1052520169"
+	)
+	@Export("resumePauseWidget")
+	static void resumePauseWidget(int var0, int var1) {
+		PacketBufferNode var2 = TilePaint.getPacketBufferNode(ClientPacket.field2256, Client.packetWriter.isaacCipher);
+		var2.packetBuffer.writeShortLE(var1);
+		var2.packetBuffer.writeInt(var0);
+		Client.packetWriter.addNode(var2);
 	}
 }

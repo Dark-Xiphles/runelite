@@ -31,7 +31,9 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import net.runelite.api.annotations.VisibleForExternalPlugins;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.hooks.Callbacks;
@@ -115,10 +117,10 @@ public interface Client extends GameShell
 	/**
 	 * Adds a new chat message to the chatbox.
 	 *
-	 * @param type the type of message
-	 * @param name the name of the player that sent the message
+	 * @param type    the type of message
+	 * @param name    the name of the player that sent the message
 	 * @param message the message contents
-	 * @param sender the sender/channel name
+	 * @param sender  the sender/channel name
 	 */
 	void addChatMessage(ChatMessageType type, String name, String message, String sender);
 
@@ -130,11 +132,11 @@ public interface Client extends GameShell
 	GameState getGameState();
 
 	/**
-	 * Sets the current game state.
+	 * Sets the current game state
 	 *
-	 * @param gameState new game state
+	 * @param gameState
 	 */
-	void setGameState(int gameState);
+	void setGameState(GameState gameState);
 
 	/**
 	 * Gets the current logged in username.
@@ -340,8 +342,13 @@ public interface Client extends GameShell
 	 * Gets the logged in player instance.
 	 *
 	 * @return the logged in player
+	 * <p>
+	 * (getLocalPlayerIndex returns the local index, useful for menus/interacting)
 	 */
+	@Nullable
 	Player getLocalPlayer();
+
+	int getLocalPlayerIndex();
 
 	/**
 	 * Gets the item composition corresponding to an items ID.
@@ -350,18 +357,19 @@ public interface Client extends GameShell
 	 * @return the corresponding item composition
 	 * @see ItemID
 	 */
+	@Nonnull
 	ItemDefinition getItemDefinition(int id);
 
 	/**
 	 * Creates an item icon sprite with passed variables.
 	 *
-	 * @param itemId the item ID
-	 * @param quantity the item quantity
-	 * @param border whether to draw a border
+	 * @param itemId      the item ID
+	 * @param quantity    the item quantity
+	 * @param border      whether to draw a border
 	 * @param shadowColor the shadow color
-	 * @param stackable whether the item is stackable
-	 * @param noted whether the item is noted
-	 * @param scale the scale of the sprite
+	 * @param stackable   whether the item is stackable
+	 * @param noted       whether the item is noted
+	 * @param scale       the scale of the sprite
 	 * @return the created sprite
 	 */
 	@Nullable
@@ -370,9 +378,9 @@ public interface Client extends GameShell
 	/**
 	 * Loads and creates the sprite images of the passed archive and file IDs.
 	 *
-	 * @param source the sprite index
+	 * @param source    the sprite index
 	 * @param archiveId the sprites archive ID
-	 * @param fileId the sprites file ID
+	 * @param fileId    the sprites file ID
 	 * @return the sprite image of the file
 	 */
 	@Nullable
@@ -420,6 +428,7 @@ public interface Client extends GameShell
 	 *
 	 * @return the selected tile
 	 */
+	@Nullable
 	Tile getSelectedSceneTile();
 
 	/**
@@ -434,6 +443,7 @@ public interface Client extends GameShell
 	 *
 	 * @return the dragged widget, null if not dragging any widget
 	 */
+	@Nullable
 	Widget getDraggedWidget();
 
 	/**
@@ -444,6 +454,7 @@ public interface Client extends GameShell
 	 *
 	 * @return the dragged on widget, null if not dragging any widget
 	 */
+	@Nullable
 	Widget getDraggedOnWidget();
 
 	/**
@@ -498,6 +509,7 @@ public interface Client extends GameShell
 
 	/**
 	 * Creates a new widget element
+	 *
 	 * @return
 	 */
 	Widget createWidget();
@@ -571,6 +583,12 @@ public interface Client extends GameShell
 	void setMenuEntries(MenuEntry[] entries);
 
 	/**
+	 * Set the amount of menu entries the client has.
+	 * If you decrement this count, it's the same as removing the last one
+	 */
+	void setMenuOptionCount(int count);
+
+	/**
 	 * Checks whether a right-click menu is currently open.
 	 *
 	 * @return true if a menu is open, false otherwise
@@ -621,6 +639,7 @@ public interface Client extends GameShell
 	 * | |rot|     y chunk coord     |    x chunk coord    |pln|       |
 	 * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	 * }</pre>
+	 *
 	 * @return the array of instance template chunks
 	 * @see Constants#CHUNK_SIZE
 	 * @see InstanceTemplates
@@ -686,6 +705,42 @@ public interface Client extends GameShell
 	String getVar(VarClientStr varClientStr);
 
 	/**
+	 * Gets the value of a given VarPlayer.
+	 *
+	 * @param varpId the VarPlayer id
+	 * @return the value
+	 */
+	@VisibleForExternalPlugins
+	int getVarpValue(int varpId);
+
+	/**
+	 * Gets the value of a given Varbit.
+	 *
+	 * @param varbitId the varbit id
+	 * @return the value
+	 */
+	@VisibleForExternalPlugins
+	int getVarbitValue(int varbitId);
+
+	/**
+	 * Gets the value of a given VarClientInt
+	 *
+	 * @param varcIntId the VarClientInt id
+	 * @return the value
+	 */
+	@VisibleForExternalPlugins
+	int getVarcIntValue(int varcIntId);
+
+	/**
+	 * Gets the value of a given VarClientStr
+	 *
+	 * @param varcStrId the VarClientStr id
+	 * @return the value
+	 */
+	@VisibleForExternalPlugins
+	String getVarcStrValue(int varcStrId);
+
+	/**
 	 * Sets a VarClientString to the passed value
 	 */
 	void setVar(VarClientStr varClientStr, String value);
@@ -699,14 +754,14 @@ public interface Client extends GameShell
 	 * Sets the value of a given variable.
 	 *
 	 * @param varbit the variable
-	 * @param value the new value
+	 * @param value  the new value
 	 */
-	void setSetting(Varbits varbit, int value);
+	void setVarbit(Varbits varbit, int value);
 
 	/**
 	 * Gets the value of a given variable.
 	 *
-	 * @param varps passed varbits
+	 * @param varps    passed varbits
 	 * @param varbitId the variable ID
 	 * @return the value
 	 * @see Varbits
@@ -716,7 +771,7 @@ public interface Client extends GameShell
 	/**
 	 * Gets the value of a given VarPlayer.
 	 *
-	 * @param varps passed varps
+	 * @param varps  passed varps
 	 * @param varpId the VarpPlayer id
 	 * @return the value
 	 * @see VarPlayer#id
@@ -726,9 +781,9 @@ public interface Client extends GameShell
 	/**
 	 * Sets the value of a given VarPlayer.
 	 *
-	 * @param varps passed varps
+	 * @param varps  passed varps
 	 * @param varpId the VarpPlayer id
-	 * @param value the value
+	 * @param value  the value
 	 * @see VarPlayer#id
 	 */
 	void setVarpValue(int[] varps, int varpId, int value);
@@ -736,9 +791,9 @@ public interface Client extends GameShell
 	/**
 	 * Sets the value of a given variable.
 	 *
-	 * @param varps passed varbits
+	 * @param varps  passed varbits
 	 * @param varbit the variable
-	 * @param value the value
+	 * @param value  the value
 	 * @see Varbits
 	 */
 	void setVarbitValue(int[] varps, int varbit, int value);
@@ -910,7 +965,7 @@ public interface Client extends GameShell
 	 * pixels.
 	 *
 	 * @param pixels the pixels
-	 * @param width the width
+	 * @param width  the width
 	 * @param height the height
 	 * @return the sprite image
 	 */
@@ -939,36 +994,78 @@ public interface Client extends GameShell
 	List<GraphicsObject> getGraphicsObjects();
 
 	/**
+	 * Gets the music volume
+	 *
+	 * @return volume 0-255 inclusive
+	 */
+	int getMusicVolume();
+
+	/**
+	 * Sets the music volume
+	 *
+	 * @param volume 0-255 inclusive
+	 */
+	void setMusicVolume(int volume);
+
+	/**
+	 * Gets the sound effect volume
+	 *
+	 * @return volume 0-127 inclusive
+	 */
+	int getSoundEffectVolume();
+
+	/**
+	 * Sets the sound effect volume
+	 *
+	 * @param volume 0-127 inclusive
+	 */
+	void setSoundEffectVolume(int volume);
+
+	/**
+	 * Gets the area sound effect volume
+	 *
+	 * @return volume 0-127 inclusive
+	 */
+	int getAreaSoundEffectVolume();
+
+	/**
+	 * Sets the area sound effect volume
+	 *
+	 * @param volume 0-127 inclusive
+	 */
+	void setAreaSoundEffectVolume(int volume);
+
+	/**
 	 * Play a sound effect at the player's current location. This is how UI,
 	 * and player-generated (e.g. mining, woodcutting) sound effects are
 	 * normally played.
 	 *
 	 * @param id the ID of the sound to play. Any int is allowed, but see
-	 * {@link SoundEffectID} for some common ones
+	 *           {@link SoundEffectID} for some common ones
 	 */
 	void playSoundEffect(int id);
 
 	/**
 	 * Play a sound effect from some point in the world.
 	 *
-	 * @param id the ID of the sound to play. Any int is allowed, but see
-	 * {@link SoundEffectID} for some common ones
-	 * @param x the ground coordinate on the x axis
-	 * @param y the ground coordinate on the y axis
+	 * @param id    the ID of the sound to play. Any int is allowed, but see
+	 *              {@link SoundEffectID} for some common ones
+	 * @param x     the ground coordinate on the x axis
+	 * @param y     the ground coordinate on the y axis
 	 * @param range the number of tiles away that the sound can be heard
-	 * from
+	 *              from
 	 */
 	void playSoundEffect(int id, int x, int y, int range);
 
 	/**
 	 * Play a sound effect from some point in the world.
 	 *
-	 * @param id the ID of the sound to play. Any int is allowed, but see
-	 * {@link SoundEffectID} for some common ones
-	 * @param x the ground coordinate on the x axis
-	 * @param y the ground coordinate on the y axis
+	 * @param id    the ID of the sound to play. Any int is allowed, but see
+	 *              {@link SoundEffectID} for some common ones
+	 * @param x     the ground coordinate on the x axis
+	 * @param y     the ground coordinate on the y axis
 	 * @param range the number of tiles away that the sound can be heard
-	 * from
+	 *              from
 	 * @param delay the amount of frames before the sound starts playing
 	 */
 	void playSoundEffect(int id, int x, int y, int range, int delay);
@@ -1010,6 +1107,11 @@ public interface Client extends GameShell
 	 * @see Constants#CLIENT_TICK_LENGTH
 	 */
 	int getKeyboardIdleTicks();
+
+	/**
+	 * Returns an array of booleans relating to keys pressed.
+	 */
+	boolean[] getPressedKeys();
 
 	/**
 	 * Changes how game behaves based on memory mode. Low memory mode skips
@@ -1061,7 +1163,7 @@ public interface Client extends GameShell
 	/**
 	 * Checks whether a player is on the friends list.
 	 *
-	 * @param name the name of the player
+	 * @param name           the name of the player
 	 * @param mustBeLoggedIn if they player is online
 	 * @return true if the player is friends
 	 */
@@ -1195,6 +1297,12 @@ public interface Client extends GameShell
 	 */
 	void setScalingFactor(int factor);
 
+
+	/**
+	 * @return Scaling factor that was set for stretched mode.
+	 */
+	double getScalingFactor();
+
 	/**
 	 * Invalidates cached dimensions that are
 	 * used for stretching and scaling.
@@ -1244,14 +1352,13 @@ public interface Client extends GameShell
 
 	/**
 	 * Executes a client script from the cache
-	 *
+	 * <p>
 	 * This method must be ran on the client thread and is not reentrant
 	 *
-	 * @param id the script ID
-	 * @param args additional arguments to execute the script with
+	 * @param args the script id, then any additional arguments to execute the script with
 	 * @see ScriptID
 	 */
-	void runScript(int id, Object... args);
+	void runScript(Object... args);
 
 	/**
 	 * Checks whether or not there is any active hint arrow.
@@ -1448,11 +1555,46 @@ public interface Client extends GameShell
 	void setNPCsHidden(boolean state);
 
 	/**
-	 * Sets which NPCs are hidden
+	 * Increments the counter for how many times this npc has been selected to be hidden
 	 *
-	 * @param names the names of the npcs seperated by ','
+	 * @param name npc name
 	 */
-	void setNPCsNames(String names);
+	void addHiddenNpcName(String name);
+
+	/**
+	 * Decrements the counter for how many times this npc has been selected to be hidden
+	 *
+	 * @param name npc name
+	 */
+	void removeHiddenNpcName(String name);
+
+	/**
+	 * Forcibly unhides an npc by setting its counter to zero
+	 *
+	 * @param name npc name
+	 */
+	void forciblyUnhideNpcName(String name);
+
+	/**
+	 * Increments the counter for how many times this npc has been selected to be hidden on death
+	 *
+	 * @param name npc name
+	 */
+	void addHiddenNpcDeath(String name);
+
+	/**
+	 * Decrements the counter for how many times this npc has been selected to be hidden on death
+	 *
+	 * @param name npc name
+	 */
+	void removeHiddenNpcDeath(String name);
+
+	/**
+	 * Forcibly unhides a hidden-while-dead npc by setting its counter to zero
+	 *
+	 * @param name npc name
+	 */
+	void forciblyUnhideNpcDeath(String name);
 
 	/**
 	 * Sets whether 2D sprites (ie. overhead prayers) related to
@@ -1463,6 +1605,13 @@ public interface Client extends GameShell
 	void setNPCsHidden2D(boolean state);
 
 	/**
+	 * Sets whether Pets from other players are hidden.
+	 *
+	 * @param state new pet hidden state
+	 */
+	void setPetsHidden(boolean state);
+
+	/**
 	 * Sets whether attacking players or NPCs are hidden.
 	 *
 	 * @param state new attacker hidden state
@@ -1470,11 +1619,33 @@ public interface Client extends GameShell
 	void setAttackersHidden(boolean state);
 
 	/**
+	 * Hides players input here.
+	 *
+	 * @param names the names of the players
+	 */
+	void setHideSpecificPlayers(List<String> names);
+
+	/**
 	 * Sets whether projectiles are hidden.
 	 *
 	 * @param state new projectile hidden state
 	 */
 	void setProjectilesHidden(boolean state);
+
+	/**
+	 * Sets whether dead NPCs are hidden.
+	 *
+	 * @param state new NPC hidden state
+	 */
+	void setDeadNPCsHidden(boolean state);
+
+	/**
+	 * The provided ids will not be hidden when the
+	 * entity-hider attempts to hide dead {@link NPC}'s.
+	 *
+	 * @param blacklist set of npc ids.
+	 */
+	void setBlacklistDeadNpcs(Set<Integer> blacklist);
 
 	/**
 	 * Gets an array of tile collision data.
@@ -1545,6 +1716,10 @@ public interface Client extends GameShell
 	 */
 	void setInventoryDragDelay(int delay);
 
+	boolean isHdMinimapEnabled();
+
+	void setHdMinimapEnabled(boolean enabled);
+
 	/**
 	 * Gets a set of current world types that apply to the logged in world.
 	 *
@@ -1586,6 +1761,7 @@ public interface Client extends GameShell
 
 	/**
 	 * Hops using in-game world hopper widget to another world
+	 *
 	 * @param world target world to hop to
 	 */
 	void hopToWorld(World world);
@@ -1605,11 +1781,15 @@ public interface Client extends GameShell
 	void setGpu(boolean gpu);
 
 	int get3dZoom();
+
 	int getCenterX();
+
 	int getCenterY();
 
 	int getCameraX2();
+
 	int getCameraY2();
+
 	int getCameraZ2();
 
 	TextureProvider getTextureProvider();
@@ -1619,8 +1799,11 @@ public interface Client extends GameShell
 	void setRenderArea(boolean[][] renderArea);
 
 	int getRasterizer3D_clipMidX2();
+
 	int getRasterizer3D_clipNegativeMidX();
+
 	int getRasterizer3D_clipNegativeMidY();
+
 	int getRasterizer3D_clipMidY2();
 
 	void checkClickbox(Model model, int orientation, int pitchSin, int pitchCos, int yawSin, int yawCos, int x, int y, int z, long hash);
@@ -1661,24 +1844,25 @@ public interface Client extends GameShell
 	void setRenderSelf(boolean enabled);
 
 	/**
-	 *
-	 * @param param0 This is SceneX for gameObject, index for items, and 0 for npc.
-	 * @param param1 This is SceneY for gameObject, static for items, and 0 for npc.
-	 * @param type Menu entry Action type.
-	 * @param id Targets ID
-	 * @param menuEntry Do these actually matter?
+	 * @param param0       This is SceneX for gameObject, index for items, and 0 for npc.
+	 * @param param1       This is SceneY for gameObject, static for items, and 0 for npc.
+	 * @param opcode       Menu entry Action opcode.
+	 * @param id           Targets ID
+	 * @param menuEntry    Do these actually matter?
 	 * @param targetString Do these actually matter?
-	 * @param canvasX Canvas X Point
-	 * @param canvasY Canvas Y Point
+	 * @param canvasX      Canvas X Point
+	 * @param canvasY      Canvas Y Point
 	 */
-	void invokeMenuAction(int param0, int param1, int type, int id, String menuEntry, String targetString, int canvasX, int canvasY);
+	void invokeMenuAction(int param0, int param1, int opcode, int id, String menuEntry, String targetString, int canvasX, int canvasY);
 
 	MouseRecorder getMouseRecorder();
 
 	void setPrintMenuActions(boolean b);
-	
+
 	String getSelectedSpellName();
-	
+
+	void setSelectedSpellName(String name);
+
 	boolean isSpellSelected();
 
 	/**
@@ -1705,12 +1889,6 @@ public interface Client extends GameShell
 	 * Set spells excluded from above hiding
 	 */
 	void setUnhiddenCasts(Set<String> casts);
-	
-	/**
-	 * Sorts the current menu entries in the same way the client does this.
-	 * The last entry will be the left click one after this.
-	 */
-	void sortMenuEntries();
 
 	/**
 	 * Add player to friendlist
@@ -1722,7 +1900,114 @@ public interface Client extends GameShell
 	 */
 	void removeFriend(String name);
 
-	BigInteger getModulus();
-
 	void setModulus(BigInteger modulus);
+
+	/**
+	 * Returns the max item index + 1 from cache
+	 */
+	int getItemCount();
+
+	/**
+	 * Makes all widgets behave as if they are {@link WidgetConfig#WIDGET_USE_TARGET}
+	 */
+	void setAllWidgetsAreOpTargetable(boolean value);
+
+	/**
+	 * Adds a MenuEntry to the current menu.
+	 */
+	void insertMenuItem(String action, String target, int opcode, int identifier, int argument1, int argument2, boolean forceLeftClick);
+
+	void setSelectedItemID(int id);
+
+	void setSelectedItemWidget(int widgetID);
+
+	void setSelectedItemSlot(int idx);
+
+	int getSelectedSpellWidget();
+
+	int getSelectedSpellChildIndex();
+
+	void setSelectedSpellWidget(int widgetID);
+
+	void setSelectedSpellChildIndex(int index);
+
+	/**
+	 * Scales values from pixels onto canvas
+	 *
+	 * @param canvas       the array we're writing to
+	 * @param pixels       pixels to draw
+	 * @param color        should be 0
+	 * @param pixelX       x index
+	 * @param pixelY       y index
+	 * @param canvasIdx    index in canvas (canvas[canvasIdx])
+	 * @param canvasOffset x offset
+	 * @param newWidth     new width
+	 * @param newHeight    new height
+	 * @param pixelWidth   pretty much horizontal scale
+	 * @param pixelHeight  pretty much vertical scale
+	 * @param oldWidth     old width
+	 * @see net.runelite.client.util.ImageUtil#resizeSprite(Client, Sprite, int, int)
+	 */
+	void scaleSprite(int[] canvas, int[] pixels, int color, int pixelX, int pixelY, int canvasIdx, int canvasOffset, int newWidth, int newHeight, int pixelWidth, int pixelHeight, int oldWidth);
+
+	/**
+	 * Get the MenuEntry at client.getMenuOptionCount() - 1
+	 * <p>
+	 * This is useful so you don't have to use getMenuEntries,
+	 * which will create a big array, when you only want to change
+	 * the left click one.
+	 */
+	MenuEntry getLeftClickMenuEntry();
+
+	/**
+	 * Set the MenuEntry at client.getMenuOptionCount() - 1
+	 * <p>
+	 * This is useful so you don't have to use setMenuEntries,
+	 * which will arraycopy a big array to several smaller arrays lol,
+	 * when you only want to change the left click one.
+	 */
+	void setLeftClickMenuEntry(MenuEntry entry);
+
+	/**
+	 * If this field is set to true, getting 5 minute logged won't show
+	 * the "You have been disconnected." message anymore.
+	 */
+	void setHideDisconnect(boolean dontShow);
+
+	/**
+	 * Sets the fields in the temporary menu entry that's saved in the client
+	 * when a inventory item is clicked and dragged.
+	 */
+	void setTempMenuEntry(MenuEntry entry);
+
+	void setShowMouseCross(boolean show);
+
+	void setMouseIdleTicks(int cycles);
+
+	void setKeyboardIdleTicks(int cycles);
+
+	/**
+	 * Sets the result count for GE search
+	 */
+	void setGeSearchResultCount(int count);
+
+	/**
+	 * Sets the array of item ids for GE search
+	 */
+	void setGeSearchResultIds(short[] ids);
+
+	/**
+	 * Sets the starting index in the item id array for GE search
+	 */
+	void setGeSearchResultIndex(int index);
+
+	/**
+	 * Sets values related to jagex compliance
+	 */
+	void setComplianceValue(@Nonnull String key, boolean value);
+
+	/**
+	 * Gets values related to jagex compliance
+	 */
+	boolean getComplianceValue(@Nonnull String key);
 }

@@ -26,105 +26,78 @@
  */
 package net.runelite.client.rs;
 
+import com.google.common.base.Strings;
+import com.google.common.io.ByteStreams;
 import java.applet.Applet;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.net.URLConnection;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
+import java.util.Map;
+import java.util.function.Supplier;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.RuneLite;
-import net.runelite.http.api.RuneLiteAPI;
+import net.runelite.client.ui.RuneLiteSplashScreen;
+import net.runelite.http.api.worlds.World;
+import okhttp3.HttpUrl;
 
 @Slf4j
-@Singleton
-public class ClientLoader
+public class ClientLoader implements Supplier<Applet>
 {
-	public static boolean useLocalInjected = false;
-	public static boolean usePrivateServer = false;
-	private final ClientConfigLoader clientConfigLoader;
-	private final ClientUpdateCheckMode updateCheckMode;
+	private static final String CONFIG_URL = "http://oldschool.runescape.com/jav_config.ws";
+	private static final String BACKUP_CONFIG_URL = "https://raw.githubusercontent.com/open-osrs/hosting/master/jav_config.ws";
 
-	@Inject
-	private ClientLoader(
-		@Named("updateCheckMode") final ClientUpdateCheckMode updateCheckMode,
-		final ClientConfigLoader clientConfigLoader)
+	private static final int NUM_ATTEMPTS = 10;
+	private final ClientUpdateCheckMode updateCheckMode;
+	private Object client = null;
+
+	private WorldSupplier worldSupplier = new WorldSupplier();
+	private RSConfig config;
+
+	public ClientLoader(ClientUpdateCheckMode updateCheckMode)
 	{
 		this.updateCheckMode = updateCheckMode;
-		this.clientConfigLoader = clientConfigLoader;
 	}
 
-	private static Applet loadRLPlus(final RSConfig config) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+	private static Applet loadRLPlus(final RSConfig config)
+		throws ClassNotFoundException, InstantiationException, IllegalAccessException
 	{
-		if (useLocalInjected)
-		{
-			try
-			{
-				URL localInjected = new File("./injected-client/target/injected-client-" + RuneLiteAPI.getVersion() + ".jar").toURI().toURL();
-				log.info("Using local injected-client");
-				URLClassLoader classLoader = new URLClassLoader(new URL[]{localInjected});
-				Class<?> clientClass = classLoader.loadClass("client");
-				return loadFromClass(config, clientClass);
-			}
-			catch (MalformedURLException e)
-			{
-				e.printStackTrace();
-			}
-		}
+		RuneLiteSplashScreen.stage(.465, "Starting Open Old School RuneScape");
 
-		try
+		ClassLoader rsClassLoader = new ClassLoader(ClientLoader.class.getClassLoader())
 		{
-			File cachedInjected = new File(RuneLite.RUNELITE_DIR + "/injected-client-" + RuneLiteAPI.getVersion() + ".jar");
-			URL remoteInjected = new URL("https://github.com/runelite-extended/maven-repo/raw/master/live/injected-client-" + RuneLiteAPI.getVersion() + ".jar");
-			int remoteSize = getFileSize(remoteInjected);
-			URL cachedInjectedURL = cachedInjected.toURI().toURL();
-			int cachedSize = 0;
-			if (cachedInjected.exists())
+			@Override
+			protected Class<?> findClass(String name) throws ClassNotFoundException
 			{
-				cachedSize = getFileSize(cachedInjectedURL);
-			}
-
-			if (remoteSize != cachedSize)
-			{
-				log.info("Injected-client size mismatch, updating.");
-				try (BufferedInputStream in = new BufferedInputStream(remoteInjected.openStream()))
+				String path = name.replace('.', '/').concat(".class");
+				InputStream inputStream = ClientLoader.class.getResourceAsStream(path);
+				if (inputStream == null)
 				{
-					FileOutputStream fileOutputStream = new FileOutputStream(cachedInjected);
-					byte[] dataBuffer = new byte[1024];
-					int bytesRead;
-					while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1)
-					{
-						fileOutputStream.write(dataBuffer, 0, bytesRead);
-					}
+					throw new ClassNotFoundException(name + " " + path);
+				}
+				byte[] data;
+				try
+				{
+					data = ByteStreams.toByteArray(inputStream);
 				}
 				catch (IOException e)
 				{
 					e.printStackTrace();
+					RuneLiteSplashScreen.setError("Failed to load!", "Failed to load class: " + name + " " + path);
+					throw new RuntimeException("Failed to load class: " + name + " " + path);
 				}
-
+				return defineClass(name, data, 0, data.length);
 			}
-			URLClassLoader classLoader = new URLClassLoader(new URL[]{cachedInjectedURL}, RuneLite.class.getClassLoader());
-			Class<?> clientClass = classLoader.loadClass("client");
-			return loadFromClass(config, clientClass);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		log.error("Failed to load injected-client!");
-		return null;
+		};
+		Class<?> clientClass = rsClassLoader.loadClass("client");
+		return loadFromClass(config, clientClass);
 	}
 
-	private static Applet loadVanilla(final RSConfig config) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
+	private static Applet loadVanilla(final RSConfig config)
+		throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
 	{
+		RuneLiteSplashScreen.stage(.465, "Starting Vanilla Old School RuneScape");
+
 		final String codebase = config.getCodeBase();
 		final String initialJar = config.getInitialJar();
 		final String initialClass = config.getInitialClass();
@@ -137,44 +110,34 @@ public class ClientLoader
 		return loadFromClass(config, clientClass);
 	}
 
-	private static Applet loadFromClass(final RSConfig config, final Class<?> clientClass) throws IllegalAccessException, InstantiationException
+	private static Applet loadFromClass(final RSConfig config, final Class<?> clientClass)
+		throws IllegalAccessException, InstantiationException
 	{
 		final Applet rs = (Applet) clientClass.newInstance();
 		rs.setStub(new RSAppletStub(config));
 		return rs;
 	}
 
-	private static int getFileSize(URL url)
+	@Override
+	public synchronized Applet get()
 	{
-		URLConnection conn = null;
-		try
+		if (client == null)
 		{
-			conn = url.openConnection();
-			if (conn instanceof HttpURLConnection)
-			{
-				((HttpURLConnection) conn).setRequestMethod("HEAD");
-			}
-			conn.getInputStream();
-			return conn.getContentLength();
+			client = doLoad();
 		}
-		catch (IOException e)
+
+		if (client instanceof Throwable)
 		{
-			throw new RuntimeException(e);
+			throw new RuntimeException((Throwable) client);
 		}
-		finally
-		{
-			if (conn instanceof HttpURLConnection)
-			{
-				((HttpURLConnection) conn).disconnect();
-			}
-		}
+		return (Applet) client;
 	}
 
-	public Applet load()
+	private Object doLoad()
 	{
 		try
 		{
-			final RSConfig config = clientConfigLoader.fetch();
+			downloadConfig();
 
 			switch (updateCheckMode)
 			{
@@ -185,6 +148,9 @@ public class ClientLoader
 					return loadVanilla(config);
 				case NONE:
 					return null;
+				case RSPS:
+					RuneLite.allowPrivateServer = true;
+					return loadRLPlus(config);
 			}
 		}
 		catch (IOException | InstantiationException | IllegalAccessException e)
@@ -194,12 +160,66 @@ public class ClientLoader
 		}
 		catch (ClassNotFoundException e)
 		{
-			log.error("Unable to load client - class not found. This means you"
-				+ " are not running RuneLite with Maven as the injected client"
+			RuneLiteSplashScreen.setError("Unable to load client", "Class not found. This means you"
+				+ " are not running OpenOSRS with Gradle as the injected client"
 				+ " is not in your classpath.");
 
 			log.error("Error loading RS!", e);
 			return null;
+		}
+	}
+
+	private void downloadConfig() throws IOException
+	{
+		HttpUrl url = HttpUrl.parse(CONFIG_URL);
+		IOException err = null;
+		for (int attempt = 0; attempt < NUM_ATTEMPTS; attempt++)
+		{
+			RuneLiteSplashScreen.stage(.0, "Connecting with gameserver (try " + (attempt + 1) + "/" + NUM_ATTEMPTS + ")");
+			try
+			{
+				config = ClientConfigLoader.fetch(url);
+
+				if (Strings.isNullOrEmpty(config.getCodeBase()) || Strings.isNullOrEmpty(config.getInitialJar()) || Strings.isNullOrEmpty(config.getInitialClass()))
+				{
+					throw new IOException("Invalid or missing jav_config");
+				}
+
+				return;
+			}
+			catch (IOException e)
+			{
+				log.info("Failed to get jav_config from host \"{}\" ({})", url.host(), e.getMessage());
+				String host = worldSupplier.get().getAddress();
+				url = url.newBuilder().host(host).build();
+				err = e;
+			}
+		}
+
+		log.info("Falling back to backup client config");
+
+		try
+		{
+			RSConfig backupConfig = ClientConfigLoader.fetch(HttpUrl.parse(BACKUP_CONFIG_URL));
+
+			if (Strings.isNullOrEmpty(backupConfig.getCodeBase()) || Strings.isNullOrEmpty(backupConfig.getInitialJar())
+				|| Strings.isNullOrEmpty(backupConfig.getInitialClass()) || Strings.isNullOrEmpty(backupConfig.getRuneLiteWorldParam()))
+			{
+				throw new IOException("Invalid or missing jav_config");
+			}
+
+			// Randomize the codebase
+			World world = worldSupplier.get();
+			backupConfig.setCodebase("http://" + world.getAddress() + "/");
+
+			// Update the world applet parameter
+			Map<String, String> appletProperties = backupConfig.getAppletProperties();
+			appletProperties.put(backupConfig.getRuneLiteWorldParam(), Integer.toString(world.getId()));
+			config = backupConfig;
+		}
+		catch (IOException ex)
+		{
+			throw err; // use error from Jagex's servers
 		}
 	}
 }

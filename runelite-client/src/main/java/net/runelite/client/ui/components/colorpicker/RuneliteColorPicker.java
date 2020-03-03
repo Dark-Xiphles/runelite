@@ -94,7 +94,7 @@ public class RuneliteColorPicker extends JDialog
 	private Consumer<Color> onClose;
 
 	RuneliteColorPicker(Window parent, Color previousColor, String title, boolean alphaHidden,
-		final ConfigManager configManager, final ColorPickerManager colorPickerManager)
+						final ConfigManager configManager, final ColorPickerManager colorPickerManager)
 	{
 		super(parent, "RuneLite Color Picker - " + title, ModalityType.MODELESS);
 
@@ -298,6 +298,9 @@ public class RuneliteColorPicker extends JDialog
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
+				//  force update hex color because focus lost events fire after window closing
+				updateHex();
+
 				if (onClose != null)
 				{
 					onClose.accept(selectedColor);

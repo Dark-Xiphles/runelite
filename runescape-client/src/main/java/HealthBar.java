@@ -3,40 +3,40 @@ import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("cr")
+@ObfuscatedName("cp")
 @Implements("HealthBar")
 public class HealthBar extends Node {
-	@ObfuscatedName("x")
+	@ObfuscatedName("dt")
 	@ObfuscatedSignature(
-		signature = "Lke;"
+		signature = "Lia;"
 	)
-	@Export("ItemDefinition_fontPlain11")
-	public static Font ItemDefinition_fontPlain11;
-	@ObfuscatedName("e")
+	@Export("archive10")
+	static Archive archive10;
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "Lip;"
+		signature = "Liy;"
 	)
 	@Export("definition")
 	HealthBarDefinition definition;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "Lju;"
+		signature = "Ljj;"
 	)
 	@Export("updates")
 	IterableNodeDeque updates;
 
 	@ObfuscatedSignature(
-		signature = "(Lip;)V"
+		signature = "(Liy;)V"
 	)
 	HealthBar(HealthBarDefinition var1) {
 		this.updates = new IterableNodeDeque();
 		this.definition = var1;
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(IIIIB)V",
-		garbageValue = "87"
+		signature = "(IIIIS)V",
+		garbageValue = "6521"
 	)
 	@Export("put")
 	void put(int var1, int var2, int var3, int var4) {
@@ -69,10 +69,10 @@ public class HealthBar extends Node {
 		}
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(IB)Lbu;",
-		garbageValue = "41"
+		signature = "(II)Lbh;",
+		garbageValue = "-1345078848"
 	)
 	@Export("get")
 	HealthBarUpdate get(int var1) {
@@ -83,7 +83,7 @@ public class HealthBar extends Node {
 				var2 = var3;
 			}
 
-			if (this.definition.int5 + var2.cycle + var2.cycleOffset > var1) {
+			if (this.definition.int5 + var2.cycleOffset + var2.cycle > var1) {
 				return var2;
 			} else {
 				var2.remove();
@@ -94,22 +94,13 @@ public class HealthBar extends Node {
 		}
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
 		signature = "(I)Z",
-		garbageValue = "-16711936"
+		garbageValue = "-818833492"
 	)
 	@Export("isEmpty")
 	boolean isEmpty() {
-		return this.updates.isEmpty();
-	}
-
-	@ObfuscatedName("w")
-	@ObfuscatedSignature(
-		signature = "(IB)I",
-		garbageValue = "35"
-	)
-	public static int method1957(int var0) {
-		return var0 >> 11 & 63;
+		return this.updates.method4886();
 	}
 }

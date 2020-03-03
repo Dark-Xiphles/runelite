@@ -1,18 +1,32 @@
 import java.util.zip.Inflater;
 import net.runelite.mapping.Export;
 import net.runelite.mapping.Implements;
+import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("ld")
+@ObfuscatedName("lg")
 @Implements("GZipDecompressor")
 public class GZipDecompressor {
-	@ObfuscatedName("p")
-	@Export("Interpreter_stringLocals")
-	static String[] Interpreter_stringLocals;
-	@ObfuscatedName("q")
+	@ObfuscatedName("t")
+	@ObfuscatedGetter(
+		intValue = -145527417
+	)
+	@Export("SpriteBuffer_spriteWidth")
+	public static int SpriteBuffer_spriteWidth;
+	@ObfuscatedName("e")
+	@ObfuscatedGetter(
+		intValue = 443544687
+	)
+	@Export("RunException_revision")
+	public static int RunException_revision;
+	@ObfuscatedName("c")
 	@Export("inflater")
 	Inflater inflater;
+
+	public GZipDecompressor() {
+		this(-1, 1000000, 1000000);
+	}
 
 	@ObfuscatedSignature(
 		signature = "(III)V",
@@ -21,14 +35,10 @@ public class GZipDecompressor {
 	GZipDecompressor(int var1, int var2, int var3) {
 	}
 
-	public GZipDecompressor() {
-		this(-1, 1000000, 1000000);
-	}
-
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(Lkf;[BI)V",
-		garbageValue = "1327705943"
+		signature = "(Lkp;[BI)V",
+		garbageValue = "163268169"
 	)
 	@Export("decompress")
 	public void decompress(Buffer var1, byte[] var2) {

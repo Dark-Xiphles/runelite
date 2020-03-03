@@ -24,49 +24,42 @@
  */
 package net.runelite.api.kit;
 
-import net.runelite.api.PlayerAppearance;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import net.runelite.api.widgets.WidgetInfo;
 
 /**
  * Represents an equipment slot in a players composition.
  * <p>
- * These values are intended for use with {@link PlayerAppearance} equipment
+ * These values are intended for use with {PlayerAppearance} equipment
  * slots. For obtaining information about equipment in the local players
- * equipment {@link net.runelite.api.ItemContainer}, use
- * {@link net.runelite.api.EquipmentInventorySlot}.
+ * equipment {net.runelite.api.ItemContainer}, use
+ * {net.runelite.api.EquipmentInventorySlot}.
  */
+@Getter
+@AllArgsConstructor
 public enum KitType
 {
-	HELMET(0),
-	CAPE(1),
-	AMULET(2),
-	WEAPON(3),
-	TORSO(4),
-	SHIELD(5),
-	LEGS(7),
-	HEAD(8),
-	HANDS(9),
-	BOOTS(10),
-	JAW(11),
-	RING(12),
-	AMMUNITION(13);
+	HEAD("Head", 0, WidgetInfo.EQUIPMENT_HELMET),
+	CAPE("Cape", 1, WidgetInfo.EQUIPMENT_CAPE),
+	AMULET("Amulet", 2, WidgetInfo.EQUIPMENT_AMULET),
+	WEAPON("Weapon", 3, WidgetInfo.EQUIPMENT_WEAPON),
+	TORSO("Torso", 4, WidgetInfo.EQUIPMENT_BODY),
+	SHIELD("Shield", 5, WidgetInfo.EQUIPMENT_SHIELD),
+	LEGS("Legs", 7, WidgetInfo.EQUIPMENT_LEGS),
+	HAIR("Hair", 8, null),
+	HANDS("Hands", 9, WidgetInfo.EQUIPMENT_GLOVES),
+	BOOTS("Boots", 10, WidgetInfo.EQUIPMENT_BOOTS),
+	JAW("Jaw", 11, null),
+	RING("Ring", 12, WidgetInfo.EQUIPMENT_RING),
+	AMMUNITION("Ammo", 13, WidgetInfo.EQUIPMENT_AMMO);
+
+	private final String name;
 
 	/**
-	 * Raw equipment index.
+	 * Gets the raw equipment index for use in {PlayerAppearance#getEquipmentIds()}.
 	 */
 	private final int index;
 
-	KitType(int index)
-	{
-		this.index = index;
-	}
-
-	/**
-	 * Gets the raw equipment index for use in {@link PlayerAppearance#getEquipmentIds()}.
-	 *
-	 * @return raw equipment index
-	 */
-	public int getIndex()
-	{
-		return index;
-	}
+	private final WidgetInfo widgetInfo;
 }

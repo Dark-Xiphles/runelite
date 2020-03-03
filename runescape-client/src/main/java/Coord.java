@@ -4,36 +4,30 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("hv")
+@ObfuscatedName("hj")
 @Implements("Coord")
 public class Coord {
-	@ObfuscatedName("fy")
-	@ObfuscatedSignature(
-		signature = "Lke;"
-	)
-	@Export("fontPlain11")
-	static Font fontPlain11;
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedGetter(
-		intValue = -618740747
+		intValue = 995034769
 	)
 	@Export("plane")
 	public int plane;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedGetter(
-		intValue = -224554023
+		intValue = 1797414909
 	)
 	@Export("x")
 	public int x;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = 1025191447
+		intValue = 1015808091
 	)
 	@Export("y")
 	public int y;
 
 	@ObfuscatedSignature(
-		signature = "(Lhv;)V"
+		signature = "(Lhj;)V"
 	)
 	public Coord(Coord var1) {
 		this.plane = var1.plane;
@@ -58,20 +52,20 @@ public class Coord {
 
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
 		signature = "(I)I",
-		garbageValue = "-1529444039"
+		garbageValue = "6116423"
 	)
 	@Export("packed")
 	public int packed() {
 		return this.plane << 28 | this.x << 14 | this.y;
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(Lhv;I)Z",
-		garbageValue = "2096599249"
+		signature = "(Lhj;I)Z",
+		garbageValue = "-557558477"
 	)
 	@Export("equalsCoord")
 	boolean equalsCoord(Coord var1) {
@@ -84,10 +78,10 @@ public class Coord {
 		}
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(Ljava/lang/String;I)Ljava/lang/String;",
-		garbageValue = "-1242820641"
+		signature = "(Ljava/lang/String;B)Ljava/lang/String;",
+		garbageValue = "-120"
 	)
 	@Export("toString")
 	String toString(String var1) {
@@ -98,35 +92,15 @@ public class Coord {
 		return this.packed();
 	}
 
+	public String toString() {
+		return this.toString(",");
+	}
+
 	public boolean equals(Object var1) {
 		if (this == var1) {
 			return true;
 		} else {
 			return !(var1 instanceof Coord) ? false : this.equalsCoord((Coord)var1);
 		}
-	}
-
-	public String toString() {
-		return this.toString(",");
-	}
-
-	@ObfuscatedName("b")
-	@ObfuscatedSignature(
-		signature = "(I)V",
-		garbageValue = "1626401232"
-	)
-	@Export("ParamDefinition_clearCached")
-	public static void ParamDefinition_clearCached() {
-		ParamDefinition.ParamDefinition_cached.clear();
-	}
-
-	@ObfuscatedName("y")
-	@ObfuscatedSignature(
-		signature = "(B)V",
-		garbageValue = "-40"
-	)
-	static void method3990() {
-		Login.loginIndex = 24;
-		class268.setLoginResponseString("", "You were disconnected from the server.", "");
 	}
 }

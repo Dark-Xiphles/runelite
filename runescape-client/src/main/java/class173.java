@@ -5,29 +5,23 @@ import net.runelite.mapping.ObfuscatedSignature;
 
 @ObfuscatedName("fo")
 public class class173 {
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@Export("directions")
 	public static int[][] directions;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@Export("distances")
 	public static int[][] distances;
-	@ObfuscatedName("k")
+	@ObfuscatedName("g")
 	@ObfuscatedGetter(
-		intValue = 1613442925
+		intValue = -1572714133
 	)
-	public static int field2088;
-	@ObfuscatedName("i")
+	public static int field2093;
+	@ObfuscatedName("l")
 	@Export("bufferX")
 	public static int[] bufferX;
-	@ObfuscatedName("c")
+	@ObfuscatedName("j")
 	@Export("bufferY")
 	public static int[] bufferY;
-	@ObfuscatedName("gq")
-	@ObfuscatedSignature(
-		signature = "[Lly;"
-	)
-	@Export("headIconHintSprites")
-	static Sprite[] headIconHintSprites;
 
 	static {
 		directions = new int[128][128];
@@ -36,16 +30,22 @@ public class class173 {
 		bufferY = new int[4096];
 	}
 
-	@ObfuscatedName("r")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(I)Lfu;",
-		garbageValue = "-1483717574"
+		signature = "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V",
+		garbageValue = "-1943215083"
 	)
-	public static Clock method3589() {
-		try {
-			return new NanoClock();
-		} catch (Throwable var1) {
-			return new MilliClock();
+	@Export("addChatMessage")
+	static void addChatMessage(int var0, String var1, String var2, String var3) {
+		ChatChannel var4 = (ChatChannel)Messages.Messages_channels.get(var0);
+		if (var4 == null) {
+			var4 = new ChatChannel();
+			Messages.Messages_channels.put(var0, var4);
 		}
+
+		Message var5 = var4.addMessage(var0, var1, var2, var3);
+		Messages.Messages_hashTable.put(var5, (long)var5.count);
+		Messages.Messages_queue.add(var5);
+		Client.chatCycle = Client.cycleCntr;
 	}
 }

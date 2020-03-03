@@ -1,16 +1,15 @@
 import net.runelite.mapping.Export;
+import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
-import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("hd")
+@ObfuscatedName("hs")
 public class class216 {
-	@ObfuscatedName("b")
-	@Export("SpriteBuffer_spriteHeights")
-	public static int[] SpriteBuffer_spriteHeights;
-	@ObfuscatedName("m")
-	@ObfuscatedSignature(
-		signature = "Lhp;"
+	@ObfuscatedName("t")
+	@Export("javaVersion")
+	public static String javaVersion;
+	@ObfuscatedName("ag")
+	@ObfuscatedGetter(
+		intValue = 276241037
 	)
-	@Export("Widget_spritesArchive")
-	static AbstractArchive Widget_spritesArchive;
+	static int field2559;
 }

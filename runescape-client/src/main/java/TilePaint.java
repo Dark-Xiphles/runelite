@@ -4,45 +4,45 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("et")
+@ObfuscatedName("ee")
 @Implements("TilePaint")
 public final class TilePaint {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedGetter(
-		intValue = 1202729845
+		intValue = 1255983765
 	)
 	@Export("swColor")
 	int swColor;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedGetter(
-		intValue = -1835963633
+		intValue = -1109558685
 	)
 	@Export("seColor")
 	int seColor;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = 2057235411
+		intValue = -1229444571
 	)
 	@Export("neColor")
 	int neColor;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedGetter(
-		intValue = -1305916277
+		intValue = -906668191
 	)
 	@Export("nwColor")
 	int nwColor;
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		intValue = -647321713
+		intValue = -2043941121
 	)
 	@Export("texture")
 	int texture;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@Export("isFlat")
 	boolean isFlat;
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@ObfuscatedGetter(
-		intValue = 205236161
+		intValue = -860591445
 	)
 	@Export("rgb")
 	int rgb;
@@ -58,36 +58,51 @@ public final class TilePaint {
 		this.isFlat = var7;
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(Lhp;III)[Lly;",
-		garbageValue = "1591290793"
+		signature = "(Lhc;I)V",
+		garbageValue = "-1948306061"
 	)
-	public static Sprite[] method3062(AbstractArchive var0, int var1, int var2) {
-		if (!Friend.doesSpriteExist(var0, var1, var2)) {
-			return null;
+	public static void method3150(Huffman var0) {
+		class210.huffman = var0;
+	}
+
+	@ObfuscatedName("c")
+	@ObfuscatedSignature(
+		signature = "(Lii;Lii;Lii;I)V",
+		garbageValue = "811407537"
+	)
+	public static void method3149(AbstractArchive var0, AbstractArchive var1, AbstractArchive var2) {
+		SequenceDefinition.SequenceDefinition_archive = var0;
+		Canvas.SequenceDefinition_animationsArchive = var1;
+		SequenceDefinition.SequenceDefinition_skeletonsArchive = var2;
+	}
+
+	@ObfuscatedName("t")
+	@ObfuscatedSignature(
+		signature = "(Lgi;Llw;I)Lgs;",
+		garbageValue = "-1858964465"
+	)
+	@Export("getPacketBufferNode")
+	public static PacketBufferNode getPacketBufferNode(ClientPacket var0, IsaacCipher var1) {
+		PacketBufferNode var2 = UserComparator5.method3488();
+		var2.clientPacket = var0;
+		var2.clientPacketLength = var0.length;
+		if (var2.clientPacketLength == -1) {
+			var2.packetBuffer = new PacketBuffer(260);
+		} else if (var2.clientPacketLength == -2) {
+			var2.packetBuffer = new PacketBuffer(10000);
+		} else if (var2.clientPacketLength <= 18) {
+			var2.packetBuffer = new PacketBuffer(20);
+		} else if (var2.clientPacketLength <= 98) {
+			var2.packetBuffer = new PacketBuffer(100);
 		} else {
-			Sprite[] var4 = new Sprite[class326.SpriteBuffer_spriteCount];
-
-			for (int var5 = 0; var5 < class326.SpriteBuffer_spriteCount; ++var5) {
-				Sprite var6 = var4[var5] = new Sprite();
-				var6.width = class326.SpriteBuffer_spriteWidth;
-				var6.height = class326.SpriteBuffer_spriteHeight;
-				var6.yOffset = Varps.SpriteBuffer_xOffsets[var5];
-				var6.xOffset = class326.SpriteBuffer_yOffsets[var5];
-				var6.subWidth = class326.SpriteBuffer_spriteWidths[var5];
-				var6.subHeight = class216.SpriteBuffer_spriteHeights[var5];
-				int var7 = var6.subHeight * var6.subWidth;
-				byte[] var8 = class326.SpriteBuffer_pixels[var5];
-				var6.pixels = new int[var7];
-
-				for (int var9 = 0; var9 < var7; ++var9) {
-					var6.pixels[var9] = Frames.SpriteBuffer_spritePalette[var8[var9] & 255];
-				}
-			}
-
-			class16.method174();
-			return var4;
+			var2.packetBuffer = new PacketBuffer(260);
 		}
+
+		var2.packetBuffer.setIsaacCipher(var1);
+		var2.packetBuffer.writeByteIsaac(var2.clientPacket.id);
+		var2.index = 0;
+		return var2;
 	}
 }

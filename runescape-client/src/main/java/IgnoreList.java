@@ -6,45 +6,45 @@ import net.runelite.mapping.ObfuscatedSignature;
 @ObfuscatedName("jf")
 @Implements("IgnoreList")
 public class IgnoreList extends UserList {
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "Lmu;"
+		signature = "Lmv;"
 	)
 	@Export("loginType")
 	final LoginType loginType;
 
 	@ObfuscatedSignature(
-		signature = "(Lmu;)V"
+		signature = "(Lmv;)V"
 	)
 	public IgnoreList(LoginType var1) {
 		super(400);
 		this.loginType = var1;
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(I)Ljd;",
-		garbageValue = "2016619159"
+		signature = "(S)Ljk;",
+		garbageValue = "30683"
 	)
 	@Export("newInstance")
 	User newInstance() {
 		return new Ignored();
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(II)[Ljd;",
-		garbageValue = "2126056206"
+		signature = "(IB)[Ljk;",
+		garbageValue = "19"
 	)
 	@Export("newTypedArray")
 	User[] newTypedArray(int var1) {
 		return new Ignored[var1];
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(Lkf;II)V",
-		garbageValue = "-726342746"
+		signature = "(Lkp;II)V",
+		garbageValue = "1147655369"
 	)
 	@Export("read")
 	public void read(Buffer var1, int var2) {

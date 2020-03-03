@@ -5,84 +5,91 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("cg")
+@ObfuscatedName("ci")
 @Implements("PacketWriter")
 public class PacketWriter {
-	@ObfuscatedName("q")
+	@ObfuscatedName("or")
 	@ObfuscatedSignature(
-		signature = "Lky;"
+		signature = "Lfi;"
+	)
+	@Export("mouseWheel")
+	static MouseWheel mouseWheel;
+	@ObfuscatedName("c")
+	@ObfuscatedSignature(
+		signature = "Lkr;"
 	)
 	@Export("socket")
 	AbstractSocket socket;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "Lju;"
+		signature = "Ljj;"
 	)
 	@Export("packetBufferNodes")
 	IterableNodeDeque packetBufferNodes;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = -1004294931
+		intValue = -1477926037
 	)
 	@Export("bufferSize")
 	int bufferSize;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "Lkf;"
+		signature = "Lkp;"
 	)
 	@Export("buffer")
 	Buffer buffer;
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@ObfuscatedSignature(
-		signature = "Llv;"
+		signature = "Llw;"
 	)
 	@Export("isaacCipher")
 	public IsaacCipher isaacCipher;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@ObfuscatedSignature(
-		signature = "Lkx;"
+		signature = "Lks;"
 	)
 	@Export("packetBuffer")
 	PacketBuffer packetBuffer;
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@ObfuscatedSignature(
-		signature = "Lgc;"
+		signature = "Lgb;"
 	)
 	@Export("serverPacket")
 	ServerPacket serverPacket;
-	@ObfuscatedName("i")
+	@ObfuscatedName("l")
 	@ObfuscatedGetter(
-		intValue = 1529475721
+		intValue = -184650797
 	)
 	@Export("serverPacketLength")
 	int serverPacketLength;
-	@ObfuscatedName("c")
-	boolean field1322;
-	@ObfuscatedName("f")
-	@ObfuscatedGetter(
-		intValue = -1922577877
-	)
-	int field1318;
+	@ObfuscatedName("j")
+	boolean field1301;
 	@ObfuscatedName("m")
 	@ObfuscatedGetter(
-		intValue = 1793928125
+		intValue = 1725214527
 	)
-	int field1319;
-	@ObfuscatedName("u")
+	int field1299;
+	@ObfuscatedName("p")
+	@ObfuscatedGetter(
+		intValue = 1544276091
+	)
+	@Export("pendingWrites")
+	int pendingWrites;
+	@ObfuscatedName("h")
 	@ObfuscatedSignature(
-		signature = "Lgc;"
+		signature = "Lgb;"
 	)
 	ServerPacket field1309;
-	@ObfuscatedName("x")
+	@ObfuscatedName("v")
 	@ObfuscatedSignature(
-		signature = "Lgc;"
+		signature = "Lgb;"
 	)
-	ServerPacket field1321;
-	@ObfuscatedName("r")
+	ServerPacket field1305;
+	@ObfuscatedName("n")
 	@ObfuscatedSignature(
-		signature = "Lgc;"
+		signature = "Lgb;"
 	)
-	ServerPacket field1317;
+	ServerPacket field1307;
 
 	PacketWriter() {
 		this.packetBufferNodes = new IterableNodeDeque();
@@ -91,27 +98,29 @@ public class PacketWriter {
 		this.packetBuffer = new PacketBuffer(40000);
 		this.serverPacket = null;
 		this.serverPacketLength = 0;
-		this.field1322 = true;
-		this.field1318 = 0;
-		this.field1319 = 0;
+		this.field1301 = true;
+		this.field1299 = 0;
+		this.pendingWrites = 0;
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(I)V",
-		garbageValue = "19166064"
+		signature = "(B)V",
+		garbageValue = "-10"
 	)
-	final void method2218() {
-		this.packetBufferNodes.clear();
+	@Export("clearBuffer")
+	final void clearBuffer() {
+		this.packetBufferNodes.rsClear();
 		this.bufferSize = 0;
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
 		signature = "(I)V",
-		garbageValue = "294803591"
+		garbageValue = "-1781270612"
 	)
-	final void method2234() throws IOException {
+	@Export("flush")
+	final void flush() throws IOException {
 		if (this.socket != null && this.bufferSize > 0) {
 			this.buffer.offset = 0;
 
@@ -119,46 +128,47 @@ public class PacketWriter {
 				PacketBufferNode var1 = (PacketBufferNode)this.packetBufferNodes.last();
 				if (var1 == null || var1.index > this.buffer.array.length - this.buffer.offset) {
 					this.socket.write(this.buffer.array, 0, this.buffer.offset);
-					this.field1319 = 0;
+					this.pendingWrites = 0;
 					break;
 				}
 
 				this.buffer.writeBytes(var1.packetBuffer.array, 0, var1.index);
 				this.bufferSize -= var1.index;
 				var1.remove();
-				var1.packetBuffer.method5477();
-				var1.method3620();
+				var1.packetBuffer.releaseArray();
+				var1.release();
 			}
 		}
 
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(Lgb;I)V",
-		garbageValue = "2067459847"
+		signature = "(Lgs;I)V",
+		garbageValue = "1684104708"
 	)
-	public final void method2219(PacketBufferNode var1) {
+	@Export("addNode")
+	public final void addNode(PacketBufferNode var1) {
 		this.packetBufferNodes.addFirst(var1);
 		var1.index = var1.packetBuffer.offset;
 		var1.packetBuffer.offset = 0;
 		this.bufferSize += var1.index;
 	}
 
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "(Lky;I)V",
-		garbageValue = "242555588"
+		signature = "(Lkr;I)V",
+		garbageValue = "1771129210"
 	)
 	@Export("setSocket")
 	void setSocket(AbstractSocket var1) {
 		this.socket = var1;
 	}
 
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@ObfuscatedSignature(
-		signature = "(S)V",
-		garbageValue = "-14154"
+		signature = "(I)V",
+		garbageValue = "711577469"
 	)
 	@Export("close")
 	void close() {
@@ -169,78 +179,54 @@ public class PacketWriter {
 
 	}
 
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@ObfuscatedSignature(
 		signature = "(B)V",
-		garbageValue = "94"
+		garbageValue = "-91"
 	)
 	@Export("removeSocket")
 	void removeSocket() {
 		this.socket = null;
 	}
 
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@ObfuscatedSignature(
-		signature = "(S)Lky;",
-		garbageValue = "-14430"
+		signature = "(B)Lkr;",
+		garbageValue = "106"
 	)
 	@Export("getSocket")
 	AbstractSocket getSocket() {
 		return this.socket;
 	}
 
-	@ObfuscatedName("gs")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(B)V",
-		garbageValue = "-107"
+		signature = "(IS)Liy;",
+		garbageValue = "-7105"
 	)
-	static final void method2245() {
-		for (Projectile var0 = (Projectile)Client.projectiles.last(); var0 != null; var0 = (Projectile)Client.projectiles.previous()) {
-			if (var0.plane == class42.plane && Client.cycle <= var0.cycleEnd) {
-				if (Client.cycle >= var0.cycleStart) {
-					if (var0.targetIndex > 0) {
-						NPC var1 = Client.npcs[var0.targetIndex - 1];
-						if (var1 != null && var1.x >= 0 && var1.x < 13312 && var1.y >= 0 && var1.y < 13312) {
-							var0.setDestination(var1.x, var1.y, ScriptEvent.getTileHeight(var1.x, var1.y, var0.plane) - var0.endHeight, Client.cycle);
-						}
-					}
-
-					if (var0.targetIndex < 0) {
-						int var2 = -var0.targetIndex - 1;
-						Player var3;
-						if (var2 == Client.localPlayerIndex) {
-							var3 = Client.localPlayer;
-						} else {
-							var3 = Client.players[var2];
-						}
-
-						if (var3 != null && var3.x >= 0 && var3.x < 13312 && var3.y >= 0 && var3.y < 13312) {
-							var0.setDestination(var3.x, var3.y, ScriptEvent.getTileHeight(var3.x, var3.y, var0.plane) - var0.endHeight, Client.cycle);
-						}
-					}
-
-					var0.advance(Client.field718);
-					GrandExchangeOfferWorldComparator.scene.drawEntity(class42.plane, (int)var0.x, (int)var0.y, (int)var0.z, 60, var0, var0.yaw, -1L, false);
-				}
-			} else {
-				var0.remove();
+	public static HealthBarDefinition method2329(int var0) {
+		HealthBarDefinition var1 = (HealthBarDefinition)HealthBarDefinition.HealthBarDefinition_cached.get((long)var0);
+		if (var1 != null) {
+			return var1;
+		} else {
+			byte[] var2 = HealthBarDefinition.HealthBarDefinition_archive.takeFile(33, var0);
+			var1 = new HealthBarDefinition();
+			if (var2 != null) {
+				var1.decode(new Buffer(var2));
 			}
-		}
 
+			HealthBarDefinition.HealthBarDefinition_cached.put(var1, (long)var0);
+			return var1;
+		}
 	}
 
-	@ObfuscatedName("it")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(II)Z",
-		garbageValue = "-1368328511"
+		signature = "(IB)Ljava/lang/String;",
+		garbageValue = "16"
 	)
-	static boolean method2244(int var0) {
-		for (int var1 = 0; var1 < Client.field754; ++var1) {
-			if (Client.field921[var1] == var0) {
-				return true;
-			}
-		}
-
-		return false;
+	@Export("colorStartTag")
+	static String colorStartTag(int var0) {
+		return "<col=" + Integer.toHexString(var0) + ">";
 	}
 }

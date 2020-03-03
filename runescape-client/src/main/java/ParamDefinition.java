@@ -4,40 +4,34 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("ie")
+@ObfuscatedName("is")
 @Implements("ParamDefinition")
 public class ParamDefinition extends DualNode {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "Lhp;"
+		signature = "Lii;"
 	)
 	@Export("ParamDefinition_archive")
-	static AbstractArchive ParamDefinition_archive;
-	@ObfuscatedName("w")
+	public static AbstractArchive ParamDefinition_archive;
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "Lel;"
+		signature = "Leh;"
 	)
 	@Export("ParamDefinition_cached")
 	static EvictingDualNodeHashTable ParamDefinition_cached;
-	@ObfuscatedName("s")
-	@ObfuscatedGetter(
-		intValue = 1398808155
-	)
-	@Export("canvasHeight")
-	public static int canvasHeight;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@Export("type")
 	char type;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedGetter(
-		intValue = -956924169
+		intValue = -2044093609
 	)
 	@Export("defaultInt")
 	public int defaultInt;
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@Export("defaultStr")
 	public String defaultStr;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@Export("autoDisable")
 	boolean autoDisable;
 
@@ -49,19 +43,19 @@ public class ParamDefinition extends DualNode {
 		this.autoDisable = true;
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(B)V",
-		garbageValue = "-67"
+		signature = "(I)V",
+		garbageValue = "2127914016"
 	)
 	@Export("postDecode")
 	void postDecode() {
 	}
 
-	@ObfuscatedName("p")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(Lkf;B)V",
-		garbageValue = "-1"
+		signature = "(Lkp;B)V",
+		garbageValue = "-2"
 	)
 	@Export("decode")
 	void decode(Buffer var1) {
@@ -75,31 +69,15 @@ public class ParamDefinition extends DualNode {
 		}
 	}
 
-	@ObfuscatedName("k")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "(Lkf;II)V",
-		garbageValue = "506424646"
+		signature = "(Lkp;II)V",
+		garbageValue = "-372343900"
 	)
 	@Export("decodeNext")
 	void decodeNext(Buffer var1, int var2) {
 		if (var2 == 1) {
-			byte var4 = var1.readByte();
-			int var5 = var4 & 255;
-			if (var5 == 0) {
-				throw new IllegalArgumentException("" + Integer.toString(var5, 16));
-			}
-
-			if (var5 >= 128 && var5 < 160) {
-				char var6 = class288.cp1252AsciiExtension[var5 - 128];
-				if (var6 == 0) {
-					var6 = '?';
-				}
-
-				var5 = var6;
-			}
-
-			char var3 = (char)var5;
-			this.type = var3;
+			this.type = ServerBuild.method4209(var1.readByte());
 		} else if (var2 == 2) {
 			this.defaultInt = var1.readInt();
 		} else if (var2 == 4) {
@@ -110,36 +88,13 @@ public class ParamDefinition extends DualNode {
 
 	}
 
-	@ObfuscatedName("l")
+	@ObfuscatedName("i")
 	@ObfuscatedSignature(
 		signature = "(I)Z",
-		garbageValue = "715128499"
+		garbageValue = "1143023141"
 	)
 	@Export("isString")
 	public boolean isString() {
 		return this.type == 's';
-	}
-
-	@ObfuscatedName("w")
-	@ObfuscatedSignature(
-		signature = "(II)Lin;",
-		garbageValue = "1544024361"
-	)
-	@Export("StructDefinition_getStructDefinition")
-	public static StructDefinition StructDefinition_getStructDefinition(int var0) {
-		StructDefinition var1 = (StructDefinition)StructDefinition.StructDefinition_cached.get((long)var0);
-		if (var1 != null) {
-			return var1;
-		} else {
-			byte[] var2 = StructDefinition.StructDefinition_archive.takeFile(34, var0);
-			var1 = new StructDefinition();
-			if (var2 != null) {
-				var1.decode(new Buffer(var2));
-			}
-
-			var1.postDecode();
-			StructDefinition.StructDefinition_cached.put(var1, (long)var0);
-			return var1;
-		}
 	}
 }

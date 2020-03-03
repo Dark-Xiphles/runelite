@@ -4,53 +4,86 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("hc")
+@ObfuscatedName("hr")
 @Implements("ArchiveDiskAction")
 public class ArchiveDiskAction extends Node {
-	@ObfuscatedName("q")
+	@ObfuscatedName("ky")
 	@ObfuscatedGetter(
-		intValue = -907427363
+		intValue = 1465828327
+	)
+	@Export("menuX")
+	static int menuX;
+	@ObfuscatedName("c")
+	@ObfuscatedGetter(
+		intValue = 529558381
 	)
 	@Export("type")
 	int type;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@Export("data")
-	public byte[] data;
-	@ObfuscatedName("e")
+	byte[] data;
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "Lkm;"
+		signature = "Lky;"
 	)
 	@Export("archiveDisk")
-	public ArchiveDisk archiveDisk;
-	@ObfuscatedName("p")
+	ArchiveDisk archiveDisk;
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "Liu;"
+		signature = "Lia;"
 	)
 	@Export("archive")
-	public Archive archive;
+	Archive archive;
 
 	ArchiveDiskAction() {
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(II)Lim;",
-		garbageValue = "-738252140"
+		signature = "(Ljava/lang/CharSequence;I)Ljava/lang/String;",
+		garbageValue = "-2068094459"
 	)
-	@Export("getKitDefinition")
-	public static KitDefinition getKitDefinition(int var0) {
-		KitDefinition var1 = (KitDefinition)KitDefinition.KitDefinition_cached.get((long)var0);
-		if (var1 != null) {
-			return var1;
-		} else {
-			byte[] var2 = KitDefinition.KitDefinition_archive.takeFile(3, var0);
-			var1 = new KitDefinition();
-			if (var2 != null) {
-				var1.decode(new Buffer(var2));
-			}
+	public static String method4216(CharSequence var0) {
+		int var1 = var0.length();
+		StringBuilder var2 = new StringBuilder(var1);
 
-			KitDefinition.KitDefinition_cached.put(var1, (long)var0);
-			return var1;
+		for (int var3 = 0; var3 < var1; ++var3) {
+			char var4 = var0.charAt(var3);
+			if ((var4 < 'a' || var4 > 'z') && (var4 < 'A' || var4 > 'Z') && (var4 < '0' || var4 > '9') && var4 != '.' && var4 != '-' && var4 != '*' && var4 != '_') {
+				if (var4 == ' ') {
+					var2.append('+');
+				} else {
+					byte var5 = TextureProvider.charToByteCp1252(var4);
+					var2.append('%');
+					int var6 = var5 >> 4 & 15;
+					if (var6 >= 10) {
+						var2.append((char)(var6 + 55));
+					} else {
+						var2.append((char)(var6 + 48));
+					}
+
+					var6 = var5 & 15;
+					if (var6 >= 10) {
+						var2.append((char)(var6 + 55));
+					} else {
+						var2.append((char)(var6 + 48));
+					}
+				}
+			} else {
+				var2.append(var4);
+			}
 		}
+
+		return var2.toString();
+	}
+
+	@ObfuscatedName("v")
+	@ObfuscatedSignature(
+		signature = "(CB)Z",
+		garbageValue = "57"
+	)
+	@Export("isAlphaNumeric")
+	public static boolean isAlphaNumeric(char var0) {
+		return var0 >= '0' && var0 <= '9' || var0 >= 'A' && var0 <= 'Z' || var0 >= 'a' && var0 <= 'z';
 	}
 }

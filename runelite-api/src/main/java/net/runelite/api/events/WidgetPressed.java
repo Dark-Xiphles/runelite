@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2019, 7ate9 <https://github.com/se7enAte9>
- * Copyright (c) 2019, https://runelitepl.us
+ * Copyright (c) 2019, https://openosrs.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@ import lombok.Data;
  * An event where a draggable widget has been pressed.
  */
 @Data
-public class WidgetPressed
+public class WidgetPressed implements Event
 {
 	public static final WidgetPressed INSTANCE = new WidgetPressed();
 

@@ -1,44 +1,70 @@
-import java.applet.Applet;
+import net.runelite.mapping.Export;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("hb")
+@ObfuscatedName("hw")
 public class class218 {
-	@ObfuscatedName("l")
-	@ObfuscatedGetter(
-		intValue = 1717114817
-	)
-	public static int field2707;
-
-	@ObfuscatedName("q")
+	@ObfuscatedName("su")
 	@ObfuscatedSignature(
-		signature = "(Ljava/applet/Applet;Ljava/lang/String;I)V",
-		garbageValue = "-1987450780"
+		signature = "Lin;"
 	)
-	public static void method4110(Applet var0, String var1) {
-		class51.applet = var0;
-		if (var1 != null) {
-			class51.field434 = var1;
+	public static class238 field2716;
+	@ObfuscatedName("o")
+	@ObfuscatedGetter(
+		intValue = -851382349
+	)
+	@Export("WorldMapElement_count")
+	public static int WorldMapElement_count;
+	@ObfuscatedName("g")
+	@Export("ArchiveDiskActionHandler_thread")
+	static Thread ArchiveDiskActionHandler_thread;
+	@ObfuscatedName("j")
+	static int[] field2718;
+
+	@ObfuscatedName("t")
+	@ObfuscatedSignature(
+		signature = "(Ljava/lang/Throwable;Ljava/lang/String;)Lmo;"
+	)
+	@Export("newRunException")
+	public static RunException newRunException(Throwable var0, String var1) {
+		RunException var2;
+		if (var0 instanceof RunException) {
+			var2 = (RunException)var0;
+			var2.message = var2.message + ' ' + var1;
+		} else {
+			var2 = new RunException(var0, var1);
 		}
 
+		return var2;
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(I)Z",
-		garbageValue = "-205887653"
+		signature = "(IIB)I",
+		garbageValue = "-77"
 	)
-	public static final boolean method4109() {
-		synchronized(KeyHandler.KeyHandler_instance) {
-			if (KeyHandler.field385 == KeyHandler.field396) {
-				return false;
-			} else {
-				ReflectionCheck.field1338 = KeyHandler.field400[KeyHandler.field396];
-				Calendar.field2508 = KeyHandler.field399[KeyHandler.field396];
-				KeyHandler.field396 = KeyHandler.field396 + 1 & 127;
-				return true;
+	static int method4178(int var0, int var1) {
+		if (var0 == -2) {
+			return 12345678;
+		} else if (var0 == -1) {
+			if (var1 < 0) {
+				var1 = 0;
+			} else if (var1 > 127) {
+				var1 = 127;
 			}
+
+			var1 = 127 - var1;
+			return var1;
+		} else {
+			var1 = (var0 & 127) * var1 / 128;
+			if (var1 < 2) {
+				var1 = 2;
+			} else if (var1 > 126) {
+				var1 = 126;
+			}
+
+			return (var0 & 65408) + var1;
 		}
 	}
 }

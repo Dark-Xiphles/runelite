@@ -2,31 +2,18 @@ import net.runelite.mapping.Export;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("ji")
+@ObfuscatedName("js")
 public class class268 {
-	@ObfuscatedName("b")
-	static byte[][][] field3561;
+	@ObfuscatedName("m")
+	@Export("Tiles_hue")
+	static int[] Tiles_hue;
 
-	@ObfuscatedName("i")
+	@ObfuscatedName("d")
 	@ObfuscatedSignature(
-		signature = "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V",
-		garbageValue = "2090622198"
+		signature = "(II)Z",
+		garbageValue = "1645671847"
 	)
-	@Export("setLoginResponseString")
-	static void setLoginResponseString(String var0, String var1, String var2) {
-		Login.Login_response1 = var0;
-		Login.Login_response2 = var1;
-		Login.Login_response3 = var2;
-	}
-
-	@ObfuscatedName("jx")
-	@ObfuscatedSignature(
-		signature = "(Lhj;I)I",
-		garbageValue = "2029030318"
-	)
-	@Export("getWidgetClickMask")
-	static int getWidgetClickMask(Widget var0) {
-		IntegerNode var1 = (IntegerNode)Client.widgetClickMasks.get((long)var0.childIndex + ((long)var0.id << 32));
-		return var1 != null ? var1.integer : var0.clickMask;
+	public static boolean method5042(int var0) {
+		return (var0 >> 31 & 1) != 0;
 	}
 }

@@ -3,56 +3,44 @@ import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
-import net.runelite.rs.ScriptOpcodes;
 
-@ObfuscatedName("iv")
+@ObfuscatedName("iw")
 @Implements("EnumDefinition")
 public class EnumDefinition extends DualNode {
-	@ObfuscatedName("q")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "Lhp;"
-	)
-	@Export("EnumDefinition_archive")
-	public static AbstractArchive EnumDefinition_archive;
-	@ObfuscatedName("w")
-	@ObfuscatedSignature(
-		signature = "Lel;"
+		signature = "Leh;"
 	)
 	@Export("EnumDefinition_cached")
 	static EvictingDualNodeHashTable EnumDefinition_cached;
-	@ObfuscatedName("ez")
-	@ObfuscatedGetter(
-		intValue = -1722936721
-	)
-	static int field3324;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@Export("inputType")
 	public char inputType;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@Export("outputType")
 	public char outputType;
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@Export("defaultStr")
 	public String defaultStr;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@ObfuscatedGetter(
-		intValue = -1879425987
+		intValue = 763609869
 	)
 	@Export("defaultInt")
 	public int defaultInt;
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@ObfuscatedGetter(
-		intValue = -1202748617
+		intValue = 1620263743
 	)
 	@Export("outputCount")
 	public int outputCount;
-	@ObfuscatedName("i")
+	@ObfuscatedName("l")
 	@Export("keys")
 	public int[] keys;
-	@ObfuscatedName("c")
+	@ObfuscatedName("j")
 	@Export("intVals")
 	public int[] intVals;
-	@ObfuscatedName("f")
+	@ObfuscatedName("m")
 	@Export("strVals")
 	public String[] strVals;
 
@@ -65,10 +53,10 @@ public class EnumDefinition extends DualNode {
 		this.outputCount = 0;
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(Lkf;B)V",
-		garbageValue = "49"
+		signature = "(Lkp;I)V",
+		garbageValue = "-1295672156"
 	)
 	@Export("decode")
 	void decode(Buffer var1) {
@@ -82,10 +70,10 @@ public class EnumDefinition extends DualNode {
 		}
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(Lkf;IB)V",
-		garbageValue = "19"
+		signature = "(Lkp;II)V",
+		garbageValue = "1239403484"
 	)
 	@Export("decodeNext")
 	void decodeNext(Buffer var1, int var2) {
@@ -122,182 +110,61 @@ public class EnumDefinition extends DualNode {
 
 	}
 
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "(B)I",
-		garbageValue = "-54"
+		signature = "(I)I",
+		garbageValue = "-1222306007"
 	)
 	@Export("size")
 	public int size() {
 		return this.outputCount;
 	}
 
-	@ObfuscatedName("q")
-	public static final void method4550(long var0) {
-		if (var0 > 0L) {
-			if (0L == var0 % 10L) {
-				long var2 = var0 - 1L;
-
-				try {
-					Thread.sleep(var2);
-				} catch (InterruptedException var8) {
-				}
-
-				try {
-					Thread.sleep(1L);
-				} catch (InterruptedException var7) {
-				}
-			} else {
-				try {
-					Thread.sleep(var0);
-				} catch (InterruptedException var6) {
-				}
-			}
-
-		}
-	}
-
-	@ObfuscatedName("ar")
+	@ObfuscatedName("p")
 	@ObfuscatedSignature(
-		signature = "(ILcx;ZI)I",
-		garbageValue = "-2052329100"
+		signature = "(II)Les;",
+		garbageValue = "-1471944994"
 	)
-	static int method4532(int var0, Script var1, boolean var2) {
-		int var3;
-		int var4;
-		if (var0 == ScriptOpcodes.ADD) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var4 + var3;
-			return 1;
-		} else if (var0 == ScriptOpcodes.SUB) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 - var4;
-			return 1;
-		} else if (var0 == ScriptOpcodes.MULTIPLY) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 * var4;
-			return 1;
-		} else if (var0 == ScriptOpcodes.DIV) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 / var4;
-			return 1;
-		} else if (var0 == ScriptOpcodes.RANDOM) {
-			var3 = Interpreter.Interpreter_intStack[--HealthBarUpdate.Interpreter_intStackSize];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = (int)(Math.random() * (double)var3);
-			return 1;
-		} else if (var0 == ScriptOpcodes.RANDOMINC) {
-			var3 = Interpreter.Interpreter_intStack[--HealthBarUpdate.Interpreter_intStackSize];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = (int)(Math.random() * (double)(var3 + 1));
-			return 1;
-		} else if (var0 == ScriptOpcodes.INTERPOLATE) {
-			HealthBarUpdate.Interpreter_intStackSize -= 5;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			int var5 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 2];
-			int var6 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 3];
-			int var7 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 4];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 + (var7 - var5) * (var4 - var3) / (var6 - var5);
-			return 1;
-		} else if (var0 == ScriptOpcodes.ADDPERCENT) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 + var4 * var3 / 100;
-			return 1;
-		} else if (var0 == ScriptOpcodes.SETBIT) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 | 1 << var4;
-			return 1;
-		} else if (var0 == ScriptOpcodes.CLEARBIT) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 & -1 - (1 << var4);
-			return 1;
-		} else if (var0 == ScriptOpcodes.TESTBIT) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = (var3 & 1 << var4) != 0 ? 1 : 0;
-			return 1;
-		} else if (var0 == ScriptOpcodes.MOD) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 % var4;
-			return 1;
-		} else if (var0 == ScriptOpcodes.POW) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			if (var3 == 0) {
-				Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = 0;
-			} else {
-				Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = (int)Math.pow((double)var3, (double)var4);
-			}
-
-			return 1;
-		} else if (var0 == ScriptOpcodes.INVPOW) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			if (var3 == 0) {
-				Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = 0;
-				return 1;
-			} else {
-				switch(var4) {
-				case 0:
-					Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = Integer.MAX_VALUE;
-					break;
-				case 1:
-					Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3;
-					break;
-				case 2:
-					Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = (int)Math.sqrt((double)var3);
-					break;
-				case 3:
-					Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = (int)Math.cbrt((double)var3);
-					break;
-				case 4:
-					Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = (int)Math.sqrt(Math.sqrt((double)var3));
-					break;
-				default:
-					Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = (int)Math.pow((double)var3, 1.0D / (double)var4);
-				}
-
-				return 1;
-			}
-		} else if (var0 == ScriptOpcodes.AND) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 & var4;
-			return 1;
-		} else if (var0 == ScriptOpcodes.OR) {
-			HealthBarUpdate.Interpreter_intStackSize -= 2;
-			var3 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			var4 = Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = var3 | var4;
-			return 1;
-		} else if (var0 == ScriptOpcodes.SCALE) {
-			HealthBarUpdate.Interpreter_intStackSize -= 3;
-			long var9 = (long)Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize];
-			long var11 = (long)Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 1];
-			long var13 = (long)Interpreter.Interpreter_intStack[HealthBarUpdate.Interpreter_intStackSize + 2];
-			Interpreter.Interpreter_intStack[++HealthBarUpdate.Interpreter_intStackSize - 1] = (int)(var13 * var9 / var11);
-			return 1;
+	@Export("getFrames")
+	static Frames getFrames(int var0) {
+		Frames var1 = (Frames)SequenceDefinition.SequenceDefinition_cachedFrames.get((long)var0);
+		if (var1 != null) {
+			return var1;
 		} else {
-			return 2;
+			AbstractArchive var3 = Canvas.SequenceDefinition_animationsArchive;
+			AbstractArchive var4 = SequenceDefinition.SequenceDefinition_skeletonsArchive;
+			boolean var5 = true;
+			int[] var6 = var3.getGroupFileIds(var0);
+
+			for (int var7 = 0; var7 < var6.length; ++var7) {
+				byte[] var8 = var3.getFile(var0, var6[var7]);
+				if (var8 == null) {
+					var5 = false;
+				} else {
+					int var9 = (var8[0] & 255) << 8 | var8[1] & 255;
+					byte[] var10 = var4.getFile(var9, 0);
+					if (var10 == null) {
+						var5 = false;
+					}
+				}
+			}
+
+			Frames var2;
+			if (!var5) {
+				var2 = null;
+			} else {
+				try {
+					var2 = new Frames(var3, var4, var0, false);
+				} catch (Exception var12) {
+					var2 = null;
+				}
+			}
+
+			if (var2 != null) {
+				SequenceDefinition.SequenceDefinition_cachedFrames.put(var2, (long)var0);
+			}
+
+			return var2;
 		}
 	}
 }

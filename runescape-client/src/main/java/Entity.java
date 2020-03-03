@@ -4,23 +4,23 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("eo")
+@ObfuscatedName("eq")
 @Implements("Entity")
 public abstract class Entity extends DualNode {
-	@ObfuscatedName("ev")
+	@ObfuscatedName("nj")
 	@ObfuscatedSignature(
-		signature = "Liu;"
+		signature = "[Lhn;"
 	)
-	@Export("archive20")
-	static Archive archive20;
-	@ObfuscatedName("fz")
-	@ObfuscatedGetter(
-		longValue = -4807383784337722267L
+	static Widget[] field1866;
+	@ObfuscatedName("gj")
+	@ObfuscatedSignature(
+		signature = "Llt;"
 	)
-	static long field1872;
-	@ObfuscatedName("cb")
+	@Export("compass")
+	static Sprite compass;
+	@ObfuscatedName("cy")
 	@ObfuscatedGetter(
-		intValue = -1527077961
+		intValue = -384609857
 	)
 	@Export("height")
 	public int height;
@@ -29,17 +29,17 @@ public abstract class Entity extends DualNode {
 		this.height = 1000;
 	}
 
-	@ObfuscatedName("c")
+	@ObfuscatedName("j")
 	@ObfuscatedSignature(
-		signature = "(I)Ldm;",
-		garbageValue = "759381421"
+		signature = "(I)Ldx;",
+		garbageValue = "-2133076860"
 	)
 	@Export("getModel")
 	protected Model getModel() {
 		return null;
 	}
 
-	@ObfuscatedName("ct")
+	@ObfuscatedName("cn")
 	@Export("draw")
 	void draw(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, long var9) {
 		Model var11 = this.getModel();
@@ -50,25 +50,21 @@ public abstract class Entity extends DualNode {
 
 	}
 
-	@ObfuscatedName("hn")
+	@ObfuscatedName("fr")
 	@ObfuscatedSignature(
-		signature = "(Ljava/lang/String;Ljava/lang/String;IIIIZI)V",
-		garbageValue = "-224975698"
+		signature = "(I)V",
+		garbageValue = "-553494705"
 	)
-	@Export("insertMenuItem")
-	static final void insertMenuItem(String var0, String var1, int var2, int var3, int var4, int var5, boolean var6) {
-		if (!Client.isMenuOpen) {
-			if (Client.menuOptionsCount < 500) {
-				Client.menuActions[Client.menuOptionsCount] = var0;
-				Client.menuTargetNames[Client.menuOptionsCount] = var1;
-				Client.menuOpcodes[Client.menuOptionsCount] = var2;
-				Client.menuArguments0[Client.menuOptionsCount] = var3;
-				Client.menuArguments1[Client.menuOptionsCount] = var4;
-				Client.menuArguments2[Client.menuOptionsCount] = var5;
-				Client.menuShiftClick[Client.menuOptionsCount] = var6;
-				++Client.menuOptionsCount;
-			}
+	static final void method3332() {
+		int var0 = Players.Players_count;
+		int[] var1 = Players.Players_indices;
 
+		for (int var2 = 0; var2 < var0; ++var2) {
+			Player var3 = Client.players[var1[var2]];
+			if (var3 != null) {
+				ScriptFrame.updateActorSequence(var3, 1);
+			}
 		}
+
 	}
 }

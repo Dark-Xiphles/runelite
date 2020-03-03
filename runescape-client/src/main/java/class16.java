@@ -1,19 +1,38 @@
+import net.runelite.mapping.Export;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("g")
+@ObfuscatedName("k")
 public class class16 {
-	@ObfuscatedName("r")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "(I)V",
-		garbageValue = "572816821"
+		signature = "[Lli;"
 	)
-	public static void method174() {
-		Varps.SpriteBuffer_xOffsets = null;
-		class326.SpriteBuffer_yOffsets = null;
-		class326.SpriteBuffer_spriteWidths = null;
-		class216.SpriteBuffer_spriteHeights = null;
-		Frames.SpriteBuffer_spritePalette = null;
-		class326.SpriteBuffer_pixels = null;
+	@Export("runesSprite")
+	static IndexedSprite[] runesSprite;
+	@ObfuscatedName("cf")
+	@ObfuscatedSignature(
+		signature = "Lbt;"
+	)
+	@Export("mouseRecorder")
+	static MouseRecorder mouseRecorder;
+
+	@ObfuscatedName("e")
+	@ObfuscatedSignature(
+		signature = "(Lii;Ljava/lang/String;Ljava/lang/String;I)Lli;",
+		garbageValue = "1833648793"
+	)
+	@Export("SpriteBuffer_getIndexedSpriteByName")
+	public static IndexedSprite SpriteBuffer_getIndexedSpriteByName(AbstractArchive var0, String var1, String var2) {
+		int var3 = var0.getGroupId(var1);
+		int var4 = var0.getFileId(var3, var2);
+		IndexedSprite var5;
+		if (!class228.method4199(var0, var3, var4)) {
+			var5 = null;
+		} else {
+			var5 = class313.method5962();
+		}
+
+		return var5;
 	}
 }

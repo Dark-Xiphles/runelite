@@ -7,37 +7,37 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("ks")
+@ObfuscatedName("kk")
 @Implements("BufferedSource")
 public class BufferedSource implements Runnable {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@Export("thread")
 	Thread thread;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@Export("inputStream")
 	InputStream inputStream;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = 491736021
+		intValue = 276934727
 	)
 	@Export("capacity")
 	int capacity;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@Export("buffer")
 	byte[] buffer;
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		intValue = -570790809
+		intValue = 1985873745
 	)
 	@Export("position")
 	int position;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@ObfuscatedGetter(
-		intValue = -902879681
+		intValue = 738500389
 	)
 	@Export("limit")
 	int limit;
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@Export("exception")
 	IOException exception;
 
@@ -52,10 +52,10 @@ public class BufferedSource implements Runnable {
 		this.thread.start();
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(II)Z",
-		garbageValue = "-1294773775"
+		signature = "(IB)Z",
+		garbageValue = "89"
 	)
 	@Export("isAvailable")
 	boolean isAvailable(int var1) throws IOException {
@@ -86,10 +86,10 @@ public class BufferedSource implements Runnable {
 		}
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
 		signature = "(I)I",
-		garbageValue = "-72711599"
+		garbageValue = "-956188768"
 	)
 	@Export("available")
 	int available() throws IOException {
@@ -110,15 +110,15 @@ public class BufferedSource implements Runnable {
 		}
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(I)I",
-		garbageValue = "797723305"
+		signature = "(B)I",
+		garbageValue = "0"
 	)
 	@Export("readUnsignedByte")
 	int readUnsignedByte() throws IOException {
 		synchronized(this) {
-			if (this.limit == this.position) {
+			if (this.position == this.limit) {
 				if (this.exception != null) {
 					throw new IOException(this.exception.toString());
 				} else {
@@ -133,10 +133,10 @@ public class BufferedSource implements Runnable {
 		}
 	}
 
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedSignature(
-		signature = "([BIIS)I",
-		garbageValue = "28253"
+		signature = "([BIII)I",
+		garbageValue = "-2106245122"
 	)
 	@Export("read")
 	int read(byte[] var1, int var2, int var3) throws IOException {
@@ -174,10 +174,10 @@ public class BufferedSource implements Runnable {
 		}
 	}
 
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@ObfuscatedSignature(
 		signature = "(I)V",
-		garbageValue = "-1361407903"
+		garbageValue = "-2102342981"
 	)
 	@Export("close")
 	void close() {
@@ -244,85 +244,35 @@ public class BufferedSource implements Runnable {
 		}
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("jm")
 	@ObfuscatedSignature(
-		signature = "(Lhp;Lhp;ZII)V",
-		garbageValue = "-273498913"
+		signature = "(B)V",
+		garbageValue = "114"
 	)
-	static void method5892(AbstractArchive var0, AbstractArchive var1, boolean var2, int var3) {
-		if (Login.field1179) {
-			if (var3 == 4) {
-				Login.loginIndex = 4;
-			}
+	static void method5934() {
+		for (InterfaceParent var0 = (InterfaceParent)Client.interfaceParents.first(); var0 != null; var0 = (InterfaceParent)Client.interfaceParents.next()) {
+			int var1 = var0.group;
+			if (ScriptFrame.loadInterface(var1)) {
+				boolean var2 = true;
+				Widget[] var3 = WorldMapLabel.Widget_interfaceComponents[var1];
 
-		} else {
-			Login.loginIndex = var3;
-			Rasterizer2D.Rasterizer2D_clear();
-			byte[] var4 = var0.takeFileByNames("title.jpg", "");
-			GrandExchangeOfferWorldComparator.leftTitleSprite = BuddyRankComparator.convertJpgToSprite(var4);
-			NPC.rightTitleSprite = GrandExchangeOfferWorldComparator.leftTitleSprite.mirrorHorizontally();
-			if ((Client.worldProperties & 536870912) != 0) {
-				GroundItem.logoSprite = class215.loadIndexedSpriteByName(var1, "logo_deadman_mode", "");
-			} else {
-				GroundItem.logoSprite = class215.loadIndexedSpriteByName(var1, "logo", "");
-			}
-
-			Login.titleboxSprite = class215.loadIndexedSpriteByName(var1, "titlebox", "");
-			VarpDefinition.titlebuttonSprite = class215.loadIndexedSpriteByName(var1, "titlebutton", "");
-			int var6 = var1.getGroupId("runes");
-			int var7 = var1.getFileId(var6, "");
-			IndexedSprite[] var5 = class289.method5281(var1, var6, var7);
-			Login.runesSprite = var5;
-			var7 = var1.getGroupId("title_mute");
-			int var8 = var1.getFileId(var7, "");
-			IndexedSprite[] var9 = class289.method5281(var1, var7, var8);
-			Login.title_muteSprite = var9;
-			Login.options_buttons_0Sprite = class215.loadIndexedSpriteByName(var1, "options_radio_buttons,0", "");
-			Message.field606 = class215.loadIndexedSpriteByName(var1, "options_radio_buttons,4", "");
-			Decimator.options_buttons_2Sprite = class215.loadIndexedSpriteByName(var1, "options_radio_buttons,2", "");
-			Login.field1185 = class215.loadIndexedSpriteByName(var1, "options_radio_buttons,6", "");
-			class237.field3191 = Login.options_buttons_0Sprite.subWidth;
-			WorldMapDecoration.field212 = Login.options_buttons_0Sprite.subHeight;
-			Ignored.loginScreenRunesAnimation = new LoginScreenAnimation(Login.runesSprite);
-			if (var2) {
-				Login.Login_username = "";
-				Login.Login_password = "";
-			}
-
-			GrandExchangeOffer.field65 = 0;
-			WorldMapManager.otp = "";
-			Login.field1201 = true;
-			Login.worldSelectOpen = false;
-			if (!WorldMapLabelSize.clientPreferences.titleMusicDisabled) {
-				WorldMapRegion.method533(2, WorldMapRegion.archive6, "scape main", "", 255, false);
-			} else {
-				class40.method729(2);
-			}
-
-			if (NetCache.NetCache_socket != null) {
-				try {
-					Buffer var10 = new Buffer(4);
-					var10.writeByte(3);
-					var10.writeMedium(0);
-					NetCache.NetCache_socket.write(var10.array, 0, 4);
-				} catch (IOException var13) {
-					try {
-						NetCache.NetCache_socket.close();
-					} catch (Exception var12) {
+				int var4;
+				for (var4 = 0; var4 < var3.length; ++var4) {
+					if (var3[var4] != null) {
+						var2 = var3[var4].isIf3;
+						break;
 					}
+				}
 
-					++NetCache.NetCache_ioExceptions;
-					NetCache.NetCache_socket = null;
+				if (!var2) {
+					var4 = (int)var0.key;
+					Widget var5 = Varps.getWidget(var4);
+					if (var5 != null) {
+						NPCDefinition.invalidateWidget(var5);
+					}
 				}
 			}
-
-			Login.field1179 = true;
-			Login.xPadding = (GrandExchangeEvent.canvasWidth - 765) / 2;
-			Login.loginBoxX = Login.xPadding + 202;
-			ScriptEvent.loginBoxCenter = Login.loginBoxX + 180;
-			GrandExchangeOfferWorldComparator.leftTitleSprite.drawAt(Login.xPadding, 0);
-			NPC.rightTitleSprite.drawAt(Login.xPadding + 382, 0);
-			GroundItem.logoSprite.drawAt(Login.xPadding + 382 - GroundItem.logoSprite.subWidth / 2, 18);
 		}
+
 	}
 }

@@ -1,29 +1,28 @@
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import net.runelite.mapping.Export;
 import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
-import net.runelite.rs.Reflection;
 
-@ObfuscatedName("cs")
+@ObfuscatedName("cq")
 @Implements("ChatChannel")
 public class ChatChannel {
-	@ObfuscatedName("gr")
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		intValue = 1055466439
+		intValue = -899235317
 	)
-	static int field1306;
-	@ObfuscatedName("w")
+	public static int field1289;
+	@ObfuscatedName("k")
+	public static String[] field1291;
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "[Lbj;"
+		signature = "[Lbn;"
 	)
 	@Export("messages")
 	Message[] messages;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = 754027225
+		intValue = -2026360781
 	)
 	@Export("count")
 	int count;
@@ -32,9 +31,9 @@ public class ChatChannel {
 		this.messages = new Message[100];
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;B)Lbj;",
+		signature = "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;B)Lbn;",
 		garbageValue = "0"
 	)
 	@Export("addMessage")
@@ -63,199 +62,140 @@ public class ChatChannel {
 		return var5;
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(II)Lbj;",
-		garbageValue = "-55997964"
+		signature = "(II)Lbn;",
+		garbageValue = "187354939"
 	)
 	@Export("getMessage")
 	Message getMessage(int var1) {
 		return var1 >= 0 && var1 < this.count ? this.messages[var1] : null;
 	}
 
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedSignature(
-		signature = "(I)I",
-		garbageValue = "-410884165"
+		signature = "(B)I",
+		garbageValue = "40"
 	)
 	@Export("size")
 	int size() {
 		return this.count;
 	}
 
-	@ObfuscatedName("p")
+	@ObfuscatedName("hj")
 	@ObfuscatedSignature(
-		signature = "(Lkf;IB)V",
-		garbageValue = "67"
+		signature = "(IIZI)V",
+		garbageValue = "-1620265194"
 	)
-	public static void method2213(Buffer var0, int var1) {
-		ReflectionCheck var2 = new ReflectionCheck();
-		var2.size = var0.readUnsignedByte();
-		var2.id = var0.readInt();
-		var2.operations = new int[var2.size];
-		var2.creationErrors = new int[var2.size];
-		var2.fields = new Field[var2.size];
-		var2.intReplaceValues = new int[var2.size];
-		var2.methods = new Method[var2.size];
-		var2.arguments = new byte[var2.size][][];
+	static final void method2302(int var0, int var1, boolean var2) {
+		if (!var2 || var0 != SecureRandomCallable.field530 || Language.field2359 != var1) {
+			SecureRandomCallable.field530 = var0;
+			Language.field2359 = var1;
+			Projectile.updateGameState(25);
+			class197.drawLoadingMessage("Loading - please wait.", true);
+			int var3 = Messages.baseX * 64;
+			int var4 = Language.baseY * 64;
+			Messages.baseX = (var0 - 6) * 8;
+			Language.baseY = (var1 - 6) * 8;
+			int var5 = Messages.baseX * 64 - var3;
+			int var6 = Language.baseY * 64 - var4;
+			var3 = Messages.baseX * 64;
+			var4 = Language.baseY * 64;
 
-		for (int var3 = 0; var3 < var2.size; ++var3) {
-			try {
-				int var4 = var0.readUnsignedByte();
-				String var5;
-				String var6;
-				int var7;
-				if (var4 != 0 && var4 != 1 && var4 != 2) {
-					if (var4 == 3 || var4 == 4) {
-						var5 = var0.readStringCp1252NullTerminated();
-						var6 = var0.readStringCp1252NullTerminated();
-						var7 = var0.readUnsignedByte();
-						String[] var8 = new String[var7];
-
-						for (int var9 = 0; var9 < var7; ++var9) {
-							var8[var9] = var0.readStringCp1252NullTerminated();
-						}
-
-						String var20 = var0.readStringCp1252NullTerminated();
-						byte[][] var10 = new byte[var7][];
-						int var12;
-						if (var4 == 3) {
-							for (int var11 = 0; var11 < var7; ++var11) {
-								var12 = var0.readInt();
-								var10[var11] = new byte[var12];
-								var0.readBytes(var10[var11], 0, var12);
-							}
-						}
-
-						var2.operations[var3] = var4;
-						Class[] var21 = new Class[var7];
-
-						for (var12 = 0; var12 < var7; ++var12) {
-							var21[var12] = User.loadClassFromDescriptor(var8[var12]);
-						}
-
-						Class var22 = User.loadClassFromDescriptor(var20);
-						if (User.loadClassFromDescriptor(var5).getClassLoader() == null) {
-							throw new SecurityException();
-						}
-
-						Method[] var13 = User.loadClassFromDescriptor(var5).getDeclaredMethods();
-						Method[] var14 = var13;
-
-						for (int var15 = 0; var15 < var14.length; ++var15) {
-							Method var16 = var14[var15];
-							if (Reflection.getMethodName(var16).equals(var6)) {
-								Class[] var17 = Reflection.getParameterTypes(var16);
-								if (var17.length == var21.length) {
-									boolean var18 = true;
-
-									for (int var19 = 0; var19 < var21.length; ++var19) {
-										if (var17[var19] != var21[var19]) {
-											var18 = false;
-											break;
-										}
-									}
-
-									if (var18 && var22 == var16.getReturnType()) {
-										var2.methods[var3] = var16;
-									}
-								}
-							}
-						}
-
-						var2.arguments[var3] = var10;
-					}
-				} else {
-					var5 = var0.readStringCp1252NullTerminated();
-					var6 = var0.readStringCp1252NullTerminated();
-					var7 = 0;
-					if (var4 == 1) {
-						var7 = var0.readInt();
+			int var7;
+			int var9;
+			int[] var10000;
+			for (var7 = 0; var7 < 32768; ++var7) {
+				NPC var8 = Client.npcs[var7];
+				if (var8 != null) {
+					for (var9 = 0; var9 < 10; ++var9) {
+						var10000 = var8.pathX;
+						var10000[var9] -= var5;
+						var10000 = var8.pathY;
+						var10000[var9] -= var6;
 					}
 
-					var2.operations[var3] = var4;
-					var2.intReplaceValues[var3] = var7;
-					if (User.loadClassFromDescriptor(var5).getClassLoader() == null) {
-						throw new SecurityException();
-					}
-
-					var2.fields[var3] = Reflection.findField(User.loadClassFromDescriptor(var5), var6);
-				}
-			} catch (ClassNotFoundException var24) {
-				var2.creationErrors[var3] = -1;
-			} catch (SecurityException var25) {
-				var2.creationErrors[var3] = -2;
-			} catch (NullPointerException var26) {
-				var2.creationErrors[var3] = -3;
-			} catch (Exception var27) {
-				var2.creationErrors[var3] = -4;
-			} catch (Throwable var28) {
-				var2.creationErrors[var3] = -5;
-			}
-		}
-
-		class96.reflectionChecks.addFirst(var2);
-	}
-
-	@ObfuscatedName("r")
-	@ObfuscatedSignature(
-		signature = "(B)V",
-		garbageValue = "-4"
-	)
-	static void method2214() {
-		if (UserComparator3.loadWorlds()) {
-			Login.worldSelectOpen = true;
-			Login.worldSelectPage = 0;
-			Login.worldSelectPagesCount = 0;
-		}
-
-	}
-
-	@ObfuscatedName("hh")
-	@ObfuscatedSignature(
-		signature = "(IIIII)V",
-		garbageValue = "-2069013220"
-	)
-	static final void method2215(int var0, int var1, int var2, int var3) {
-		for (int var4 = 0; var4 < Client.rootWidgetCount; ++var4) {
-			if (Client.rootWidgetXs[var4] + Client.rootWidgetWidths[var4] > var0 && Client.rootWidgetXs[var4] < var0 + var2 && Client.rootWidgetHeights[var4] + Client.rootWidgetYs[var4] > var1 && Client.rootWidgetYs[var4] < var3 + var1) {
-				Client.field843[var4] = true;
-			}
-		}
-
-	}
-
-	@ObfuscatedName("ie")
-	@ObfuscatedSignature(
-		signature = "(Lhj;I)Z",
-		garbageValue = "-1045685499"
-	)
-	@Export("runCs1")
-	static final boolean runCs1(Widget var0) {
-		if (var0.cs1Comparisons == null) {
-			return false;
-		} else {
-			for (int var1 = 0; var1 < var0.cs1Comparisons.length; ++var1) {
-				int var2 = Varps.method3969(var0, var1);
-				int var3 = var0.cs1ComparisonValues[var1];
-				if (var0.cs1Comparisons[var1] == 2) {
-					if (var2 >= var3) {
-						return false;
-					}
-				} else if (var0.cs1Comparisons[var1] == 3) {
-					if (var2 <= var3) {
-						return false;
-					}
-				} else if (var0.cs1Comparisons[var1] == 4) {
-					if (var2 == var3) {
-						return false;
-					}
-				} else if (var2 != var3) {
-					return false;
+					var8.x -= var5 * 128;
+					var8.y -= var6 * 128;
 				}
 			}
 
-			return true;
+			for (var7 = 0; var7 < 2048; ++var7) {
+				Player var21 = Client.players[var7];
+				if (var21 != null) {
+					for (var9 = 0; var9 < 10; ++var9) {
+						var10000 = var21.pathX;
+						var10000[var9] -= var5;
+						var10000 = var21.pathY;
+						var10000[var9] -= var6;
+					}
+
+					var21.x -= var5 * 128;
+					var21.y -= var6 * 128;
+				}
+			}
+
+			byte var20 = 0;
+			byte var18 = 104;
+			byte var22 = 1;
+			if (var5 < 0) {
+				var20 = 103;
+				var18 = -1;
+				var22 = -1;
+			}
+
+			byte var10 = 0;
+			byte var11 = 104;
+			byte var12 = 1;
+			if (var6 < 0) {
+				var10 = 103;
+				var11 = -1;
+				var12 = -1;
+			}
+
+			int var14;
+			for (int var13 = var20; var18 != var13; var13 += var22) {
+				for (var14 = var10; var11 != var14; var14 += var12) {
+					int var15 = var13 + var5;
+					int var16 = var6 + var14;
+
+					for (int var17 = 0; var17 < 4; ++var17) {
+						if (var15 >= 0 && var16 >= 0 && var15 < 104 && var16 < 104) {
+							Client.groundItems[var17][var13][var14] = Client.groundItems[var17][var15][var16];
+						} else {
+							Client.groundItems[var17][var13][var14] = null;
+						}
+					}
+				}
+			}
+
+			for (PendingSpawn var19 = (PendingSpawn)Client.pendingSpawns.last(); var19 != null; var19 = (PendingSpawn)Client.pendingSpawns.previous()) {
+				var19.x -= var5;
+				var19.y -= var6;
+				if (var19.x < 0 || var19.y < 0 || var19.x >= 104 || var19.y >= 104) {
+					var19.remove();
+				}
+			}
+
+			if (Client.destinationX != 0) {
+				Client.destinationX -= var5;
+				Client.destinationY -= var6;
+			}
+
+			Client.soundEffectCount = 0;
+			Client.isCameraLocked = false;
+			HitSplatDefinition.cameraX -= var5 << 7;
+			Actor.cameraZ -= var6 << 7;
+			PendingSpawn.oculusOrbFocalPointX -= var5 << 7;
+			Skeleton.oculusOrbFocalPointY -= var6 << 7;
+			Client.field704 = -1;
+			Client.graphicsObjects.clear();
+			Client.projectiles.clear();
+
+			for (var14 = 0; var14 < 4; ++var14) {
+				Client.collisionMaps[var14].clear();
+			}
+
 		}
 	}
 }

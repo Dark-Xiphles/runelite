@@ -5,113 +5,119 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("o")
+@ObfuscatedName("b")
 @Implements("AbstractWorldMapData")
 public abstract class AbstractWorldMapData {
-	@ObfuscatedName("el")
+	@ObfuscatedName("ai")
 	@ObfuscatedGetter(
-		intValue = -1739932713
+		intValue = 1805663379
 	)
-	static int field155;
-	@ObfuscatedName("q")
+	static int field190;
+	@ObfuscatedName("gv")
+	@ObfuscatedSignature(
+		signature = "[Llt;"
+	)
+	@Export("mapDotSprites")
+	static Sprite[] mapDotSprites;
+	@ObfuscatedName("c")
 	@ObfuscatedGetter(
-		intValue = -680308736
+		intValue = -894906368
 	)
 	@Export("regionXLow")
 	int regionXLow;
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedGetter(
-		intValue = -1014181888
+		intValue = -1390111808
 	)
 	@Export("regionYLow")
 	int regionYLow;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@ObfuscatedGetter(
-		intValue = 421939525
+		intValue = -1468899765
 	)
 	@Export("regionX")
 	int regionX;
-	@ObfuscatedName("p")
+	@ObfuscatedName("e")
 	@ObfuscatedGetter(
-		intValue = 1418471835
+		intValue = 1986069101
 	)
 	@Export("regionY")
 	int regionY;
-	@ObfuscatedName("k")
+	@ObfuscatedName("i")
 	@ObfuscatedGetter(
-		intValue = -1513175747
+		intValue = -1726472533
 	)
 	@Export("minPlane")
 	int minPlane;
-	@ObfuscatedName("l")
+	@ObfuscatedName("g")
 	@ObfuscatedGetter(
-		intValue = -402229247
+		intValue = -1228656521
 	)
 	@Export("planes")
 	int planes;
-	@ObfuscatedName("b")
+	@ObfuscatedName("d")
 	@ObfuscatedGetter(
-		intValue = -376642433
+		intValue = -672684543
 	)
 	@Export("groupId")
 	int groupId;
-	@ObfuscatedName("i")
+	@ObfuscatedName("l")
 	@ObfuscatedGetter(
-		intValue = 1618366577
+		intValue = -199023581
 	)
 	@Export("fileId")
 	int fileId;
-	@ObfuscatedName("c")
+	@ObfuscatedName("j")
 	@Export("floorUnderlayIds")
 	short[][][] floorUnderlayIds;
-	@ObfuscatedName("f")
+	@ObfuscatedName("m")
 	@Export("floorOverlayIds")
 	short[][][] floorOverlayIds;
-	@ObfuscatedName("m")
-	byte[][][] field165;
-	@ObfuscatedName("u")
-	byte[][][] field166;
-	@ObfuscatedName("x")
+	@ObfuscatedName("p")
+	byte[][][] field188;
+	@ObfuscatedName("h")
+	byte[][][] field175;
+	@ObfuscatedName("v")
 	@ObfuscatedSignature(
-		signature = "[[[[Lz;"
+		signature = "[[[[Lu;"
 	)
 	@Export("decorations")
 	WorldMapDecoration[][][][] decorations;
-	@ObfuscatedName("r")
-	boolean field168;
-	@ObfuscatedName("v")
-	boolean field169;
+	@ObfuscatedName("n")
+	boolean field174;
+	@ObfuscatedName("x")
+	boolean field185;
 
 	AbstractWorldMapData() {
 		this.groupId = -1;
 		this.fileId = -1;
 		new LinkedList();
-		this.field168 = false;
-		this.field169 = false;
+		this.field174 = false;
+		this.field185 = false;
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("t")
 	@ObfuscatedSignature(
-		signature = "(Lkf;I)V",
-		garbageValue = "-1951934103"
+		signature = "(Lkp;S)V",
+		garbageValue = "-30591"
 	)
 	@Export("readGeography")
 	abstract void readGeography(Buffer var1);
 
-	@ObfuscatedName("c")
+	@ObfuscatedName("j")
 	@ObfuscatedSignature(
 		signature = "(I)Z",
-		garbageValue = "-613524686"
+		garbageValue = "1888663118"
 	)
 	@Export("isFullyLoaded")
 	boolean isFullyLoaded() {
-		return this.field168 && this.field169;
+		return this.field174 && this.field185;
 	}
 
-	@ObfuscatedName("u")
+	@ObfuscatedName("m")
 	@ObfuscatedSignature(
-		signature = "(Lhp;I)V",
-		garbageValue = "1963301304"
+		signature = "(Lii;I)V",
+		garbageValue = "-60010713"
 	)
 	@Export("loadGeography")
 	void loadGeography(AbstractArchive var1) {
@@ -119,42 +125,42 @@ public abstract class AbstractWorldMapData {
 			byte[] var2 = var1.takeFile(this.groupId, this.fileId);
 			if (var2 != null) {
 				this.readGeography(new Buffer(var2));
-				this.field168 = true;
-				this.field169 = true;
+				this.field174 = true;
+				this.field185 = true;
 			}
 
 		}
 	}
 
-	@ObfuscatedName("x")
+	@ObfuscatedName("p")
 	@ObfuscatedSignature(
 		signature = "(I)V",
-		garbageValue = "1146093408"
+		garbageValue = "559104793"
 	)
 	@Export("reset")
 	void reset() {
 		this.floorUnderlayIds = null;
 		this.floorOverlayIds = null;
-		this.field165 = null;
-		this.field166 = null;
+		this.field188 = null;
+		this.field175 = null;
 		this.decorations = null;
-		this.field168 = false;
-		this.field169 = false;
+		this.field174 = false;
+		this.field185 = false;
 	}
 
-	@ObfuscatedName("r")
+	@ObfuscatedName("h")
 	@ObfuscatedSignature(
-		signature = "(IILkf;I)V",
-		garbageValue = "-1521348339"
+		signature = "(IILkp;I)V",
+		garbageValue = "-1538793396"
 	)
 	@Export("readTile")
 	void readTile(int var1, int var2, Buffer var3) {
 		int var4 = var3.readUnsignedByte();
 		if (var4 != 0) {
 			if ((var4 & 1) != 0) {
-				this.method258(var1, var2, var3, var4);
+				this.method257(var1, var2, var3, var4);
 			} else {
-				this.method253(var1, var2, var3, var4);
+				this.method258(var1, var2, var3, var4);
 			}
 
 		}
@@ -162,10 +168,10 @@ public abstract class AbstractWorldMapData {
 
 	@ObfuscatedName("v")
 	@ObfuscatedSignature(
-		signature = "(IILkf;IB)V",
-		garbageValue = "0"
+		signature = "(IILkp;II)V",
+		garbageValue = "1470319349"
 	)
-	void method258(int var1, int var2, Buffer var3, int var4) {
+	void method257(int var1, int var2, Buffer var3, int var4) {
 		boolean var5 = (var4 & 2) != 0;
 		if (var5) {
 			this.floorOverlayIds[0][var1][var2] = (short)var3.readUnsignedByte();
@@ -174,12 +180,12 @@ public abstract class AbstractWorldMapData {
 		this.floorUnderlayIds[0][var1][var2] = (short)var3.readUnsignedByte();
 	}
 
-	@ObfuscatedName("y")
+	@ObfuscatedName("n")
 	@ObfuscatedSignature(
-		signature = "(IILkf;IB)V",
-		garbageValue = "44"
+		signature = "(IILkp;II)V",
+		garbageValue = "-2109689105"
 	)
-	void method253(int var1, int var2, Buffer var3, int var4) {
+	void method258(int var1, int var2, Buffer var3, int var4) {
 		int var5 = ((var4 & 24) >> 3) + 1;
 		boolean var6 = (var4 & 2) != 0;
 		boolean var7 = (var4 & 4) != 0;
@@ -195,8 +201,8 @@ public abstract class AbstractWorldMapData {
 				if (var10 != 0) {
 					this.floorOverlayIds[var9][var1][var2] = (short)var10;
 					var11 = var3.readUnsignedByte();
-					this.field165[var9][var1][var2] = (byte)(var11 >> 2);
-					this.field166[var9][var1][var2] = (byte)(var11 & 3);
+					this.field188[var9][var1][var2] = (byte)(var11 >> 2);
+					this.field175[var9][var1][var2] = (byte)(var11 & 3);
 				}
 			}
 		}
@@ -208,7 +214,7 @@ public abstract class AbstractWorldMapData {
 					WorldMapDecoration[] var14 = this.decorations[var8][var1][var2] = new WorldMapDecoration[var9];
 
 					for (var11 = 0; var11 < var9; ++var11) {
-						int var12 = var3.method5511();
+						int var12 = var3.method5593();
 						int var13 = var3.readUnsignedByte();
 						var14[var11] = new WorldMapDecoration(var12, var13 >> 2, var13 & 3);
 					}
@@ -218,181 +224,23 @@ public abstract class AbstractWorldMapData {
 
 	}
 
-	@ObfuscatedName("g")
+	@ObfuscatedName("x")
 	@ObfuscatedSignature(
 		signature = "(I)I",
-		garbageValue = "-121424149"
+		garbageValue = "-1419701819"
 	)
 	@Export("getRegionX")
 	int getRegionX() {
 		return this.regionX;
 	}
 
-	@ObfuscatedName("a")
+	@ObfuscatedName("w")
 	@ObfuscatedSignature(
 		signature = "(I)I",
-		garbageValue = "-1967751745"
+		garbageValue = "879615206"
 	)
 	@Export("getRegionY")
 	int getRegionY() {
 		return this.regionY;
-	}
-
-	@ObfuscatedName("q")
-	@ObfuscatedSignature(
-		signature = "(IIB)I",
-		garbageValue = "-108"
-	)
-	static int method274(int var0, int var1) {
-		ItemContainer var2 = (ItemContainer)ItemContainer.itemContainers.get((long)var0);
-		if (var2 == null) {
-			return -1;
-		} else {
-			return var1 >= 0 && var1 < var2.ids.length ? var2.ids[var1] : -1;
-		}
-	}
-
-	@ObfuscatedName("gj")
-	@ObfuscatedSignature(
-		signature = "(IIIII)V",
-		garbageValue = "-2108015148"
-	)
-	static final void method273(int var0, int var1, int var2, int var3) {
-		ObjectSound.method1826();
-	}
-
-	@ObfuscatedName("hp")
-	@ObfuscatedSignature(
-		signature = "(Lij;IIII)V",
-		garbageValue = "566580282"
-	)
-	@Export("addNpcToMenu")
-	static final void addNpcToMenu(NPCDefinition var0, int var1, int var2, int var3) {
-		if (Client.menuOptionsCount < 400) {
-			if (var0.transforms != null) {
-				var0 = var0.transform();
-			}
-
-			if (var0 != null) {
-				if (var0.isInteractable) {
-					if (!var0.isFollower || Client.followerIndex == var1) {
-						String var4 = var0.name;
-						int var7;
-						int var8;
-						if (var0.combatLevel != 0) {
-							var7 = var0.combatLevel;
-							var8 = Client.localPlayer.combatLevel;
-							int var9 = var8 - var7;
-							String var6;
-							if (var9 < -9) {
-								var6 = ClientPreferences.colorStartTag(16711680);
-							} else if (var9 < -6) {
-								var6 = ClientPreferences.colorStartTag(16723968);
-							} else if (var9 < -3) {
-								var6 = ClientPreferences.colorStartTag(16740352);
-							} else if (var9 < 0) {
-								var6 = ClientPreferences.colorStartTag(16756736);
-							} else if (var9 > 9) {
-								var6 = ClientPreferences.colorStartTag(65280);
-							} else if (var9 > 6) {
-								var6 = ClientPreferences.colorStartTag(4259584);
-							} else if (var9 > 3) {
-								var6 = ClientPreferences.colorStartTag(8453888);
-							} else if (var9 > 0) {
-								var6 = ClientPreferences.colorStartTag(12648192);
-							} else {
-								var6 = ClientPreferences.colorStartTag(16776960);
-							}
-
-							var4 = var4 + var6 + " " + " (" + "level-" + var0.combatLevel + ")";
-						}
-
-						if (var0.isFollower && Client.followerOpsLowPriority) {
-							class188.insertMenuItemNoShift("Examine", ClientPreferences.colorStartTag(16776960) + var4, 1003, var1, var2, var3);
-						}
-
-						if (Client.isItemSelected == 1) {
-							class188.insertMenuItemNoShift("Use", Client.selectedItemName + " " + "->" + " " + ClientPreferences.colorStartTag(16776960) + var4, 7, var1, var2, var3);
-						} else if (Client.isSpellSelected) {
-							if ((WorldMapCacheName.selectedSpellFlags & 2) == 2) {
-								class188.insertMenuItemNoShift(Client.selectedSpellActionName, Client.selectedSpellName + " " + "->" + " " + ClientPreferences.colorStartTag(16776960) + var4, 8, var1, var2, var3);
-							}
-						} else {
-							int var10 = var0.isFollower && Client.followerOpsLowPriority ? 2000 : 0;
-							String[] var11 = var0.actions;
-							if (var11 != null) {
-								for (var7 = 4; var7 >= 0; --var7) {
-									if (var11[var7] != null && !var11[var7].equalsIgnoreCase("Attack")) {
-										var8 = 0;
-										if (var7 == 0) {
-											var8 = var10 + 9;
-										}
-
-										if (var7 == 1) {
-											var8 = var10 + 10;
-										}
-
-										if (var7 == 2) {
-											var8 = var10 + 11;
-										}
-
-										if (var7 == 3) {
-											var8 = var10 + 12;
-										}
-
-										if (var7 == 4) {
-											var8 = var10 + 13;
-										}
-
-										class188.insertMenuItemNoShift(var11[var7], ClientPreferences.colorStartTag(16776960) + var4, var8, var1, var2, var3);
-									}
-								}
-							}
-
-							if (var11 != null) {
-								for (var7 = 4; var7 >= 0; --var7) {
-									if (var11[var7] != null && var11[var7].equalsIgnoreCase("Attack")) {
-										short var12 = 0;
-										if (AttackOption.AttackOption_hidden != Client.npcAttackOption) {
-											if (Client.npcAttackOption == AttackOption.AttackOption_alwaysRightClick || AttackOption.AttackOption_dependsOnCombatLevels == Client.npcAttackOption && var0.combatLevel > Client.localPlayer.combatLevel) {
-												var12 = 2000;
-											}
-
-											var8 = 0;
-											if (var7 == 0) {
-												var8 = var12 + 9;
-											}
-
-											if (var7 == 1) {
-												var8 = var12 + 10;
-											}
-
-											if (var7 == 2) {
-												var8 = var12 + 11;
-											}
-
-											if (var7 == 3) {
-												var8 = var12 + 12;
-											}
-
-											if (var7 == 4) {
-												var8 = var12 + 13;
-											}
-
-											class188.insertMenuItemNoShift(var11[var7], ClientPreferences.colorStartTag(16776960) + var4, var8, var1, var2, var3);
-										}
-									}
-								}
-							}
-
-							if (!var0.isFollower || !Client.followerOpsLowPriority) {
-								class188.insertMenuItemNoShift("Examine", ClientPreferences.colorStartTag(16776960) + var4, 1003, var1, var2, var3);
-							}
-						}
-
-					}
-				}
-			}
-		}
 	}
 }

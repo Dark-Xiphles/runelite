@@ -3,24 +3,30 @@ import net.runelite.mapping.Implements;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("bc")
+@ObfuscatedName("bl")
 @Implements("ItemContainer")
 public class ItemContainer extends Node {
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "Llc;"
+		signature = "Lln;"
 	)
 	@Export("itemContainers")
 	static NodeHashTable itemContainers;
-	@ObfuscatedName("jk")
+	@ObfuscatedName("h")
 	@ObfuscatedSignature(
-		signature = "Lhj;"
+		signature = "Lli;"
 	)
-	static Widget field549;
-	@ObfuscatedName("w")
+	static IndexedSprite field547;
+	@ObfuscatedName("be")
+	@ObfuscatedSignature(
+		signature = "[Lli;"
+	)
+	@Export("worldSelectArrows")
+	static IndexedSprite[] worldSelectArrows;
+	@ObfuscatedName("t")
 	@Export("ids")
 	int[] ids;
-	@ObfuscatedName("e")
+	@ObfuscatedName("o")
 	@Export("quantities")
 	int[] quantities;
 
@@ -33,34 +39,66 @@ public class ItemContainer extends Node {
 		this.quantities = new int[]{0};
 	}
 
-	@ObfuscatedName("w")
+	@ObfuscatedName("d")
 	@ObfuscatedSignature(
-		signature = "(IB)Lic;",
-		garbageValue = "-70"
+		signature = "(IZB)Ljava/lang/String;",
+		garbageValue = "-71"
 	)
-	public static FloorUnderlayDefinition method1117(int var0) {
-		FloorUnderlayDefinition var1 = (FloorUnderlayDefinition)FloorUnderlayDefinition.FloorUnderlayDefinition_cached.get((long)var0);
-		if (var1 != null) {
-			return var1;
-		} else {
-			byte[] var2 = FloorUnderlayDefinition.FloorUnderlayDefinition_archive.takeFile(1, var0);
-			var1 = new FloorUnderlayDefinition();
-			if (var2 != null) {
-				var1.decode(new Buffer(var2), var0);
-			}
-
-			var1.postDecode();
-			FloorUnderlayDefinition.FloorUnderlayDefinition_cached.put(var1, (long)var0);
-			return var1;
-		}
+	@Export("intToString")
+	public static String intToString(int var0, boolean var1) {
+		return var1 && var0 >= 0 ? Actor.method1741(var0, 10, var1) : Integer.toString(var0);
 	}
 
-	@ObfuscatedName("ac")
+	@ObfuscatedName("gu")
 	@ObfuscatedSignature(
-		signature = "(II)I",
-		garbageValue = "-1225456641"
+		signature = "(ZI)V",
+		garbageValue = "-1888961685"
 	)
-	static int method1116(int var0) {
-		return (int)Math.pow(2.0D, (double)((float)var0 / 256.0F + 7.0F));
+	@Export("addNpcsToScene")
+	static final void addNpcsToScene(boolean var0) {
+		for (int var1 = 0; var1 < Client.npcCount; ++var1) {
+			NPC var2 = Client.npcs[Client.npcIndices[var1]];
+			if (var2 != null && var2.isVisible() && var2.definition.isVisible == var0 && var2.definition.transformIsVisible()) {
+				int var3 = var2.x >> 7;
+				int var4 = var2.y >> 7;
+				if (var3 >= 0 && var3 < 104 && var4 >= 0 && var4 < 104) {
+					if (var2.field942 * 367011904 == 1 && (var2.x & 127) == 64 && (var2.y & 127) == 64) {
+						if (Client.tileLastDrawnActor[var3][var4] == Client.viewportDrawCount) {
+							continue;
+						}
+
+						Client.tileLastDrawnActor[var3][var4] = Client.viewportDrawCount;
+					}
+
+					long var5 = GameShell.calculateTag(0, 0, 1, !var2.definition.isInteractable, Client.npcIndices[var1]);
+					var2.playerCycle = Client.cycle;
+					ServerBuild.scene.drawEntity(Clock.Client_plane, var2.x, var2.y, WorldMapSectionType.getTileHeight(var2.field942 * 2013925376 - 64 + var2.x, var2.field942 * 2013925376 - 64 + var2.y, Clock.Client_plane), var2.field942 * 2013925376 - 64 + 60, var2, var2.rotation, var5, var2.isWalking);
+				}
+			}
+		}
+
+	}
+
+	@ObfuscatedName("kp")
+	@ObfuscatedSignature(
+		signature = "(Lhn;I)Lhn;",
+		garbageValue = "701959243"
+	)
+	static Widget method1184(Widget var0) {
+		int var2 = WorldMapIcon_0.getWidgetClickMask(var0);
+		int var1 = var2 >> 17 & 7;
+		int var3 = var1;
+		if (var1 == 0) {
+			return null;
+		} else {
+			for (int var4 = 0; var4 < var3; ++var4) {
+				var0 = Varps.getWidget(var0.parentId);
+				if (var0 == null) {
+					return null;
+				}
+			}
+
+			return var0;
+		}
 	}
 }

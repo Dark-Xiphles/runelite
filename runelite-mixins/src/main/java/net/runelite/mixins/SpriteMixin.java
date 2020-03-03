@@ -1,9 +1,8 @@
 package net.runelite.mixins;
 
-import net.runelite.api.Sprite;
 import java.util.HashMap;
 import java.util.Map;
-
+import net.runelite.api.Sprite;
 import net.runelite.api.mixins.Copy;
 import net.runelite.api.mixins.Inject;
 import net.runelite.api.mixins.Mixin;
@@ -35,13 +34,13 @@ public abstract class SpriteMixin implements RSClient
 		return widgetSpriteOverrides;
 	}
 
-	@Copy("loadSprite")
+	@Copy("SpriteBuffer_getSprite")
 	public static RSSprite rs$loadSprite(RSAbstractArchive var0, int var1, int var2)
 	{
 		throw new RuntimeException();
 	}
 
-	@Replace("loadSprite")
+	@Replace("SpriteBuffer_getSprite")
 	public static RSSprite rl$loadSprite(RSAbstractArchive var0, int var1, int var2)
 	{
 		Sprite sprite = spriteOverrides.get(var1);

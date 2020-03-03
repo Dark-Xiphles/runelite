@@ -4,7 +4,7 @@ about: Create a report to help us improve
 
 ---
 
-Please check if your issue is not a duplicate by [searching existing issues](https://github.com/runelite/runelite/search?type=Issues)
+Please check if your issue is not a duplicate by [searching existing issues](https://github.com/open-osrs/runelite/search?type=Issues)
 
 **Describe the bug**
 A clear and concise description of what the bug is.
@@ -24,8 +24,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Environment (please complete the following information):**
  - OS: [e.g. Windows, Ubuntu, macOS]
- - RuneLite version: [e.g 1.4.6]
- - Launcher version: [e.g 1.5.2]
+ - OpenOSRS version: [e.g 3.0.3]
+ - Launcher version: [e.g 2.0.4]
 
 **Additional context**
 Add any other context about the problem here, e.g. logs. Your client logs can usually be found in

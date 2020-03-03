@@ -4,24 +4,18 @@ import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("jo")
+@ObfuscatedName("jp")
 @Implements("Ignored")
 public class Ignored extends User {
-	@ObfuscatedName("v")
+	@ObfuscatedName("gg")
 	@ObfuscatedSignature(
-		signature = "Lbr;"
+		signature = "[Llt;"
 	)
-	@Export("loginScreenRunesAnimation")
-	static LoginScreenAnimation loginScreenRunesAnimation;
-	@ObfuscatedName("fn")
-	@ObfuscatedSignature(
-		signature = "Lfa;"
-	)
-	@Export("socketTask")
-	static Task socketTask;
-	@ObfuscatedName("q")
+	@Export("headIconPkSprites")
+	static Sprite[] headIconPkSprites;
+	@ObfuscatedName("c")
 	@ObfuscatedGetter(
-		intValue = -361646417
+		intValue = -1391988611
 	)
 	@Export("id")
 	int id;
@@ -29,20 +23,20 @@ public class Ignored extends User {
 	Ignored() {
 	}
 
-	@ObfuscatedName("q")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(Ljo;I)I",
-		garbageValue = "-1242016495"
+		signature = "(Ljp;I)I",
+		garbageValue = "-2090061914"
 	)
 	@Export("compareTo_ignored")
 	int compareTo_ignored(Ignored var1) {
 		return this.id - var1.id;
 	}
 
-	@ObfuscatedName("ax")
+	@ObfuscatedName("az")
 	@ObfuscatedSignature(
-		signature = "(Ljd;I)I",
-		garbageValue = "-1938562722"
+		signature = "(Ljk;I)I",
+		garbageValue = "-746331144"
 	)
 	@Export("compareTo_user")
 	public int compareTo_user(User var1) {
@@ -53,19 +47,30 @@ public class Ignored extends User {
 		return this.compareTo_ignored((Ignored)var1);
 	}
 
-	@ObfuscatedName("y")
+	@ObfuscatedName("ho")
 	@ObfuscatedSignature(
-		signature = "(CB)Z",
-		garbageValue = "103"
+		signature = "(IIB)V",
+		garbageValue = "5"
 	)
-	@Export("isCharPrintable")
-	public static boolean isCharPrintable(char var0) {
-		if (var0 >= ' ' && var0 <= '~') {
-			return true;
-		} else if (var0 >= 160 && var0 <= 255) {
-			return true;
-		} else {
-			return var0 == 8364 || var0 == 338 || var0 == 8212 || var0 == 339 || var0 == 376;
+	static final void method5213(int var0, int var1) {
+		if (Client.menuOptionsCount >= 2 || Client.isItemSelected != 0 || Client.isSpellSelected) {
+			if (Client.showMouseOverText) {
+				int var2 = Client.menuOptionsCount - 1;
+				String var4;
+				if (Client.isItemSelected == 1 && Client.menuOptionsCount < 2) {
+					var4 = "Use" + " " + Client.selectedItemName + " " + "->";
+				} else if (Client.isSpellSelected && Client.menuOptionsCount < 2) {
+					var4 = Client.selectedSpellActionName + " " + Client.selectedSpellName + " " + "->";
+				} else {
+					var4 = VerticalAlignment.method4426(var2);
+				}
+
+				if (Client.menuOptionsCount > 2) {
+					var4 = var4 + PacketWriter.colorStartTag(16777215) + " " + '/' + " " + (Client.menuOptionsCount - 2) + " more options";
+				}
+
+				class1.fontBold12.drawRandomAlphaAndSpacing(var4, var0 + 4, var1 + 15, 16777215, 0, Client.cycle / 1000);
+			}
 		}
 	}
 }

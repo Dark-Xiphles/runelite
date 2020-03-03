@@ -1,38 +1,69 @@
-import java.lang.management.GarbageCollectorMXBean;
 import net.runelite.mapping.Export;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("an")
+@ObfuscatedName("am")
 public final class class43 {
-	@ObfuscatedName("w")
+	@ObfuscatedName("qp")
 	@ObfuscatedSignature(
-		signature = "Lhp;"
+		signature = "Ldw;"
 	)
-	@Export("SpotAnimationDefinition_modelArchive")
-	public static AbstractArchive SpotAnimationDefinition_modelArchive;
-	@ObfuscatedName("i")
-	@Export("ByteArrayPool_altSizeArrayCounts")
-	public static int[] ByteArrayPool_altSizeArrayCounts;
-	@ObfuscatedName("ak")
-	@Export("garbageCollector")
-	static GarbageCollectorMXBean garbageCollector;
-	@ObfuscatedName("dx")
-	@ObfuscatedSignature(
-		signature = "Liu;"
-	)
-	@Export("archive3")
-	static Archive archive3;
-	@ObfuscatedName("hj")
+	@Export("pcmPlayer1")
+	static PcmPlayer pcmPlayer1;
+	@ObfuscatedName("v")
 	@ObfuscatedGetter(
-		intValue = 2040004627
+		intValue = -2015849949
 	)
-	@Export("cameraY")
-	static int cameraY;
+	static int field381;
 
-	@ObfuscatedName("l")
-	public static int method770(long var0) {
-		return (int)(var0 >>> 17 & 4294967295L);
+	@ObfuscatedName("i")
+	@ObfuscatedSignature(
+		signature = "(II)Lbn;",
+		garbageValue = "-983073165"
+	)
+	@Export("Messages_getMessage")
+	static Message Messages_getMessage(int var0) {
+		return (Message)Messages.Messages_hashTable.get((long)var0);
+	}
+
+	@ObfuscatedName("g")
+	@ObfuscatedSignature(
+		signature = "(II)I",
+		garbageValue = "-1093470855"
+	)
+	public static int method816(int var0) {
+		return class14.method169(ViewportMouse.ViewportMouse_entityTags[var0]);
+	}
+
+	@ObfuscatedName("d")
+	@ObfuscatedSignature(
+		signature = "(Lks;B)V",
+		garbageValue = "-25"
+	)
+	static final void method813(PacketBuffer var0) {
+		for (int var1 = 0; var1 < Players.Players_pendingUpdateCount; ++var1) {
+			int var2 = Players.Players_pendingUpdateIndices[var1];
+			Player var3 = Client.players[var2];
+			int var4 = var0.readUnsignedByte();
+			if ((var4 & 4) != 0) {
+				var4 += var0.readUnsignedByte() << 8;
+			}
+
+			AbstractWorldMapIcon.method613(var0, var2, var3, var4);
+		}
+
+	}
+
+	@ObfuscatedName("y")
+	@ObfuscatedSignature(
+		signature = "(Ljava/lang/String;I)V",
+		garbageValue = "-67193374"
+	)
+	static final void method817(String var0) {
+		PacketBufferNode var1 = TilePaint.getPacketBufferNode(ClientPacket.field2240, Client.packetWriter.isaacCipher);
+		var1.packetBuffer.writeByte(Buddy.stringCp1252NullTerminatedByteSize(var0));
+		var1.packetBuffer.writeStringCp1252NullTerminated(var0);
+		Client.packetWriter.addNode(var1);
 	}
 }

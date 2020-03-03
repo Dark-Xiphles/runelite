@@ -1,23 +1,41 @@
+import net.runelite.mapping.Export;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
 
-@ObfuscatedName("kj")
+@ObfuscatedName("ku")
 public class class287 {
-	@ObfuscatedName("b")
+	@ObfuscatedName("c")
 	@ObfuscatedSignature(
-		signature = "(Lhp;Lhp;Ljava/lang/String;Ljava/lang/String;I)Lke;",
-		garbageValue = "-2097439358"
+		signature = "Lii;"
 	)
-	public static Font method5258(AbstractArchive var0, AbstractArchive var1, String var2, String var3) {
-		int var4 = var0.getGroupId(var2);
-		int var5 = var0.getFileId(var4, var3);
-		Font var6;
-		if (!Friend.doesSpriteExist(var0, var4, var5)) {
-			var6 = null;
-		} else {
-			var6 = WallDecoration.getWorldMapSprite(var1.takeFile(var4, var5));
+	@Export("VarbitDefinition_archive")
+	public static AbstractArchive VarbitDefinition_archive;
+
+	@ObfuscatedName("jy")
+	@ObfuscatedSignature(
+		signature = "(IIIB)Lbe;",
+		garbageValue = "27"
+	)
+	static final InterfaceParent method5327(int var0, int var1, int var2) {
+		InterfaceParent var3 = new InterfaceParent();
+		var3.group = var1;
+		var3.type = var2;
+		Client.interfaceParents.put(var3, (long)var0);
+		class51.Widget_resetModelFrames(var1);
+		Widget var4 = Varps.getWidget(var0);
+		NPCDefinition.invalidateWidget(var4);
+		if (Client.meslayerContinueWidget != null) {
+			NPCDefinition.invalidateWidget(Client.meslayerContinueWidget);
+			Client.meslayerContinueWidget = null;
 		}
 
-		return var6;
+		GameObject.method3360();
+		WorldMapIcon_1.revalidateWidgetScroll(WorldMapLabel.Widget_interfaceComponents[var0 >> 16], var4, false);
+		WorldMapLabelSize.runWidgetOnLoadListener(var1);
+		if (Client.rootInterface != -1) {
+			class226.runIntfCloseListeners(Client.rootInterface, 1);
+		}
+
+		return var3;
 	}
 }
